@@ -12,7 +12,7 @@ class PingdomApi
 		{
   		"item" => [
 		    {
-		      "text" => "<font size="18"><ul><li>Civil Claims <font color="red">DOWN</font></li><li>Prison Visit Booking DOWN</li></ul></font>",
+		      "text" => %q{<font size="20"><ul><li>Civil Claims <font color="red">DOWN</font></li><li>Prison Visit Booking DOWN</li></ul></font>},
 		      "type" => 1
 		    }
 		  ]
