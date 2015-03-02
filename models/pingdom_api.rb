@@ -12,7 +12,7 @@ class PingdomApi
 		{
   		"item" => [
 		    {
-		      "text" => "All Apps are Green!",
+		      "text" => "<ul><li>Civil Claims DOWN</li><li>Prison Visit Booking DOWN</li></ul>",
 		      "type" => 1
 		    }
 		  ]
