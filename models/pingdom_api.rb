@@ -9,15 +9,10 @@ class PingdomApi
 
 
 	def appsdown
-		puts ">>>>>>>>>>>>>>>> DEBUG message    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
 		{
   		"item" => [
 		    {
-		      "text" => "Unfortunately, as you probably already know, people",
-		      "type" => 0
-		    },
-		    {
-		      "text" => "As you might know, I am a full time Internet",
+		      "text" => "All Apps are Green!",
 		      "type" => 1
 		    }
 		  ]
