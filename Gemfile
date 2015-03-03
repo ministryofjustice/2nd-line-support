@@ -8,3 +8,4 @@ gem 'shotgun'
 gem 'rspec'
 gem 'haml'
 gem 'simplecov', :require => false
+gem 'redis'

@@ -1,9 +1,14 @@
 require 'json'
+require 'redis'
 require File.expand_path(File.dirname(__FILE__) + '/pinger.rb')
 
 class PingdomApi
 
 	CHECK_TAGS = [ 'level-2-support' ]
+
+	def redis_connect
+		Redis.new(:host => ENV['REDIS_HOST'], :port => ENV['REDIS_PORT'].to_i, :db => ENV['REDIS_DB'].to_i)
+	end
 
 	def appsdown
 		checks = get_checks
@@ -12,6 +17,28 @@ class PingdomApi
 			failed_check_ids << check_id if perform_check(check_id) == false
 		end
 		failed_check_ids.empty? ? no_apps_down_response : apps_down_response(checks, failed_check_ids)
+	end
+
+
+	def record_alert(key, hash)
+		redis_connect.set(key, hash.to_json)
+	end
+
+
+	def remove_alert(key)
+		redis = redis_connect.del(key)
+	end
+
+
+	def get_alert(key)
+		redis_connect.get(key)
+	end
+
+
+	def alerts
+		redis = redis_connect
+		keys = redis.keys("*")
+		redis.mget(keys)
 	end
 
 
