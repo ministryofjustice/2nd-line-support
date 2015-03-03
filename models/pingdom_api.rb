@@ -34,7 +34,7 @@ class PingdomApi
 		{
   		"item" => [
 		    {
-		      "text" => %q{<font size="16" color="greeen">All apps are GREEN</font>},
+		      "text" => %q{<font size="12" color="greeen">All apps are GREEN</font>},
 		      "type" => 0
 		    }
 		  ]
@@ -43,6 +43,11 @@ class PingdomApi
 
 
 	def apps_down_response(checks, failed_check_ids)
+		puts ">>>>>>>>>>>>>>>> DEBUG checks    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+		require 'pp'
+		pp checks
+		puts ">>>>>>>>>>>>>>>> DEBUG failed check ids    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+		pp failed_check_ids
 		response = {
   		"item" => [
 		    {
@@ -53,7 +58,7 @@ class PingdomApi
 		}
 		text = "<ul>"
 		failed_check_ids.each do |failed_check_id|
-			text += %q(<li><font size="16" color="red">#{checks['failed_check_id']} DOWN</li>)
+			text += %Q(<li><font size="12" color="red">#{checks[failed_check_id]} DOWN</li>)
 		end
 		text += "</ul>"
 		response['item'].first['text'] = text
