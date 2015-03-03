@@ -43,11 +43,6 @@ class PingdomApi
 
 
 	def apps_down_response(checks, failed_check_ids)
-		puts ">>>>>>>>>>>>>>>> DEBUG checks    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
-		require 'pp'
-		pp checks
-		puts ">>>>>>>>>>>>>>>> DEBUG failed check ids    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
-		pp failed_check_ids
 		response = {
   		"item" => [
 		    {
@@ -70,15 +65,23 @@ class PingdomApi
 
 	# returns a list of check ids and their alert policy name for each of the alerts tagged with CHECK_TAGS
 	def get_checks
-		params = "tags=#{CHECK_TAGS.join(',')}"
-		action = 'checks'
-		response = Pinger.new(action, params).get
-		list = JSON.parse(response.body)
 		hash = {}
+		list = query_pingdom_for_checks
 		list['checks'].each do | check |
 			hash[check['id']] = check['name']
 		end
 		Hash[hash.sort_by{ |k,v| v}]
 	end
+
+	def query_pingdom_for_checks
+		params = "tags=#{CHECK_TAGS.join(',')}"
+		action = 'checks'
+		response = Pinger.new(action, params).get
+		list = JSON.parse(response.body)
+	end
+
+
+
+
 
 end

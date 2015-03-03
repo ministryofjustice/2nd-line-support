@@ -1,7 +1,6 @@
 require 'net/http'
 require 'net/https'
 require 'json'
-require 'pp'
 
 class Pinger
 
@@ -9,6 +8,7 @@ class Pinger
 
 	def initialize(action, params = nil)
 		@uri  = make_uri(action, params)
+		check_envs
 	end
 
 	def get
@@ -24,6 +24,15 @@ class Pinger
 	end
 
 	private
+
+	def check_envs
+		%w{ PINGDOM_API_KEY PINGDOM_USERNAME PINGDOM_PASSWORD }.each do |variable|
+			if ENV[variable].nil? || ENV[variable] == ''
+				raise "Environment Variable #{variable} not set"
+			end
+		end
+	end
+
 
 	def make_uri(action, params)
 		uri_string = "#{BASE_URL}/#{action}"
