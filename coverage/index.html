@@ -14,27 +14,27 @@
       <img src="./assets/0.9.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2015-03-03T12:01:40+00:00">2015-03-03T12:01:40+00:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2015-03-03T14:04:43+00:00">2015-03-03T14:04:43+00:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">63.24%</span></span>
+    (<span class="covered_percent"><span class="red">48.57%</span></span>
      covered at
      <span class="covered_strength">
        <span class="red">
-         0.86
+         0.5
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>3</b> files in total.
-    <b>68</b> relevant lines. 
-    <span class="green"><b>43</b> lines covered</span> and
-    <span class="red"><b>25</b> lines missed </span>
+    <b>70</b> relevant lines. 
+    <span class="green"><b>34</b> lines covered</span> and
+    <span class="red"><b>36</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -52,12 +52,12 @@
       
       <tr>
         <td class="strong"><a href="#6840ddb2a5904dcabc995463db05e9902cd3a9fa" class="src_link" title="models/pingdom_api.rb">models/pingdom_api.rb</a></td>
-        <td class="red strong">71.05 %</td>
+        <td class="red strong">47.37 %</td>
         <td>87</td>
         <td>38</td>
-        <td>27</td>
-        <td>11</td>
-        <td>1.1</td>
+        <td>18</td>
+        <td>20</td>
+        <td>0.5</td>
       </tr>
       
       <tr>
@@ -72,12 +72,12 @@
       
       <tr>
         <td class="strong"><a href="#c36a4f49c824cf7ee8e4869b73d1a8db06c1d25e" class="src_link" title="spec/fixtures/checks_fixtures.rb">spec/fixtures/checks_fixtures.rb</a></td>
-        <td class="green strong">100.0 %</td>
-        <td>100</td>
+        <td class="red strong">75.0 %</td>
+        <td>105</td>
+        <td>8</td>
         <td>6</td>
-        <td>6</td>
-        <td>0</td>
-        <td>1.2</td>
+        <td>2</td>
+        <td>0.8</td>
       </tr>
       
     </tbody>
@@ -99,11 +99,11 @@
         <div class="source_table" id="6840ddb2a5904dcabc995463db05e9902cd3a9fa">
   <div class="header">
     <h3>models/pingdom_api.rb</h3>
-    <h4><span class="red">71.05 %</span> covered</h4>
+    <h4><span class="red">47.37 %</span> covered</h4>
     <div>
       <b>38</b> relevant lines. 
-      <span class="green"><b>27</b> lines covered</span> and
-      <span class="red"><b>11</b> lines missed.</span>
+      <span class="green"><b>18</b> lines covered</span> and
+      <span class="red"><b>20</b> lines missed.</span>
     </div>
   </div>
   
@@ -158,26 +158,26 @@
           <code class="ruby">	def appsdown</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="9">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="9">
+          
           
           <code class="ruby">		checks = get_checks</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="10">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="10">
+          
           
           <code class="ruby">		failed_check_ids = []</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="11">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="11">
+          
           
           <code class="ruby">		checks.each do |check_id, alert_policy_name|</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="12">
-          <span class="hits">5</span>
+        <li class="missed" data-hits="0" data-linenumber="12">
+          
           
           <code class="ruby">			failed_check_ids &lt;&lt; check_id if perform_check(check_id) == false</code>
         </li>
@@ -188,8 +188,8 @@
           <code class="ruby">		end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="14">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="14">
+          
           
           <code class="ruby">		failed_check_ids.empty? ? no_apps_down_response : apps_down_response(checks, failed_check_ids)</code>
         </li>
@@ -242,32 +242,32 @@
           <code class="ruby">	def perform_check(check_id)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="23">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="23">
+          
           
           <code class="ruby">		action = &quot;results/#{check_id}&quot;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="24">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="24">
+          
           
           <code class="ruby">		params = &#39;limit=1&#39;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="25">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="25">
+          
           
           <code class="ruby">		response = Pinger.new(action, params).get</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="26">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="26">
+          
           
           <code class="ruby">		response_body =  JSON.parse(response.body)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="27">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="27">
+          
           
           <code class="ruby">		response_body[&#39;results&#39;].first[&#39;status&#39;] == &#39;up&#39;</code>
         </li>
@@ -350,8 +350,8 @@
           <code class="ruby">		  ]</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="41">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="41">
+          
           
           <code class="ruby">		}.to_json</code>
         </li>
@@ -380,8 +380,8 @@
           <code class="ruby">	def apps_down_response(checks, failed_check_ids)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="46">
-          
+        <li class="covered" data-hits="1" data-linenumber="46">
+          <span class="hits">1</span>
           
           <code class="ruby">		response = {</code>
         </li>
@@ -428,22 +428,22 @@
           <code class="ruby">		}</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="54">
-          
+        <li class="covered" data-hits="1" data-linenumber="54">
+          <span class="hits">1</span>
           
           <code class="ruby">		text = &quot;&lt;ul&gt;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="55">
-          
+        <li class="covered" data-hits="1" data-linenumber="55">
+          <span class="hits">1</span>
           
           <code class="ruby">		failed_check_ids.each do |failed_check_id|</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="56">
+        <li class="covered" data-hits="2" data-linenumber="56">
+          <span class="hits">2</span>
           
-          
-          <code class="ruby">			text += %Q(&lt;li&gt;&lt;font color=&quot;red&quot;&gt;#{checks[failed_check_id]} DOWN&lt;/li&gt;)</code>
+          <code class="ruby">			text += %Q(&lt;li&gt;&lt;font color=&#39;red&#39;&gt;#{checks[failed_check_id]} DOWN&lt;/li&gt;)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="57">
@@ -452,20 +452,20 @@
           <code class="ruby">		end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="58">
-          
+        <li class="covered" data-hits="1" data-linenumber="58">
+          <span class="hits">1</span>
           
           <code class="ruby">		text += &quot;&lt;/ul&gt;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="59">
-          
+        <li class="covered" data-hits="1" data-linenumber="59">
+          <span class="hits">1</span>
           
           <code class="ruby">		response[&#39;item&#39;].first[&#39;text&#39;] = text</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="60">
-          
+        <li class="covered" data-hits="1" data-linenumber="60">
+          <span class="hits">1</span>
           
           <code class="ruby">		response.to_json</code>
         </li>
@@ -512,26 +512,26 @@
           <code class="ruby">	def get_checks</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="68">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="68">
+          
           
           <code class="ruby">		hash = {}</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="69">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="69">
+          
           
           <code class="ruby">		list = query_pingdom_for_checks</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="70">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="70">
+          
           
           <code class="ruby">		list[&#39;checks&#39;].each do | check |</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="71">
-          <span class="hits">5</span>
+        <li class="missed" data-hits="0" data-linenumber="71">
+          
           
           <code class="ruby">			hash[check[&#39;id&#39;]] = check[&#39;name&#39;]</code>
         </li>
@@ -542,8 +542,8 @@
           <code class="ruby">		end</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="73">
-          <span class="hits">6</span>
+        <li class="missed" data-hits="0" data-linenumber="73">
+          
           
           <code class="ruby">		Hash[hash.sort_by{ |k,v| v}]</code>
         </li>
@@ -933,11 +933,11 @@
         <div class="source_table" id="c36a4f49c824cf7ee8e4869b73d1a8db06c1d25e">
   <div class="header">
     <h3>spec/fixtures/checks_fixtures.rb</h3>
-    <h4><span class="green">100.0 %</span> covered</h4>
+    <h4><span class="red">75.0 %</span> covered</h4>
     <div>
-      <b>6</b> relevant lines. 
+      <b>8</b> relevant lines. 
       <span class="green"><b>6</b> lines covered</span> and
-      <span class="red"><b>0</b> lines missed.</span>
+      <span class="red"><b>2</b> lines missed.</span>
     </div>
   </div>
   
@@ -1448,8 +1448,8 @@
           <code class="ruby">    &quot;autoresolve&quot;=&gt;0}],</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="85">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="85">
+          
           
           <code class="ruby"> &quot;counts&quot;=&gt;{&quot;total&quot;=&gt;64, &quot;limited&quot;=&gt;5, &quot;filtered&quot;=&gt;5}}</code>
         </li>
@@ -1502,8 +1502,8 @@
           <code class="ruby">	 1115998=&gt;&quot;Prison visits HTTP&quot;,</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="94">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="1" data-linenumber="94">
+          <span class="hits">1</span>
           
           <code class="ruby">	 1043334=&gt;&quot;Prison visits HTTPS&quot;}</code>
         </li>
@@ -1532,13 +1532,43 @@
           <code class="ruby">def json_check_result</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="99">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="99">
+          
           
           <code class="ruby">	&quot;{\&quot;activeprobes\&quot;:[69],\&quot;results\&quot;:[{\&quot;probeid\&quot;:69,\&quot;time\&quot;:1425382511,\&quot;status\&quot;:\&quot;up\&quot;,\&quot;responsetime\&quot;:3,\&quot;statusdesc\&quot;:\&quot;OK\&quot;,\&quot;statusdesclong\&quot;:\&quot;OK\&quot;}]}&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="100">
+          
+          
+          <code class="ruby">end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="101">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="102">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="103">
+          <span class="hits">1</span>
+          
+          <code class="ruby">def expected_down_json</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="104">
+          <span class="hits">1</span>
+          
+          <code class="ruby">	%q[{&quot;item&quot;:[{&quot;text&quot;:&quot;&lt;ul&gt;&lt;li&gt;&lt;font color=&#39;red&#39;&gt;Civil Claims Live DOWN&lt;/li&gt;&lt;li&gt;&lt;font color=&#39;red&#39;&gt;Prison Visits Heathcheck DOWN&lt;/li&gt;&lt;/ul&gt;&quot;,&quot;type&quot;:1}]}]</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="105">
           
           
           <code class="ruby">end</code>

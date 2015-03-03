@@ -98,3 +98,8 @@ end
 def json_check_result
 	"{\"activeprobes\":[69],\"results\":[{\"probeid\":69,\"time\":1425382511,\"status\":\"up\",\"responsetime\":3,\"statusdesc\":\"OK\",\"statusdesclong\":\"OK\"}]}"
 end
+
+
+def expected_down_json
+	%q[{"item":[{"text":"<ul><li><font color='red'>Civil Claims Live DOWN</li><li><font color='red'>Prison Visits Heathcheck DOWN</li></ul>","type":1}]}]
+end
