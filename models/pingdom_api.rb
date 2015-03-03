@@ -34,7 +34,7 @@ class PingdomApi
 		{
   		"item" => [
 		    {
-		      "text" => %q{<font size="12" color="greeen">All apps are GREEN</font>},
+		      "text" => %q{<font color="greeen">All apps are GREEN</font>},
 		      "type" => 0
 		    }
 		  ]
@@ -58,7 +58,7 @@ class PingdomApi
 		}
 		text = "<ul>"
 		failed_check_ids.each do |failed_check_id|
-			text += %Q(<li><font size="12" color="red">#{checks[failed_check_id]} DOWN</li>)
+			text += %Q(<li><font color="red">#{checks[failed_check_id]} DOWN</li>)
 		end
 		text += "</ul>"
 		response['item'].first['text'] = text
