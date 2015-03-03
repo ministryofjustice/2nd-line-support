@@ -34,7 +34,7 @@ class PingdomApi
 		{
   		"item" => [
 		    {
-		      "text" => %q{<font color='greeen'>All apps are GREEN</font>},
+		      "text" => %q{<font color='green'>All apps are GREEN</font>},
 		      "type" => 0
 		    }
 		  ]
