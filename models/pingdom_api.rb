@@ -3,42 +3,32 @@ require File.expand_path(File.dirname(__FILE__) + '/pinger.rb')
 
 class PingdomApi
 
-	CHECK_TAGS = %W{ civil_claims pvb_live }
-
-
+	CHECK_TAGS = [ 'level-2-support' ]
 
 	def appsdown
-		{
-  		"item" => [
-		    {
-		      "text" => %q{<font size="16"><ul><li>Civil Claims <font color="red">DOWN</font></li><li>Prison Visit Booking <font color="red">DOWN</font></li></ul></font>},
-		      "type" => 1
-		    }
-		  ]
-		}.to_json
-	end
-
-
-	def real_appsdown
 		checks = get_checks
-		failed_checks = []
+		failed_check_ids = []
 		checks.each do |check_id, alert_policy_name|
-			failed_checks << alert_policy_name if perform_check(check_id) == false
+			failed_check_ids << check_id if perform_check(check_id) == false
 		end
-		if failed_checks.empty?
-			no_apps_down_response
-		else
-			apps_down_response(failed_checks)
-		end
+		failed_check_ids.empty? ? no_apps_down_response : apps_down_response(checks, failed_check_ids)
 	end
 
 
 
 	private
 
+	# gets the results from the last check done for this check id and returns true if up, otherwise false
 	def perform_check(check_id)
-		true
+		action = "results/#{check_id}"
+		params = 'limit=1'
+		response = Pinger.new(action, params).get
+		response_body =  JSON.parse(response.body)
+		response_body['results'].first['status'] == 'up'
 	end
+
+
+
 
 	def no_apps_down_response
 		{
@@ -52,7 +42,7 @@ class PingdomApi
 	end
 
 
-	def apps_down_response(failed_checks)
+	def apps_down_response(checks, failed_check_ids)
 		response = {
   		"item" => [
 		    {
@@ -61,7 +51,13 @@ class PingdomApi
 		    }
 		  ]
 		}
-		error
+		text = "<ul>"
+		failed_check_ids.each do |failed_check_id|
+			text += %q(<li><font size="16" color="red">#{checks['failed_check_id']} DOWN</li>)
+		end
+		text += "</ul>"
+		response['item'].first['text'] = text
+		response.to_json
 	end
 
 
@@ -75,9 +71,9 @@ class PingdomApi
 		list = JSON.parse(response.body)
 		hash = {}
 		list['checks'].each do | check |
-			hash[check['id']] = check['alert_policy_name']
+			hash[check['id']] = check['name']
 		end
-		
+		Hash[hash.sort_by{ |k,v| v}]
 	end
 
 end

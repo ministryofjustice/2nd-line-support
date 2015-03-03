@@ -9,7 +9,6 @@ class Pinger
 
 	def initialize(action, params = nil)
 		@uri  = make_uri(action, params)
-		puts "URI: #{@uri}"
 	end
 
 	def get
