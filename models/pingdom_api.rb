@@ -123,6 +123,36 @@ class PingdomApi
 		list = JSON.parse(response.body)
 	end
 
+	def no_apps_down_response
+		{
+  		"item" => [
+		    {
+		      "text" => %q{<font color="greeen">All apps are GREEN</font>},
+		      "type" => 0
+		    }
+		  ]
+		}.to_json
+	end
+
+
+	def apps_down_response(checks, failed_check_ids)
+		response = {
+  		"item" => [
+		    {
+		      "text" => nil,
+		      "type" => 1
+		    }
+		  ]
+		}
+		text = "<ul>"
+		failed_check_ids.each do |failed_check_id|
+			text += %Q(<li><font color='red'>#{checks[failed_check_id]} DOWN</li>)
+		end
+		text += "</ul>"
+		response['item'].first['text'] = text
+		response.to_json
+	end
+
 
 
 

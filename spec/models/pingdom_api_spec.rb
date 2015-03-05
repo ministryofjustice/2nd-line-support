@@ -21,12 +21,7 @@ describe PingdomApi do
 	}
 
 
-	before(:each) {
-		redis.flushdb
-		%w{ pingdom:1 pingdom:2 other:1 other:2 pingdom:33 }.each do |key|
-			redis.set(key, {'key' => key, 'payload' => 'data' }.to_json)
-		end
-	}
+	
 
 	describe '#appsdown' do
 		it 'should call perform_check once for every entry in the abbreviated list of checks' do
@@ -82,60 +77,72 @@ describe PingdomApi do
 		end
 	end
 
-	describe '#appsdownredis' do
 
-		context 'no pingdom failures' do 
-			it 'should remove all previous pingdom keys only' do
-				expect(api).to receive(:get_checks).and_return(checks)
-				expect(api).to receive(:perform_check).exactly(3).times.and_return( true, true, true )
-				
-				api.appsdown
-				expect(redis.keys('pingdom:*')).to be_empty
-				expect(redis.keys('*').sort).to eq( [ 'other:1', 'other:2' ])
+
+		context 'redis' do
+
+			before(:each) {
+				redis.flushdb
+				%w{ pingdom:1 pingdom:2 other:1 other:2 pingdom:33 }.each do |key|
+					redis.set(key, {'key' => key, 'payload' => 'data' }.to_json)
+				end
+			}
+
+
+			describe '#appsdownredis' do
+
+			context 'no pingdom failures' do 
+				it 'should remove all previous pingdom keys only' do
+					expect(api).to receive(:get_checks).and_return(checks)
+					expect(api).to receive(:perform_check).exactly(3).times.and_return( true, true, true )
+					
+					api.appsdownredis
+					expect(redis.keys('pingdom:*')).to be_empty
+					expect(redis.keys('*').sort).to eq( [ 'other:1', 'other:2' ])
+				end
+			end
+
+			context 'pingdom failures' do
+				it 'should replace existing pingdom records in redis with new ones' do
+					expect(redis.keys('*').sort).to eq( ['other:1', 'other:2', 'pingdom:1', 'pingdom:2', 'pingdom:33'] )
+					expect(api).to receive(:get_checks).and_return(checks)
+					expect(api).to receive(:perform_check).exactly(3).times.and_return( false, false, true )
+					
+					api.appsdownredis
+					expect(redis.keys('*').sort).to eq( [ 'other:1', 'other:2', 'pingdom:1224555', 'pingdom:4558778' ])
+				end
 			end
 		end
 
-		context 'pingdom failures' do
-			it 'should replace existing pingdom records in redis with new ones' do
-				expect(redis.keys('*').sort).to eq( ['other:1', 'other:2', 'pingdom:1', 'pingdom:2', 'pingdom:33'] )
-				expect(api).to receive(:get_checks).and_return(checks)
-				expect(api).to receive(:perform_check).exactly(3).times.and_return( false, false, true )
-				
-				api.appsdown
-				expect(redis.keys('*').sort).to eq( [ 'other:1', 'other:2', 'pingdom:1224555', 'pingdom:4558778' ])
+
+		describe '#record_alert and get_alert' do
+			it 'should write the appropriate record in the database' do
+				hash = {'key' => 'data', 'key2' => 'data2'}
+				api.record_alert('mykey', hash)
+				expect( api.get_alert('mykey')).to eq( {'key' => 'mykey', 'payload' => hash} )
+			end
+		end
+
+		describe 'get_all_alerts' do
+			it 'should return an array of all alerts' do
+				hash = {'key' => 'data', 'key2' => 'data2'}
+				api.record_alert('mykey', hash)
+				alerts = api.get_all_alerts
+				expect(alerts).to eq(expected_results_from_all_alerts)
+			end
+		end
+
+
+		describe '#notify' do
+			it 'should store a sensu notification and be able to reconstruct it from the db' do
+				payload = sensu_data.to_json
+				api.notify(payload)
+				key = "host01/frontend_http_check"
+				data = api.get_alert(key)
+				expect(data['payload']).to eq(sensu_data)
 			end
 		end
 	end
-
-
-	describe '#record_alert and get_alert' do
-		it 'should write the appropriate record in the database' do
-			hash = {'key' => 'data', 'key2' => 'data2'}
-			api.record_alert('mykey', hash)
-			expect( api.get_alert('mykey')).to eq( {'key' => 'mykey', 'payload' => hash} )
-		end
-	end
-
-	describe 'get_all_alerts' do
-		it 'should return an array of all alerts' do
-			hash = {'key' => 'data', 'key2' => 'data2'}
-			api.record_alert('mykey', hash)
-			alerts = api.get_all_alerts
-			expect(alerts).to eq(expected_results_from_all_alerts)
-		end
-	end
-
-
-	describe '#notify' do
-		it 'should store a sensu notification and be able to reconstruct it from the db' do
-			payload = sensu_data.to_json
-			api.notify(payload)
-			key = "host01/frontend_http_check"
-			data = api.get_alert(key)
-			expect(data['payload']).to eq(sensu_data)
-		end
-	end
-	
 end
 
 
