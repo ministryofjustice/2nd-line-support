@@ -22,6 +22,16 @@ class PingdomApi
 		checks.each do |check_id, alert_policy_name|
 			failed_check_ids << check_id if perform_check(check_id) == false
 		end
+		failed_check_ids.empty? ? no_apps_down_response : apps_down_response(checks, failed_check_ids)
+	end
+
+
+	def appsdownredis
+		checks = get_checks
+		failed_check_ids = []
+		checks.each do |check_id, alert_policy_name|
+			failed_check_ids << check_id if perform_check(check_id) == false
+		end
 		record_failed_checks_in_redis(checks, failed_check_ids)
 	end
 
