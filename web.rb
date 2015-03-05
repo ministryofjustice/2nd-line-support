@@ -9,3 +9,8 @@ get '/appsdown.json' do
 end
 
 
+
+post '/notify' do
+  PingdomApi.new.notify(params[:payload])
+end
+

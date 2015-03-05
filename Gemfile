@@ -9,3 +9,7 @@ gem 'rspec'
 gem 'haml'
 gem 'simplecov', :require => false
 gem 'redis'
+
+group :test, :development do
+	gem 'timecop'
+end
