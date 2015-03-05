@@ -9,6 +9,11 @@ get '/appsdown.json' do
 end
 
 
+get '/appsdownredis.json' do
+	content_type :json
+	PingdomApi.new.appsdownredis
+end
+
 
 post '/notify' do
   PingdomApi.new.notify(params[:payload])
