@@ -158,7 +158,7 @@ describe PingdomApi do
 				hash = {'key' => 'data', 'key2' => 'data2'}
 				api.send(:record_alert, 'mykey', hash)
 				alerts = api.get_all_alerts
-				expect(alerts).to eq(expected_results_from_all_alerts)
+				expect(alerts).to match_array(expected_results_from_all_alerts)
 			end
 		end
 
