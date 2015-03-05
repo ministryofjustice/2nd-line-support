@@ -94,13 +94,13 @@ class PingdomApi
 
 	def record_pingdom_alert_in_redis(checks, failed_check_id)
 		key = "pingdom:#{failed_check_id}"
-		text = "#{checks[failed_check_id]} DOWN}"
+		text = "#{checks[failed_check_id]} DOWN"
 		@redis.set(key, text)
 	end
 
 	def delete_pingdom_records_in_redis
 		keys = @redis.keys("pingdom:*")
-		@redis.del(keys)
+		@redis.del(keys) unless keys.empty?
 	end
 
 
