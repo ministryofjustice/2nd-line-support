@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sinatra'
+require_relative 'models/alert.rb'
 require_relative 'models/pingdom_api.rb'
 
 
@@ -19,3 +20,7 @@ post '/notify' do
   PingdomApi.new.notify(params[:payload])
 end
 
+get '/' do
+	@alerts = Alert.fetch_all
+	erb :index
+end
