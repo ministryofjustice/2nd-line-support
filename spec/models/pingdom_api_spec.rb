@@ -3,10 +3,10 @@ SimpleCov.start
 
 require 'timecop'
 require 'rspec'
-require 'pp'
 require_relative '../../models/pingdom_api'
 require_relative '../fixtures/checks_fixtures'
 require 'spec_helper'
+require 'timeout'
 
 
 describe PingdomApi do
@@ -24,15 +24,15 @@ describe PingdomApi do
 	
 
 	describe '#appsdown' do
-		it 'should call perform_check once for every entry in the abbreviated list of checks' do
+		it 'should call perform_pingdom_check once for every entry in the abbreviated list of checks' do
 			expect(api).to receive(:get_checks).and_return(abbreviated_check_list)
-			expect(api).to receive(:perform_check).exactly(5).times
+			expect(api).to receive(:perform_pingdom_check).exactly(5).times
 			api.appsdown
 		end
 
 		it 'should produce no_apps_down_response if all checks pass' do
 			expect(api).to receive(:get_checks).and_return(abbreviated_check_list)
-			expect(api).to receive(:perform_check).exactly(5).times.and_return(true, true, true, true, true)
+			expect(api).to receive(:perform_pingdom_check).exactly(5).times.and_return(true, true, true, true, true)
 			expect(api).to receive(:no_apps_down_response)
 			api.appsdown
 		end
@@ -40,21 +40,34 @@ describe PingdomApi do
 
 		it 'should produce apps_down_response if one checks pass' do
 			expect(api).to receive(:get_checks).and_return(abbreviated_check_list)
-			expect(api).to receive(:perform_check).exactly(5).times.and_return(true, false, true, true, true)
+			expect(api).to receive(:perform_pingdom_check).exactly(5).times.and_return(true, false, true, true, true)
 			expect(api).to receive(:apps_down_response)
 			api.appsdown
+		end
+
+		context 'timout on pingdom api' do
+			it 'should return api timeout message' do
+				expect_any_instance_of(Pinger).to receive(:get).and_raise(Timeout::Error)
+				result = api.appsdown
+				expect(result).to eq( %Q<{"item":[{"text":"<font color='red'>Pingdom API timeout (4 secs)</font>","type":0}]}> )
+			end
+			it 'should not execute perform_pingdom_checks' do
+				expect_any_instance_of(Pinger).to receive(:get).and_raise(Timeout::Error)
+				expect(api).not_to receive(:perform_pingdom_checks)
+				api.appsdown
+			end
 		end
 	end
 
 
-	describe '#perform_check' do
+	describe '#perform_pingdom_check' do
 		it 'should call pinger with appropriate url' do
 			pinger = double(Pinger)
 			response = double('HTTPResponse')
 			expect(response).to receive(:body).and_return(json_check_result)
 			expect(Pinger).to receive(:new).with('results/1234', 'limit=1').and_return(pinger)
 			expect(pinger).to receive(:get).and_return(response)
-			api.send(:perform_check, 1234)
+			api.send(:perform_pingdom_check, 1234)
 		end
 	end
 
@@ -94,7 +107,7 @@ describe PingdomApi do
 			context 'no pingdom failures' do 
 				it 'should remove all previous pingdom keys only' do
 					expect(api).to receive(:get_checks).and_return(checks)
-					expect(api).to receive(:perform_check).exactly(3).times.and_return( true, true, true )
+					expect(api).to receive(:perform_pingdom_check).exactly(3).times.and_return( true, true, true )
 					
 					api.appsdownredis
 					expect(redis.keys('pingdom:*')).to be_empty
@@ -106,10 +119,27 @@ describe PingdomApi do
 				it 'should replace existing pingdom records in redis with new ones' do
 					expect(redis.keys('*').sort).to eq( ['other:1', 'other:2', 'pingdom:1', 'pingdom:2', 'pingdom:33'] )
 					expect(api).to receive(:get_checks).and_return(checks)
-					expect(api).to receive(:perform_check).exactly(3).times.and_return( false, false, true )
+					expect(api).to receive(:perform_pingdom_check).exactly(3).times.and_return( false, false, true )
 					
 					api.appsdownredis
 					expect(redis.keys('*').sort).to eq( [ 'other:1', 'other:2', 'pingdom:1224555', 'pingdom:4558778' ])
+				end
+			end
+
+			context 'pingdom api timeout' do
+				it 'should not execute perform checks' do
+					expect_any_instance_of(Pinger).to receive(:get).and_raise(Timeout::Error)
+					expect(api).not_to receive(:perform_pingdom_checks)
+					api.appsdownredis
+				end
+
+				it 'should erase all pindom messages and insert pindom:error message into database' do
+					# skip "sort out format of alerts for pingdom"
+					expect_any_instance_of(Pinger).to receive(:get).and_raise(Timeout::Error)
+					result = api.appsdownredis
+					expect(redis.keys('pingdom:*')).to eq( [ 'pingdom:error'] )
+					pingdom_error = JSON.parse(redis.get('pingdom:error'))
+					expect(pingdom_error).to eq({'key' => 'pingdom:error', 'payload' => 'Pingdom API timeout (4 secs)'})
 				end
 			end
 		end
@@ -118,7 +148,7 @@ describe PingdomApi do
 		describe '#record_alert and get_alert' do
 			it 'should write the appropriate record in the database' do
 				hash = {'key' => 'data', 'key2' => 'data2'}
-				api.record_alert('mykey', hash)
+				api.send(:record_alert, 'mykey', hash)
 				expect( api.get_alert('mykey')).to eq( {'key' => 'mykey', 'payload' => hash} )
 			end
 		end
@@ -126,7 +156,7 @@ describe PingdomApi do
 		describe 'get_all_alerts' do
 			it 'should return an array of all alerts' do
 				hash = {'key' => 'data', 'key2' => 'data2'}
-				api.record_alert('mykey', hash)
+				api.send(:record_alert, 'mykey', hash)
 				alerts = api.get_all_alerts
 				expect(alerts).to eq(expected_results_from_all_alerts)
 			end
