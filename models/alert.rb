@@ -26,6 +26,10 @@ class Alert < Struct.new(:key, :value)
     JSON.parse(value)
   end
 
+  def message
+    value_hash['message']
+  end
+
   private
 
   def self.encode_payload(data)
