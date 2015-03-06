@@ -21,6 +21,12 @@ post '/notify' do
   PingdomApi.new.notify(params[:payload])
 end
 
+get '/update_all' do
+	TrafficSpike.update
+	PingdomApi.new.appsdownredis
+	"updated"
+end
+
 get '/' do
 	@alerts = Alert.fetch_all
 	erb :index
