@@ -13,3 +13,5 @@ gem 'redis'
 group :test, :development do
 	gem 'timecop'
 end
+
+gem 'google-api-client'
