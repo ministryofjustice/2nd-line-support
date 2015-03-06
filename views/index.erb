@@ -23,10 +23,16 @@
       margin:1em;
       padding: 0.5em;
     }
+    li.good {
+      background-color:green;
+    }
   </style>
 </head>
 <body>
   <ul>
+    <% if @alerts.empty? %>
+      <li class="good">No alerts to report</li>
+    <% end %>
     <% @alerts.each do |alert| %>
       <li><%= alert.message %></li>
     <% end %>
