@@ -25,7 +25,7 @@ private
   end
 
   def key
-    @key ||= Google::APIClient::KeyUtils.load_from_pkcs12(key_file, "notasecret")
+    @key ||= OpenSSL::PKey::RSA.new(key_file, "notasecret")
   end
 
   def client
