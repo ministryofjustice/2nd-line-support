@@ -12,7 +12,7 @@ require 'timeout'
 describe PingdomApi do
 
 	let(:api)			{ PingdomApi.new }
-	let(:redis)		{ Redis.new(:host => ENV['REDIS_HOST'], :port => ENV['REDIS_PORT'].to_i, :db => ENV['REDIS_DB'].to_i) }
+	let(:redis)		{ Redis.new(url: ENV["REDISCLOUD_URL"]) }
 	let(:checks)  {
 		{ '1224555' => 'Civil Claims',
 			'4558778' => 'PVB HTTP',

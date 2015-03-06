@@ -37,6 +37,6 @@ class Alert < Struct.new(:key, :value)
   end
 
   def self.redis
-    @redis ||= Redis.new(:host => ENV['REDIS_HOST'], :port => ENV['REDIS_PORT'].to_i, :db => ENV['REDIS_DB'].to_i)
+    @redis ||= Redis.new(:url => ENV["REDISCLOUD_URL"])
   end
 end
