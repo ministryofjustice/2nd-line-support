@@ -21,7 +21,7 @@ describe PingdomApi do
 	}
 
 
-	
+
 
 	describe '#appsdown' do
 		it 'should call perform_pingdom_check once for every entry in the abbreviated list of checks' do
@@ -104,11 +104,11 @@ describe PingdomApi do
 
 			describe '#appsdownredis' do
 
-			context 'no pingdom failures' do 
+			context 'no pingdom failures' do
 				it 'should remove all previous pingdom keys only' do
 					expect(api).to receive(:get_checks).and_return(checks)
 					expect(api).to receive(:perform_pingdom_check).exactly(3).times.and_return( true, true, true )
-					
+
 					api.appsdownredis
 					expect(redis.keys('pingdom:*')).to be_empty
 					expect(redis.keys('*').sort).to eq( [ 'other:1', 'other:2' ])
@@ -120,7 +120,7 @@ describe PingdomApi do
 					expect(redis.keys('*').sort).to eq( ['other:1', 'other:2', 'pingdom:1', 'pingdom:2', 'pingdom:33'] )
 					expect(api).to receive(:get_checks).and_return(checks)
 					expect(api).to receive(:perform_pingdom_check).exactly(3).times.and_return( false, false, true )
-					
+
 					api.appsdownredis
 					expect(redis.keys('*').sort).to eq( [ 'other:1', 'other:2', 'pingdom:1224555', 'pingdom:4558778' ])
 				end
@@ -139,7 +139,7 @@ describe PingdomApi do
 					result = api.appsdownredis
 					expect(redis.keys('pingdom:*')).to eq( [ 'pingdom:error'] )
 					pingdom_error = JSON.parse(redis.get('pingdom:error'))
-					expect(pingdom_error).to eq({'key' => 'pingdom:error', 'payload' => 'Pingdom API timeout (4 secs)'})
+					expect(pingdom_error).to eq({'message' => 'Pingdom API timeout (4 secs)'})
 				end
 			end
 		end
@@ -149,27 +149,17 @@ describe PingdomApi do
 			it 'should write the appropriate record in the database' do
 				hash = {'key' => 'data', 'key2' => 'data2'}
 				api.send(:record_alert, 'mykey', hash)
-				expect( api.get_alert('mykey')).to eq( {'key' => 'mykey', 'payload' => hash} )
+				expect( Alert.fetch('mykey').value_hash).to eq( {'message' => hash} )
 			end
 		end
-
-		describe 'get_all_alerts' do
-			it 'should return an array of all alerts' do
-				hash = {'key' => 'data', 'key2' => 'data2'}
-				api.send(:record_alert, 'mykey', hash)
-				alerts = api.get_all_alerts
-				expect(alerts).to match_array(expected_results_from_all_alerts)
-			end
-		end
-
 
 		describe '#notify' do
 			it 'should store a sensu notification and be able to reconstruct it from the db' do
 				payload = sensu_data.to_json
 				api.notify(payload)
 				key = "host01/frontend_http_check"
-				data = api.get_alert(key)
-				expect(data['payload']).to eq(sensu_data)
+				alert = Alert.fetch(key)
+				expect(alert.value_hash['message']).to eq(sensu_data)
 			end
 		end
 	end
@@ -205,11 +195,11 @@ end
 
 def expected_results_from_all_alerts
 	[
-	 	{	"key"=>"pingdom:2", "payload"=>"data"}, 
-	 	{ "key"=>"other:2", "payload"=>"data"}, 
-	 	{ "key"=>"pingdom:1", "payload"=>"data"}, 
-	 	{ "key"=>"mykey", "payload"=>{"key"=>"data", "key2"=>"data2"}}, 
-	 	{ "key"=>"other:1", "payload"=>"data"}, 
+	 	{	"key"=>"pingdom:2", "payload"=>"data"},
+	 	{ "key"=>"other:2", "payload"=>"data"},
+	 	{ "key"=>"pingdom:1", "payload"=>"data"},
+	 	{ "key"=>"mykey", "payload"=>{"key"=>"data", "key2"=>"data2"}},
+	 	{ "key"=>"other:1", "payload"=>"data"},
 	 	{ "key"=>"pingdom:33", "payload"=>"data"}
 	]
 end

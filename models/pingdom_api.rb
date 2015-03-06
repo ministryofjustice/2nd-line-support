@@ -1,16 +1,11 @@
 require 'json'
 require 'redis'
+require_relative 'alert'
 require File.expand_path(File.dirname(__FILE__) + '/pinger.rb')
 
 class PingdomApi
-
 	CHECK_TAGS 						= [ 'level-2-support' ]
 	PINGDOM_API_TIMEOUT 	= (ENV['PINGDOM_API_TIMEOUT'] || '4').to_i
-
-	def initialize
-		@redis = Redis.new(:host => ENV['REDIS_HOST'], :port => ENV['REDIS_PORT'].to_i, :db => ENV['REDIS_DB'].to_i)
-	end
-
 
 	def appsdown
 		checks = get_checks
@@ -25,7 +20,6 @@ class PingdomApi
 		end
 	end
 
-
 	def appsdownredis
 		checks = get_checks
 		if checks['error'].nil?
@@ -39,42 +33,20 @@ class PingdomApi
 		end
 	end
 
-
 	def notify(payload)
 		payload = JSON.parse(payload)
 		key = "#{payload['client']['name']}/#{payload['check']['name']}"
 		record_alert(key, payload)
 	end
 
-
-	def get_alert(key)
-		JSON.parse(@redis.get(key))
-	end
-
-
-	def get_all_alerts
-		redis = @redis
-		keys = redis.keys("*")
-		array_of_json_results = redis.mget(keys)
-		array_of_json_results.map{ |x| JSON.parse(x) }
-	end
-
-
-
 	private
 
 	def record_alert(key, data)
-		@redis.set(key, encode_payload(key, data))
+		Alert.create(key, {'message' => data })
 	end
-
 
 	def remove_alert(key)
-		redis = @redis.del(key)
-	end
-
-
-	def encode_payload(key, data)
-		{'key' => key, 'payload' => data }.to_json
+		Alert.destroy(key)
 	end
 
 	# gets the results from the last check done for this check id and returns true if up, otherwise false
@@ -86,7 +58,6 @@ class PingdomApi
 		response_body['results'].first['status'] == 'up'
 	end
 
-
 	def record_failed_pingdom_checks_in_redis(checks, failed_check_ids)
 		delete_pingdom_records_in_redis
 		failed_check_ids.each do |failed_check_id|
@@ -94,27 +65,21 @@ class PingdomApi
 		end
 	end
 
-
 	def record_pingdom_api_error_in_redis(checks)
 		delete_pingdom_records_in_redis
 		key = 'pingdom:error'
-		@redis.set(key, encode_payload(key, checks['error']))
+		Alert.create(key, {message: checks['error']})
 	end
-
 
 	def record_pingdom_alert_in_redis(checks, failed_check_id)
 		key = "pingdom:#{failed_check_id}"
 		text = "#{checks[failed_check_id]} DOWN"
-		@redis.set(key, text)
+		Alert.create(key, {message: text})
 	end
 
 	def delete_pingdom_records_in_redis
-		keys = @redis.keys("pingdom:*")
-		@redis.del(keys) unless keys.empty?
+		Alert.destroy_all("pingdom:*")
 	end
-
-
-
 
 	# returns a list of check ids and their alert policy name for each of the alerts tagged with CHECK_TAGS
 	def get_checks
@@ -129,8 +94,6 @@ class PingdomApi
 			list						# return {'error' => 'Pingdom API timeout error'}
 		end
 	end
-
-
 
 	def query_pingdom_for_checks
 		params = "tags=#{CHECK_TAGS.join(',')}"
@@ -167,9 +130,8 @@ class PingdomApi
 		      "type" => 0
 		    }
 		  ]
-		}.to_json		
+		}.to_json
 	end
-
 
 	def apps_down_response(checks, failed_check_ids)
 		response = {
@@ -188,9 +150,4 @@ class PingdomApi
 		response['item'].first['text'] = text
 		response.to_json
 	end
-
-
-
-
-
 end
