@@ -1,17 +1,19 @@
 source 'https://rubygems.org'
 
-
 ruby '2.2.0'
 
-gem 'sinatra'
-gem 'shotgun'
-gem 'rspec'
+gem 'google-api-client'
 gem 'haml'
-gem 'simplecov', :require => false
+gem 'sinatra'
 gem 'redis'
 
-group :test, :development do
-	gem 'timecop'
+group :development do
+  gem 'foreman'
+  gem 'shotgun'
 end
 
-gem 'google-api-client'
+group :test, :development do
+  gem 'rspec'
+  gem 'simplecov', :require => false
+	gem 'timecop'
+end
