@@ -13,8 +13,9 @@ group :development do
   gem 'shotgun'
 end
 
-group :test, :development do
+group :test do
+  gem 'rack-test', require: false
   gem 'rspec'
-  gem 'simplecov', :require => false
-	gem 'timecop'
+  gem 'simplecov', require: false
+  gem 'timecop'
 end

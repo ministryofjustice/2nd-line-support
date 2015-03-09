@@ -18,6 +18,10 @@ class SupportApp < Sinatra::Application
     "updated"
   end
 
+  get '/pingdom_notify/:service_id' do
+
+  end
+
   get '/' do
     @alerts = Alert.fetch_all
     erb :index
