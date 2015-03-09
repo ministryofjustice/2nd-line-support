@@ -4,8 +4,9 @@ ruby '2.2.0'
 
 gem 'google-api-client'
 gem 'haml'
-gem 'sinatra'
+gem 'sinatra', require: 'sinatra/base'
 gem 'redis'
+gem 'unicorn'
 
 group :development do
   gem 'foreman'
