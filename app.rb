@@ -19,7 +19,27 @@ class SupportApp < Sinatra::Application
   end
 
   get '/pingdom_notify/:service_id' do
+    if params.has_key?('message')
+      begin
+        json = JSON.parse(params['message'])
 
+        case json['action']
+          when 'assign'
+            message = "#{params[:service_id]}: #{json['description']}"
+            Alert.create("pingdom/#{params[:service_id]}", { message: message} )
+            break
+          when 'notify_of_close'
+            Alert.destroy("pingdom/#{params[:service_id]}")
+            break
+        end
+
+        200
+      rescue
+        422
+      end
+    else
+      400
+    end
   end
 
   get '/' do
