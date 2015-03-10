@@ -1,0 +1,4 @@
+inherit_from:
+  - gds-ruby-styleguide.yml
+  - other-lint.yml
+  - other-style.yml

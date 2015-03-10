@@ -1,8 +1,7 @@
-require 'redis'
-class Alert < Struct.new(:key, :value)
-
+require "redis"
+Alert = Struct.new(:key, :value) do
   def self.fetch_all
-    redis.keys("*").collect { |key| new(key,redis.get(key)) }
+    redis.keys("*").collect { |key| new(key, redis.get(key)) }
   end
 
   def self.fetch(key)
@@ -31,7 +30,7 @@ class Alert < Struct.new(:key, :value)
   end
 
   def message
-    value_hash['message']
+    value_hash["message"]
   end
 
   private
@@ -45,6 +44,6 @@ class Alert < Struct.new(:key, :value)
   end
 
   def self.redis
-    @redis ||= Redis.new(:url => ENV["REDISCLOUD_URL"])
+    @redis ||= Redis.new(url: ENV["REDISCLOUD_URL"])
   end
 end

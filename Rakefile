@@ -1,7 +1,7 @@
-require_relative 'models/alert.rb'
-require_relative 'models/pingdom_api.rb'
-require_relative 'models/traffic_spike.rb'
-require_relative 'lib/real_time_analytics.rb'
+require_relative "models/alert.rb"
+require_relative "models/pingdom_api.rb"
+require_relative "models/traffic_spike.rb"
+require_relative "lib/real_time_analytics.rb"
 
 task :update_traffic_spikes do
   TrafficSpike.update

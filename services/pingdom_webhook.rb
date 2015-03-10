@@ -1,5 +1,5 @@
 class PingdomWebhook
-  REDIS_KEY_PREFIX = 'pingdom'
+  REDIS_KEY_PREFIX = "pingdom"
 
   def initialize(service_id)
     @service_id = service_id
@@ -9,12 +9,12 @@ class PingdomWebhook
     begin
       json = JSON.parse(message)
 
-      case json['action']
-        when 'assign'
-          redis_message = "#{@service_id}: #{json['description']}"
-          Alert.create(redis_key, { message: redis_message } )
-        when 'notify_of_close'
-          Alert.destroy(redis_key)
+      case json["action"]
+      when "assign"
+        redis_message = "#{@service_id}: #{json['description']}"
+        Alert.create(redis_key, { message: redis_message })
+      when "notify_of_close"
+        Alert.destroy(redis_key)
       end
 
       true
