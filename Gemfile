@@ -11,6 +11,7 @@ gem 'unicorn'
 group :development do
   gem 'foreman'
   gem 'shotgun'
+  gem "rubocop", require: false
 end
 
 group :test do
