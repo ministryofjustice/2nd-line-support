@@ -1,17 +1,23 @@
-require_relative '../lib/real_time_analytics.rb'
+require_relative "../lib/real_time_analytics.rb"
 
 class TrafficSpike
   def self.update
     Alert.destroy_all("trafficspike:*")
     TrafficSpike.load_from_json.each do |traffic_spike|
       if traffic_spike.unacceptable?
-        Alert.create("trafficspike:#{traffic_spike.config["profile_id"]}", {message: traffic_spike.alert})
+        Alert.create(
+          "trafficspike:#{traffic_spike.config['profile_id']}",
+          {
+            message: traffic_spike.alert,
+          }
+        )
       end
     end
   end
 
   def self.load_from_json
-    realtime_analytic_limits = JSON.parse(File.read("config/realtime_analytic_limits.json"))["limits"]
+    config_file = File.read("config/realtime_analytic_limits.json")
+    realtime_analytic_limits = JSON.parse(config_file)["limits"]
     realtime_analytic_limits.collect {|config| TrafficSpike.new(config)}
   end
 
@@ -30,6 +36,7 @@ class TrafficSpike
   end
 
   def alert
-    "#{config["name"]} currently has #{current_users} users! (we don't expect more than #{config["limit"]})"
+    "#{config['name']} currently has #{current_users} users!
+    (we don't expect more than #{config['limit']})"
   end
 end
