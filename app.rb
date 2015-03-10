@@ -19,7 +19,7 @@ class SupportApp < Sinatra::Application
     "updated"
   end
 
-  get '/pingdom_notify/:service_id' do
+  get '/pingdom_webhook/:service_id' do
     if params.has_key?('message')
       web_hook_processor = PingdomWebhook.new(params[:service_id])
       web_hook_processor.process(params['message']) ? 200 : 422

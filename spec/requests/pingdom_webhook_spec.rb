@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'GET /pingdom_notify/:service_id' do
+describe 'GET /pingdom_webhook/:service_id' do
   def app
     SupportApp
   end
 
   context 'when message query parameter is not present' do
     before do
-      get '/pingdom_notify/awesome-service'
+      get '/pingdom_webhook/awesome-service'
     end
 
     it 'returns 400 error' do
@@ -23,7 +23,7 @@ describe 'GET /pingdom_notify/:service_id' do
     before do
       Alert.create(existing_alert_key, 'some data')
 
-      get "/pingdom_notify/#{service_id}?message=#{message}"
+      get "/pingdom_webhook/#{service_id}?message=#{message}"
     end
 
     context 'for an invalid message' do
