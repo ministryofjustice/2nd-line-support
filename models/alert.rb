@@ -9,6 +9,10 @@ class Alert < Struct.new(:key, :value)
     new(key, redis.get(key))
   end
 
+  def self.exists?(key)
+    redis.exists(key)
+  end
+
   def self.create(key, data)
     redis.set(key, encode_payload(data))
   end
