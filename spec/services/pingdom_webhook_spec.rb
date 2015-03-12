@@ -28,7 +28,7 @@ end
 
 describe PingdomWebhook do
   let(:service_id) { 'SOME_SERVICE' }
-  let(:service_alert_key) { "#{described_class::REDIS_KEY_PREFIX}/#{service_id}"}
+  let(:service_alert_key) { "#{described_class::REDIS_KEY_PREFIX}:#{service_id}"}
 
   subject(:pingdom_web_hook) { described_class.new(service_id) }
 
