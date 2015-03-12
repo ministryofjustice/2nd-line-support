@@ -1,5 +1,7 @@
 # 2nd-line-support Dashboard
 
+[![Build Status](https://travis-ci.org/ministryofjustice/2nd-line-support.svg)](https://travis-ci.org/ministryofjustice/2nd-line-support)
+
 This is a Heroku app which aggregates data from a few sources in order to
 provide a useful feed to the people currently on 2nd line support.
 

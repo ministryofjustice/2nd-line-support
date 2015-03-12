@@ -15,3 +15,11 @@ task :update_all do
   Rake::Task["update_traffic_spikes"].invoke
   Rake::Task["update_pingdom"].invoke
 end
+
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+
+  task default: :spec
+rescue LoadError
+end
