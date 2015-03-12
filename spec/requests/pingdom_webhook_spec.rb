@@ -25,10 +25,6 @@ shared_examples 'for up message' do
 end
 
 describe 'GET /pingdom_webhook/:service_id' do
-  def app
-    SupportApp
-  end
-
   context 'when message query parameter is not present' do
     before do
       get '/pingdom_webhook/awesome-service'

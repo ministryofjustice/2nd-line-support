@@ -1,4 +1,5 @@
 require_relative '../app'
+require_relative 'support/helpers'
 
 ENV['RACK_ENV'] = 'test'
 require 'rack/test'
@@ -12,4 +13,6 @@ RSpec.configure do |config|
   end
 
   config.include Rack::Test::Methods
+
+  config.include Helpers
 end
