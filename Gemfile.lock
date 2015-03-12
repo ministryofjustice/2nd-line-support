@@ -48,6 +48,7 @@ GEM
     rack-test (0.6.3)
       rack (>= 1.0)
     raindrops (0.13.0)
+    rake (10.4.2)
     redis (3.2.1)
     retriable (1.4.1)
     rspec (3.2.0)
@@ -99,6 +100,7 @@ DEPENDENCIES
   google-api-client
   haml
   rack-test
+  rake
   redis
   rspec
   shotgun

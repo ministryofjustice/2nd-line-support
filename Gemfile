@@ -5,6 +5,7 @@ ruby '2.2.0'
 gem 'google-api-client'
 gem 'haml'
 gem 'sinatra', require: 'sinatra/base'
+gem 'rake'
 gem 'redis'
 gem 'unicorn'
 
