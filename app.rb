@@ -28,6 +28,26 @@ class SupportApp < Sinatra::Application
     end
   end
 
+  post '/sensu_webhook' do
+    if params.has_key?('payload')
+      payload = params['payload']
+      service_id = payload['key']
+      redis_key = "sensu/#{service_id}"
+
+      case payload['event']['action']
+        when 'create'
+          redis_message = "#{service_id}: #{payload['event']['check']['output']}"
+          Alert.create(redis_key, { message: redis_message } )
+        when 'resolve'
+          Alert.destroy(redis_key)
+      end
+
+      200
+    else
+      400
+    end
+  end
+
   get '/' do
     @alerts = Alert.fetch_all
     erb :index

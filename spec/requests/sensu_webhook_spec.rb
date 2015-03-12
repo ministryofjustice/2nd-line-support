@@ -2,11 +2,6 @@ require 'spec_helper'
 require_relative 'shared_examples/up_and_down_messages'
 
 describe 'POST /sensu_webhook' do
-
-  before do
-    pending
-  end
-
   let(:existing_alert_key) { 'sensu/existing' }
   let(:new_alert_key) { 'sensu/new' }
   let(:new_alert_message) { 'DESCRIPTION' }
@@ -31,6 +26,9 @@ describe 'POST /sensu_webhook' do
       {
           'key' => service_id,
           'event' => {
+              'check' => {
+                  'output' => new_alert_message
+              },
               'action' => 'create'
           }
       }
@@ -45,7 +43,7 @@ describe 'POST /sensu_webhook' do
       {
           'key' => service_id,
           'event' => {
-              'action' => 'create'
+              'action' => 'resolve'
           }
       }
     end
