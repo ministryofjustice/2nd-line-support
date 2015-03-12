@@ -24,19 +24,8 @@ for a bit more info on that yet. This isn't live anywhere yet.
 
 ## Pingdom
 
-Due to limitations in the herkou scheduling feature (it won't go more frequent
-than once every 10 minutes) we are using Pingdom to hit an endpoint every
-minute that then looks for any check tagged 'level-2-support' and if it's down
-we will put an entry in redis
-
-## Environment Variables
-
-The app expects the following environment/configuration variables to be enabled:
-
-	* PINGDOM_USERNAME
-	* PINGDOM_API_KEY
-	* PINGDOM_PASSWORD
-
+Any Alerting Endpoint can call the prepared webhook: `:HOST/pingdom_webhook/:service_name`. Preferebly with `New message format`, but 
+`Old message format` is also supported.
 
 ## Endpoints:
 
