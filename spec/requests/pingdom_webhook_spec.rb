@@ -14,8 +14,8 @@ describe 'GET /pingdom_webhook/:service_id' do
 
   context 'when message query parameter is present' do
     let(:service_id) { 'awesome-service' }
-    let(:existing_alert_key) { 'pingdom/existing' }
-    let(:new_alert_key) { 'pingdom/new' }
+    let(:existing_alert_key) { 'pingdom:existing' }
+    let(:new_alert_key) { 'pingdom:new' }
     let(:new_alert_message) { 'DESCRIPTION' }
 
     before do

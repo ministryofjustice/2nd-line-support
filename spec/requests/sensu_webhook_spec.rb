@@ -2,8 +2,8 @@ require 'spec_helper'
 require_relative 'shared_examples/up_and_down_messages'
 
 describe 'POST /sensu_webhook' do
-  let(:existing_alert_key) { 'sensu/existing' }
-  let(:new_alert_key) { 'sensu/new' }
+  let(:existing_alert_key) { 'sensu:existing' }
+  let(:new_alert_key) { 'sensu:new' }
   let(:new_alert_message) { 'DESCRIPTION' }
 
   before do

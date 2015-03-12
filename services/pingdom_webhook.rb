@@ -16,7 +16,7 @@ class PingdomWebhook
   private
 
   def redis_key
-    "#{REDIS_KEY_PREFIX}/#{@service_id}"
+    "#{REDIS_KEY_PREFIX}:#{@service_id}"
   end
 
   def process_json(message)

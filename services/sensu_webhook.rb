@@ -7,7 +7,6 @@ class SensuWebhook
 
   def process
     service_id = @payload['key']
-    redis_key = "#{REDIS_KEY_PREFIX}/#{service_id}"
 
     case @payload['event']['action']
       when 'create'
@@ -18,5 +17,11 @@ class SensuWebhook
     end
 
     true
+  end
+
+  private
+
+  def redis_key
+    "#{REDIS_KEY_PREFIX}:#{@payload['key']}"
   end
 end
