@@ -7,6 +7,7 @@ require_relative 'models/pingdom_api.rb'
 require_relative 'models/traffic_spike.rb'
 require_relative 'lib/real_time_analytics.rb'
 require_relative 'services/pingdom_webhook'
+require_relative 'services/sensu_webhook'
 
 class SupportApp < Sinatra::Application
   post '/notify' do
@@ -21,8 +22,8 @@ class SupportApp < Sinatra::Application
 
   get '/pingdom_webhook/:service_id' do
     if params.has_key?('message')
-      web_hook_processor = PingdomWebhook.new(params[:service_id])
-      web_hook_processor.process(params['message']) ? 200 : 422
+      webhook_processor = PingdomWebhook.new(params[:service_id])
+      webhook_processor.process(params['message']) ? 200 : 422
     else
       400
     end
@@ -30,17 +31,8 @@ class SupportApp < Sinatra::Application
 
   post '/sensu_webhook' do
     if params.has_key?('payload')
-      payload = params['payload']
-      service_id = payload['key']
-      redis_key = "sensu/#{service_id}"
-
-      case payload['event']['action']
-        when 'create'
-          redis_message = "#{service_id}: #{payload['event']['check']['output']}"
-          Alert.create(redis_key, { message: redis_message } )
-        when 'resolve'
-          Alert.destroy(redis_key)
-      end
+      webhook_processor = SensuWebhook.new(params['payload'])
+      webhook_processor.process
 
       200
     else
