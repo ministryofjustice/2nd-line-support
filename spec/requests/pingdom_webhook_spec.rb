@@ -61,18 +61,37 @@ describe 'GET /pingdom_webhook/:service_id' do
       let(:message) { %({"check": "", "action": "#{action}", "incidentid": "", "description": "DESCRIPTION"}) }
 
       context 'when action is "assign"' do
-        let(:action) { 'assign' }
-        let(:service_id) { 'new' }
-
-        it_behaves_like 'for down message'
+        include_examples 'for down message' do
+          let(:action) { 'assign' }
+          let(:service_id) { 'new' }
+        end
       end
 
       context 'when action is "notify_of_close"' do
-        let(:action) { 'notify_of_close' }
-        let(:service_id) { 'existing' }
-
-        it_behaves_like 'for up message'
+        include_examples 'for up message' do
+          let(:action) { 'notify_of_close' }
+          let(:service_id) { 'existing' }
+        end
       end
     end
+
+    context 'for a valid message - old format' do
+      let(:message) { %(PingdomAlert #{action}: some.service (DESCRIPTION) is #{action} since 2015-03-10 16:58:19 GMT +0000) }
+
+      context 'when action is "assign"' do
+        include_examples 'for down message' do
+          let(:action) { 'DOWN' }
+          let(:service_id) { 'new' }
+        end
+      end
+
+      context 'when action is "notify_of_close"' do
+        include_examples 'for up message' do
+          let(:action) { 'UP' }
+          let(:service_id) { 'existing' }
+        end
+      end
+    end
+
   end
 end

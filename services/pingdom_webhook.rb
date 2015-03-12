@@ -6,6 +6,20 @@ class PingdomWebhook
   end
 
   def process(message)
+    if message =~ /^{/
+      process_json(message)
+    else
+      process_old(message)
+    end
+  end
+
+  private
+
+  def redis_key
+    "#{REDIS_KEY_PREFIX}/#{@service_id}"
+  end
+
+  def process_json(message)
     begin
       json = JSON.parse(message)
 
@@ -23,9 +37,20 @@ class PingdomWebhook
     end
   end
 
-  private
+  def process_old(message)
+    matches = message.match(/^PingdomAlert (UP|DOWN):.*?\(([^\)]*)\)/)
+    if matches
+      case matches[1]
+        when 'DOWN'
+          redis_message = "#{@service_id}: #{matches[2]}"
+          Alert.create(redis_key, { message: redis_message } )
+        when 'UP'
+          Alert.destroy(redis_key)
+      end
 
-  def redis_key
-    "#{REDIS_KEY_PREFIX}/#{@service_id}"
+      true
+    else
+      false
+    end
   end
 end
