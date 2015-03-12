@@ -2,7 +2,7 @@ require 'spec_helper'
 
 shared_examples 'for down message' do
   it 'creates a new alert' do
-    expect(Alert.exists?(existing_alert_key)).to be true
+    expect(Alert.exists?(new_alert_key)).to be true
   end
 
   it 'the alert contains message identifying the problem with the service' do
