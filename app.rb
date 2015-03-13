@@ -9,10 +9,10 @@ require_relative 'services/pingdom_webhook'
 require_relative 'services/sensu_webhook'
 
 class SupportApp < Sinatra::Application
-  get '/pingdom_webhook/:service_id' do
+  get '/pingdom_webhook' do
     if params.has_key?('message')
-      webhook_processor = PingdomWebhook.new(params[:service_id])
-      webhook_processor.process(params['message']) ? 200 : 422
+      webhook_processor = PingdomWebhook.new(params['message'])
+      webhook_processor.process ? 200 : 422
     else
       400
     end
