@@ -1,10 +1,10 @@
 require 'spec_helper'
 require_relative 'shared_examples/up_and_down_messages'
 
-describe 'GET /pingdom_webhook/:service_id' do
+describe 'GET /pingdom_webhook' do
   context 'when message query parameter is not present' do
     before do
-      get '/pingdom_webhook/awesome-service'
+      get '/pingdom_webhook'
     end
 
     it 'returns 400 error' do
@@ -13,7 +13,7 @@ describe 'GET /pingdom_webhook/:service_id' do
   end
 
   context 'when message query parameter is present' do
-    let(:service_id) { 'awesome-service' }
+    let(:service_id) { 'awesome service' }
     let(:existing_alert_key) { 'pingdom:existing' }
     let(:new_alert_key) { 'pingdom:new' }
     let(:new_alert_message) { 'DESCRIPTION' }
@@ -21,7 +21,7 @@ describe 'GET /pingdom_webhook/:service_id' do
     before do
       Alert.create(existing_alert_key, 'some data')
 
-      get "/pingdom_webhook/#{service_id}?message=#{message}"
+      get "/pingdom_webhook?message=#{message}"
     end
 
     context 'for an invalid message' do
@@ -32,7 +32,7 @@ describe 'GET /pingdom_webhook/:service_id' do
     end
 
     context 'for a valid message - new format' do
-      let(:message) { %({"check": "", "action": "#{action}", "incidentid": "", "description": "#{new_alert_message}"}) }
+      let(:message) { %({"check": "", "checkname": "#{service_id}", "action": "#{action}", "incidentid": "", "description": "#{new_alert_message}"}) }
 
       context 'when action is "assign"' do
         let(:action) { 'assign' }
@@ -50,7 +50,7 @@ describe 'GET /pingdom_webhook/:service_id' do
     end
 
     context 'for a valid message - old format' do
-      let(:message) { %(PingdomAlert #{action}: some.service (#{new_alert_message}) is #{action} since 2015-03-10 16:58:19 GMT +0000) }
+      let(:message) { %(PingdomAlert #{action}: some.service.url (#{service_id}) #{new_alert_message}) }
 
       context 'when action is "assign"' do
         let(:action) { 'DOWN' }
