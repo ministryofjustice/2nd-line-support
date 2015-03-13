@@ -3,7 +3,8 @@
     {
       "name": "PVB",
       "profile_id": "79096907",
-      "limit": 100
+      "lower_limit": 10,
+      "upper_limit": 100
     }
   ]
 }

@@ -22,14 +22,14 @@ class TrafficSpike
   attr_reader :config
 
   def current_users
-    RealTimeAnalytics.instance.current_visitor_count(config["profile_id"])
+    @current_users ||= RealTimeAnalytics.instance.current_visitor_count(config["profile_id"])
   end
 
   def unacceptable?
-    current_users > config["limit"]
+    current_users < config["lower_limit"] || current_users > config["upper_limit"]
   end
 
   def alert
-    "#{config["name"]} currently has #{current_users} users! (we don't expect more than #{config["limit"]})"
+    "#{config["name"]} currently has #{current_users} users! (we expect between #{config["lower_limit"]} and #{config["upper_limit"]})"
   end
 end
