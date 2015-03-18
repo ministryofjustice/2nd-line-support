@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.0'
+ruby '2.2.1'
 
 gem 'google-api-client'
 gem 'haml'
@@ -17,6 +17,7 @@ end
 group :test do
   gem 'rack-test', require: false
   gem 'rspec'
+  gem 'guard-rspec'
   gem 'simplecov', require: false
   gem 'timecop'
 end
