@@ -24,7 +24,7 @@ for a bit more info on that yet. This isn't live anywhere yet.
 
 ## Pingdom
 
-Any Alerting Endpoint can call the prepared webhook: `:HOST/pingdom_webhook/:service_name`. Preferebly with `New message format`, but 
+Any Alerting Endpoint can call the prepared webhook: `:HOST/pingdom_webhook/:service_name`. Preferebly with `New message format`, but
 `Old message format` is also supported.
 
 ## Endpoints:
@@ -32,3 +32,8 @@ Any Alerting Endpoint can call the prepared webhook: `:HOST/pingdom_webhook/:ser
 Check `web.rb` for details
 
 
+## Running application tests locally
+
+To run specs with guard during development:
+
+    bundle exec guard

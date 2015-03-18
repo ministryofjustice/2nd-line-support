@@ -17,6 +17,7 @@ end
 group :test do
   gem 'rack-test', require: false
   gem 'rspec'
+  gem 'guard-rspec'
   gem 'simplecov', require: false
   gem 'timecop'
 end
