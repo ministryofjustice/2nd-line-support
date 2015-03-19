@@ -12,6 +12,8 @@ guard :rspec, cmd: 'bundle exec rspec', all_on_start: true do
   ruby = dsl.ruby
   dsl.watch_spec_files_for(ruby.lib_files)
 
+  watch(%r{^services/(.+)\.rb$}) { |m| "spec/services/#{m[1]}_spec.rb" }
+
   # Turnip features and steps
   watch(%r{^spec/acceptance/(.+)\.feature$})
   watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|

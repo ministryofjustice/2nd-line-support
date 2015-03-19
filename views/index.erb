@@ -26,6 +26,10 @@
     li.good {
       background-color:green;
     }
+    .page {
+      width: 80%;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -37,5 +41,11 @@
       <li><%= alert.message %></li>
     <% end %>
   </ul>
+  <div class="page">
+    <h2>On duty</h2>
+    <% @whos_on_duty.each do |w| %>
+      <p><%= w %></p>
+    <% end %>
+  </div>
 </body>
 </html>

@@ -2,7 +2,8 @@ require 'redis'
 class Alert < Struct.new(:key, :value)
 
   def self.fetch_all
-    redis.keys("*").collect { |key| new(key,redis.get(key)) }
+    keys = redis.keys("*")
+    keys.collect { |key| new(key,redis.get(key)) }
   end
 
   def self.fetch(key)

@@ -8,10 +8,13 @@ gem 'sinatra', require: 'sinatra/base'
 gem 'rake'
 gem 'redis'
 gem 'unicorn'
+gem 'excon'
 
 group :development do
   gem 'foreman'
   gem 'shotgun'
+  gem 'rerun'
+  gem 'pry'
 end
 
 group :test do
@@ -20,4 +23,5 @@ group :test do
   gem 'guard-rspec'
   gem 'simplecov', require: false
   gem 'timecop'
+  gem 'webmock'
 end
