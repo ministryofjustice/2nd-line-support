@@ -10,7 +10,7 @@ module WhosOnDuty
       if list.is_a?(Array)
         list
       else
-        raise list.inspect
+        []
       end
     rescue
       []
