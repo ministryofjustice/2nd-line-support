@@ -3,11 +3,9 @@ require 'csv'
 module WhosOnDuty
 
   def self.list
-    response = Excon.get(data_url, headers: { 'Accept' => 'text/csv' } )
-
     begin
-      members = CSV.parse(response.body)[1][1..-1]
-      members = members.compact.sort.map(&:strip)
+      response = Excon.get(data_url, headers: { 'Accept' => 'text/csv' } )
+      members = CSV.parse(response.body)[1][1..-1].compact.sort.map(&:strip)
       members.is_a?(Array) ? members : []
     rescue
       []
