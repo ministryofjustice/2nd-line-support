@@ -12,7 +12,7 @@ require_relative 'services/sensu_webhook'
 require_relative 'services/whos_on_duty'
 
 class SupportApp < Sinatra::Application
-  DUTY_ROSTER_REFRESH_INTERVAL = JSON.parse(File.read("config/duty_roster_refresh_interval.json"))["refresh_interval"].to_i || 60
+  DUTY_ROSTER_REFRESH_INTERVAL = JSON.parse(File.read("config/duty_roster_google_doc.json"))["refresh_interval"].to_i || 60
   SESSION_SECRET = ENV['SESSION_SECRET'] || '3eb6db5a9026c547c72708438d496d942e976b252138db7e4e0ee5edd7539457d3ed0fa02ee5e7179420ce5290462018591adaf5f42adcf955db04877827def6'
 
   set :sessions, true
