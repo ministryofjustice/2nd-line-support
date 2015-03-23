@@ -29,4 +29,14 @@ li.good {
 .duty-roster ul li {
     background-color: black;
     border: 1px solid gray;
+    font-size: 2em;
+}
+
+table{
+    padding-top: 10px;
+    width: 100%;
+}
+
+table tr{
+    vertical-align: baseline;
 }
