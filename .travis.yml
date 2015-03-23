@@ -8,4 +8,4 @@ deploy:
   api_key:
     secure: T9DxjCuJMTzmmMzVp+lNatp5HRdoRnP1G8HFXKzdAGXZgnNDoVsGqM+HI9i9MKMhL1CknbekV13x9vIQZbNIpwVkLSry6QjYHRp4NXMZrnU/pjJyQP4wdXHUasPoHpMNnw9kHX/OaLqEwuDZQww7e1q3mBDdE+E+BNMt6E5rpc8=
   app:
-    master: 2nd-line-support
+    master: second-level-support
