@@ -3,6 +3,7 @@ require_relative 'support/helpers'
 
 ENV['RACK_ENV'] = 'test'
 require 'rack/test'
+require 'webmock/rspec'
 
 ENV['REDISCLOUD_URL'] ||= 'redis://localhost/1'
 

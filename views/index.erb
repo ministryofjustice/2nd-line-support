@@ -26,6 +26,15 @@
     li.good {
       background-color:green;
     }
+    .duty-roster {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    .duty-roster ul li {
+      background-color: black;
+      border: 1px solid gray;
+    }
   </style>
 </head>
 <body>
@@ -37,5 +46,14 @@
       <li><%= alert.message %></li>
     <% end %>
   </ul>
+  <div class="duty-roster">
+    <h2>On duty</h2>
+
+    <ul>
+      <% @whos_on_duty.each do |w| %>
+        <li><%= w %></li>
+      <% end %>
+    </ul>
+  </div>
 </body>
 </html>
