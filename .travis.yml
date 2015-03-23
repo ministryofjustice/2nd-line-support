@@ -1,5 +1,11 @@
 language: ruby
 rvm:
-  - 2.2.1
+- 2.2.1
 services:
-  - redis-server
+- redis-server
+deploy:
+  provider: heroku
+  api_key:
+    secure: T9DxjCuJMTzmmMzVp+lNatp5HRdoRnP1G8HFXKzdAGXZgnNDoVsGqM+HI9i9MKMhL1CknbekV13x9vIQZbNIpwVkLSry6QjYHRp4NXMZrnU/pjJyQP4wdXHUasPoHpMNnw9kHX/OaLqEwuDZQww7e1q3mBDdE+E+BNMt6E5rpc8=
+  app:
+    master: 2nd-line-support
