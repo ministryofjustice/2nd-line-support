@@ -5,38 +5,39 @@
 body {
     background-color:black;
     color:white;
-    font-size:20px
+    font-family: 'Franklin Gothic Medium', 'Franklin Gothic', 'ITC Franklin Gothic';
+}
+h2{
+    font-size:3rem;
 }
 ul {
-    width:80%;
-    margin: 0 auto;
+    margin:0;
     list-style:none;
+    padding: 0;
 }
 li {
-    width:100%;
-    background-color:red;
-    margin:1em;
+    background-color:#8ECFED;
+    color:#153645;
+    margin:1em 0;
     padding: 0.5em;
+    font-size:2rem;
 }
 li.good {
-    background-color:green;
+    background-color:#9DEB9E;
 }
-.duty-roster {
-    width: 80%;
-    margin: 0 auto;
+li.bad {
+    background-color:#D12C4A;
+    color:#fff;
 }
-
-.duty-roster ul li {
-    background-color: black;
-    border: 1px solid gray;
-    font-size: 2em;
+.container {
+overflow: hidden;
+padding:1em;
 }
-
-table{
-    padding-top: 10px;
-    width: 100%;
+.column {
+float:left;
+width:49%;
 }
 
-table tr{
-    vertical-align: baseline;
+.column:last-child {
+float:right;
 }

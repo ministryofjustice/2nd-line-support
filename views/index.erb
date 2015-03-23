@@ -5,33 +5,27 @@
     <link rel="stylesheet" href="css/app.css" media="screen">
 </head>
 <body>
-  <table>
-    <th>Alerts</th>
-    <th>On duty</th>
-    <tr>
-      <td>
-        <ul>
-          <% if @alerts.empty? %>
-            <li class="good">No alerts to report</li>
-          <% end %>
-          <% @alerts.each do |alert| %>
-            <li><%= alert.message %></li>
-          <% end %>
-        </ul>
-      </td>
-      <td>
-        <div class="duty-roster">
-          <ul>
-            <% @whos_on_duty.each do |w| %>
-              <li><%= w %></li>
-            <% end %>
-          </ul>
-        </div>
-      </td>
-    </tr>
-  </table>
+  <div class="container">
+    <div id="alerts" class="column">
+      <h2>Alerts</h2>
+      <ul>
+        <% if @alerts.empty? %>
+          <li class="good">No alerts to report</li>
+        <% end %>
+        <% @alerts.each do |alert| %>
+          <li class="bad"><%= alert.message %></li>
+        <% end %>
+      </ul>
+    </div>
 
-  
-  
+    <div id="duty-roster" class="column">
+      <h2>On duty</h2>
+      <ul>
+        <% @whos_on_duty.each do |w| %>
+          <li><%= w %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </body>
 </html>
