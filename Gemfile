@@ -9,6 +9,7 @@ gem 'rake'
 gem 'redis'
 gem 'unicorn'
 gem 'excon'
+gem 'sinatra-partial'
 
 group :development do
   gem 'foreman'

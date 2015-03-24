@@ -1,0 +1,8 @@
+<div id="duty-roster" class="column">
+	<h2>On duty</h2>
+	<%if @whos_on_duty.any? %>
+		<ul>
+		  <%= partial(:person, collection:@whos_on_duty) %>
+		</ul>
+	<% end %>
+</div>
