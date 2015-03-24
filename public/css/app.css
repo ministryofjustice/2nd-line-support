@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color:black;
+    color:white;
+    font-family: 'Franklin Gothic Medium', 'Franklin Gothic', 'ITC Franklin Gothic';
+}
+h2{
+    font-size:3rem;
+}
+ul {
+    margin:0;
+    list-style:none;
+    padding: 0;
+}
+li {
+    background-color:#8ECFED;
+    color:#153645;
+    margin:1em 0;
+    padding: 0.5em;
+    font-size:2rem;
+}
+li.good {
+    background-color:#9DEB9E;
+}
+li.bad {
+    background-color:#D12C4A;
+    color:#fff;
+}
+.container {
+overflow: hidden;
+padding:1em;
+}
+.column {
+float:left;
+width:49%;
+}
+
+.column:last-child {
+float:right;
+}

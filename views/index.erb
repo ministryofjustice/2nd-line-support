@@ -2,58 +2,30 @@
 <html lang=en-us>
 <head>
   <meta http-equiv="refresh" content="5">
-  <style media="screen">
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      background-color:black;
-      color:white;
-      font-size:20px
-    }
-    ul {
-      width:80%;
-      margin: 0 auto;
-      list-style:none;
-    }
-    li {
-      width:100%;
-      background-color:red;
-      margin:1em;
-      padding: 0.5em;
-    }
-    li.good {
-      background-color:green;
-    }
-    .duty-roster {
-      width: 80%;
-      margin: 0 auto;
-    }
-
-    .duty-roster ul li {
-      background-color: black;
-      border: 1px solid gray;
-    }
-  </style>
+    <link rel="stylesheet" href="css/app.css" media="screen">
 </head>
 <body>
-  <ul>
-    <% if @alerts.empty? %>
-      <li class="good">No alerts to report</li>
-    <% end %>
-    <% @alerts.each do |alert| %>
-      <li><%= alert.message %></li>
-    <% end %>
-  </ul>
-  <div class="duty-roster">
-    <h2>On duty</h2>
+  <div class="container">
+    <div id="alerts" class="column">
+      <h2>Alerts</h2>
+      <ul>
+        <% if @alerts.empty? %>
+          <li class="good">No alerts to report</li>
+        <% end %>
+        <% @alerts.each do |alert| %>
+          <li class="bad"><%= alert.message %></li>
+        <% end %>
+      </ul>
+    </div>
 
-    <ul>
-      <% @whos_on_duty.each do |w| %>
-        <li><%= w %></li>
-      <% end %>
-    </ul>
+    <div id="duty-roster" class="column">
+      <h2>On duty</h2>
+      <ul>
+        <% @whos_on_duty.each do |w| %>
+          <li><%= w %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </body>
 </html>
