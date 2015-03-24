@@ -11,7 +11,7 @@ of items to display
 
 The display part works by simply reading all keys out of redis and displaying
 them. Redis is populated by various sources that either push or poll (sensu
-pushes some alerts to us, we poll pingdom for status)
+pushes some alerts to us, we poll pingdom for status). The duty roster, "On duty", is populated from the [Support Rota spreadsheet sheet "dashboard widgets"](https://docs.google.com/a/digital.justice.gov.uk/spreadsheets/d/1j28ELnPgKi0fO6io6aQd-ROUlbXBaiEo63ct4WQVtUQ/pub?single=true&gid=1997221201). The refresh interval for this can be configured in [duty\_roster\_google\_doc.json](config/duty_roster_google_doc.json).
 
 ## Sensu Checks
 
@@ -29,7 +29,7 @@ Any Alerting Endpoint can call the prepared webhook: `:HOST/pingdom_webhook/:ser
 
 ## Endpoints:
 
-Check `web.rb` for details
+Check `app.rb` for details
 
 
 ## Running application tests locally
