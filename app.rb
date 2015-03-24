@@ -3,6 +3,8 @@ $: << File.expand_path('..', __FILE__)
 require 'rubygems'
 require 'sinatra'
 require 'excon'
+require 'sinatra/partial'
+
 Excon.defaults[:middlewares] << Excon::Middleware::RedirectFollower
 require_relative 'models/alert.rb'
 require_relative 'models/traffic_spike.rb'
@@ -12,9 +14,11 @@ require_relative 'services/sensu_webhook'
 require_relative 'services/whos_on_duty'
 
 class SupportApp < Sinatra::Application
+  register Sinatra::Partial
   DUTY_ROSTER_REFRESH_INTERVAL = JSON.parse(File.read("config/duty_roster_google_doc.json"))["refresh_interval"].to_i || 60
   SESSION_SECRET = ENV['SESSION_SECRET'] || '3eb6db5a9026c547c72708438d496d942e976b252138db7e4e0ee5edd7539457d3ed0fa02ee5e7179420ce5290462018591adaf5f42adcf955db04877827def6'
 
+  set :partial_template_engine, :erb
   set :sessions, true
   set :session_secret, SESSION_SECRET
 

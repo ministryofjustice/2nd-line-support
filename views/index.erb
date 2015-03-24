@@ -2,30 +2,14 @@
 <html lang=en-us>
 <head>
   <meta http-equiv="refresh" content="5">
-    <link rel="stylesheet" href="css/app.css" media="screen">
-</head>
-<body>
-  <div class="container">
-    <div id="alerts" class="column">
-      <h2>Alerts</h2>
-      <ul>
-        <% if @alerts.empty? %>
-          <li class="good">No alerts to report</li>
-        <% end %>
-        <% @alerts.each do |alert| %>
-          <li class="bad"><%= alert.message %></li>
-        <% end %>
-      </ul>
-    </div>
+  <link rel="stylesheet" href="css/app.css" media="screen">
 
-    <div id="duty-roster" class="column">
-      <h2>On duty</h2>
-      <ul>
-        <% @whos_on_duty.each do |w| %>
-          <li><%= w %></li>
-        <% end %>
-      </ul>
-    </div>
+</head>
+<body class="<%unless @alerts.empty? %>alert<% end %> ">
+  <div class="container">
+    <%= partial(:alerts) %>
+
+    <%= partial(:persons) %>
   </div>
 </body>
 </html>
