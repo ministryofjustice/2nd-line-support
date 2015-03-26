@@ -52,34 +52,23 @@ describe "populating the roster", :type => :feature do
   end
 
   context "when Google docs successfully returns data" do
-
     it "is displayed on the dashboard" do
       expect(page).to have_content "Himal Mandalia"
     end
-
+    it "changes to the spreadsheet are reflected on the dashboard" do
+      new_request_stub
+      visit '/refresh-duty-roster'
+      expect(page).to have_content "Evangelos Giataganas"
+    end
   end
 
   context "when Google docs fails to return data" do
-
     before do
       failed_request_stub
       visit '/refresh-duty-roster'
     end
-
     it "previously retrieved data is used" do
       expect(page).to have_content "Himal Mandalia"
-    end
-  end
-
-  context "when Google docs successfully return new data" do
-
-    before do
-      new_request_stub
-      visit '/refresh-duty-roster'
-    end
-
-    it "is displaying new names on the dashboard" do
-      expect(page).to have_content "Evangelos Giataganas"
     end
   end
 
