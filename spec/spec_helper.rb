@@ -4,9 +4,10 @@ require_relative 'support/helpers'
 ENV['RACK_ENV'] = 'test'
 require 'rack/test'
 require 'webmock/rspec'
+require 'capybara/rspec'
 
 ENV['REDISCLOUD_URL'] ||= 'redis://localhost/1'
-
+Capybara.app = SupportApp
 RSpec.configure do |config|
   config.before(:each) do
     # The Redis wrapper should probably be abstracted, but at the moment it uses the Alert model

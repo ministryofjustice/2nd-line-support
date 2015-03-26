@@ -67,7 +67,7 @@ class SupportApp < Sinatra::Application
   end
 
   def read_duty_roster_now
-    session[:duty_roster] = WhosOnDuty.list
+    session[:duty_roster] = WhosOnDuty.list if WhosOnDuty.list.any? || session[:duty_roster].empty?
     session[:last_duty_roster_fetch] = Time.now
   end
 end
