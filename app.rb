@@ -4,6 +4,10 @@ require 'rubygems'
 require 'sinatra'
 require 'excon'
 require 'sinatra/partial'
+require 'rack'
+require 'rack/contrib'
+
+use Rack::PostBodyContentTypeParser
 
 Excon.defaults[:middlewares] << Excon::Middleware::RedirectFollower
 require_relative 'models/alert.rb'
@@ -12,6 +16,7 @@ require_relative 'lib/real_time_analytics.rb'
 require_relative 'services/pingdom_webhook'
 require_relative 'services/sensu_webhook'
 require_relative 'services/whos_on_duty'
+require_relative 'services/hipchat_webhook'
 
 class SupportApp < Sinatra::Application
   register Sinatra::Partial
@@ -34,6 +39,16 @@ class SupportApp < Sinatra::Application
   post '/sensu_webhook' do
     if params.has_key?('payload')
       webhook_processor = SensuWebhook.new(params['payload'])
+      webhook_processor.process ? 200 : 204
+    else
+      400
+    end
+  end
+
+  post '/hipchat_webhook' do
+    puts(params)
+    if params.has_key?('room')
+      webhook_processor = HipchatWebhook.new(params)
       webhook_processor.process
       200
     else
