@@ -1,10 +1,10 @@
 require 'redis'
-class Alert < Struct.new(:key, :value)
+class Flag < Struct.new(:key, :value)
 
   def self.fetch_all
-    keys = redis.keys("alert:*")
+    keys = redis.keys("flag:*")
     keys.collect { |key| new(key,redis.get(key)) }
-  end
+  end 
 
   def self.fetch(key)
     cache_key = cache_key(key)
@@ -16,9 +16,9 @@ class Alert < Struct.new(:key, :value)
     redis.exists(cache_key)
   end
 
-  def self.create(key, data)
+  def self.create(key)
     cache_key = cache_key(key)
-    redis.set(cache_key, encode_payload(data))
+    redis.set(cache_key, true)
   end
 
   def self.destroy(key)
@@ -32,29 +32,13 @@ class Alert < Struct.new(:key, :value)
     redis.del(keys) unless keys.empty?
   end
 
-  def value_hash
-    JSON.parse(value)
-  end
-
-  def message
-    value_hash['message']
-  end
-
   private
-
-  def self.encode_payload(data)
-    if data.is_a?(Hash)
-      data.to_json
-    else
-      data
-    end
-  end
 
   def self.redis
     @redis ||= Redis.new(:url => ENV["REDISCLOUD_URL"])
   end
 
   def self.cache_key key
-    key[/^alert:/] ? key : "alert:#{key}"
+    key[/^flag:/] ? key : "flag:#{key}"
   end
 end

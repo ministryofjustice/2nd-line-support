@@ -12,6 +12,7 @@ use Rack::PostBodyContentTypeParser
 Excon.defaults[:middlewares] << Excon::Middleware::RedirectFollower
 require_relative 'models/alert.rb'
 require_relative 'models/traffic_spike.rb'
+require_relative 'models/flag.rb'
 require_relative 'lib/real_time_analytics.rb'
 require_relative 'services/pingdom_webhook'
 require_relative 'services/sensu_webhook'
@@ -49,8 +50,7 @@ class SupportApp < Sinatra::Application
     puts(params)
     if params.has_key?('room')
       webhook_processor = HipchatWebhook.new(params)
-      webhook_processor.process
-      200
+      webhook_processor.process ? 200 : 204
     else
       400
     end
@@ -62,6 +62,7 @@ class SupportApp < Sinatra::Application
 
   get '/' do
     @alerts = Alert.fetch_all
+    @incident_mode = Flag.exists?('hipchat:incident_mode')
     @whos_on_duty = session[:duty_roster]
     erb :index
   end

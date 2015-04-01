@@ -13,6 +13,10 @@ body {
     background-color: #D12C4A;
 }
 
+.incident-mode {
+    background-color: yellow;
+}
+
 h2 {
     font-size:6rem;
 }
