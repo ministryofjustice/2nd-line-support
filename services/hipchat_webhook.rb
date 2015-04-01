@@ -7,13 +7,12 @@ class HipchatWebhook
 
   def process
     case @payload['room']
-    when '2nd Line'
+    when '2nd_line'
       case @payload['message']
-      when 'incident on' then
-        redis_message = true
-        # Alert.create(redis_key, redis_message )
+      when 'incident on'
+        Flag.create(redis_key)
       when 'incident off'
-        # Alert.destroy(redis_key)
+        Flag.destroy(redis_key)
       end
     end
   end
@@ -21,7 +20,7 @@ class HipchatWebhook
   private
 
   def redis_key
-    "#{REDIS_KEY_PREFIX}:#{@payload['key']}"
+    "#{REDIS_KEY_PREFIX}:incident_mode"
   end
 
 end
