@@ -14,7 +14,7 @@ body {
 }
 
 .incident-mode {
-    background-color: yellow;
+    background-color: #F5A536;
 }
 
 h2 {
@@ -45,6 +45,11 @@ li {
 .container {
     overflow: hidden;
     padding:1em;
+}
+
+.heading {
+    float:center;
+    width:100%;
 }
 
 .column {

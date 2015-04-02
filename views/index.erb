@@ -8,8 +8,8 @@
 <body class="<%unless @alerts.empty? %>alert<% end %>
  <%if @incident_mode %>incident-mode<% end %>">
   <div class="container">
+    <%= partial(:incident_mode) %>
     <%= partial(:alerts) %>
-
     <%= partial(:persons) %>
   </div>
 </body>
