@@ -3,24 +3,17 @@
 <head>
   
   <link rel="stylesheet" href="css/app.css" media="screen">
-
+<!--<meta http-equiv="refresh" content="5"> -->
 </head>
 <body class="<%unless @alerts.empty? %>alert<% end %>
+
  <%if @incident_mode %>incident-mode<% end %>">
   <div class="container">
+  
     <%= partial(:incident_mode) %>
     <%= partial(:alerts) %>
     <%= partial(:persons) %>
   </div>
-  <a href="#openModal">Open Modal</a>
-
-<div id="openModal" class="modalDialog">
-	<div>
-		<a href="#close" title="Close" class="close">X</a>
-		<h2>Error</h2>
-		<p>Error message will go here to show the Error</p>
-		
-	</div>
 </div>
 </body>
 </html>
