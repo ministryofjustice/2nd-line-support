@@ -1,16 +1,19 @@
 <!doctype html>
 <html lang=en-us>
 <head>
-  <meta http-equiv="refresh" content="5">
+  
   <link rel="stylesheet" href="css/app.css" media="screen">
-
+<!--<meta http-equiv="refresh" content="5"> -->
 </head>
 <body class="<%unless @alerts.empty? %>alert<% end %>
+
  <%if @incident_mode %>incident-mode<% end %>">
   <div class="container">
+  
     <%= partial(:incident_mode) %>
     <%= partial(:alerts) %>
     <%= partial(:persons) %>
   </div>
+</div>
 </body>
 </html>

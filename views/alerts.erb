@@ -1,10 +1,10 @@
 <div id="alerts" class="column">
-  <h2>Alerts</h2>
+  <h2 class="Heading">Alerts</h2>
     <ul>
     <%if @alerts.any? %>
       <%= partial(:alert, collection:@alerts) %>
     <% else %>
-      <li class="good"> No alerts to report </li>
+      <li> No alerts to report </li>
     </ul>
   <% end %>
 </div>

@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color:black;
+    background-color:#4D4949;
     color:white;
     font-family: 'Franklin Gothic Medium', 'Franklin Gothic', 'ITC Franklin Gothic', 'sans-serif';
 }
@@ -17,22 +17,32 @@ body {
     background-color: #F5A536;
 }
 
-h2 {
-    font-size:6rem;
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 38px;
 }
 
-ul {
-    margin:0;
-    list-style:none;
-    padding: 0;
+
+
+.Heading{
+    font-size:25px;
+    background-color:#333333;
+    padding:5px;
+    text-align: center;
+    border-bottom:#fff 2px dashed;
+}
+ul{
+    background-color:#666666;
+    padding:10px;
+
 }
 
 li {
-    background-color:#8ECFED;
-    color:#153645;
-    margin:1em 0;
-    padding: 0.5em;
-    font-size:3rem;
+    color:#fff;
+    font-size:2.5em;
+    list-style: none;
+
 }
 
 .good {
@@ -48,8 +58,9 @@ li {
 }
 
 .heading {
-    float:center;
     width:100%;
+    text-align: center;
+    font-size: 25px;
 }
 
 .column {
@@ -60,3 +71,21 @@ li {
 .column:last-child {
     float:right;
 }
+
+
+#duty-roster{
+    width:35%;
+    border:#fff 2px dashed;
+}
+#alerts{
+    width:60%;
+    border:#fff 2px dashed;
+}
+
+
+
+
+
+
+
+
