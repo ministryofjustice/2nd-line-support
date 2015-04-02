@@ -13,6 +13,32 @@ The display part works by simply reading all keys out of redis and displaying
 them. Redis is populated by various sources that either push or poll (sensu
 pushes some alerts to us, we poll pingdom for status). The duty roster, "On duty", is populated from the [Support Rota spreadsheet sheet "dashboard widgets"](https://docs.google.com/a/digital.justice.gov.uk/spreadsheets/d/1j28ELnPgKi0fO6io6aQd-ROUlbXBaiEo63ct4WQVtUQ/pub?single=true&gid=1997221201). The refresh interval for this can be configured in [duty\_roster\_google\_doc.json](config/duty_roster_google_doc.json).
 
+## Instalation
+
+Once you have cloned the project make sure that you have Redis installed. (you can do this by start running the Redis Server)
+
+	redis-server /usr/local/etc/redis.conf
+
+If its not installed, use the following code and re-run it
+
+    brew install redis
+
+Install the gems with bundler:
+
+	bundle install
+
+If you don't have bundler installed, then do
+
+	gem install bundler
+
+Make sure that all the tests are passing by writing,
+
+    rspec
+    
+Then open a new tab (cmd + t) and run,
+
+	shotgun
+
 ## Sensu Checks
 
 Not all sensu checks should go to 2nd line support (as they are too noisy right
