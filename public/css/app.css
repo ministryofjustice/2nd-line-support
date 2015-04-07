@@ -17,6 +17,12 @@ body {
     background-color: #F5A536;
 }
 
+.incident-mode .heading {
+    text-align: center;
+    padding-bottom: 5em;
+    text-transform: uppercase;
+}
+
 h2 {
     font-size:6rem;
 }
