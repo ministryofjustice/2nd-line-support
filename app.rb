@@ -40,7 +40,7 @@ class SupportApp < Sinatra::Application
   post '/sensu_webhook' do
     if params.has_key?('payload')
       webhook_processor = SensuWebhook.new(params['payload'])
-      webhook_processor.process ? 200 : 204
+      webhook_processor.process ? 201 : 204
     else
       400
     end
@@ -50,7 +50,7 @@ class SupportApp < Sinatra::Application
     puts(params)
     if params.has_key?('room')
       webhook_processor = HipchatWebhook.new(params)
-      webhook_processor.process ? 200 : 204
+      webhook_processor.process ? 201 : 204
     else
       400
     end
