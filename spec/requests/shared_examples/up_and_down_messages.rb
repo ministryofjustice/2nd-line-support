@@ -8,7 +8,7 @@ shared_examples 'for down message' do
   end
 
   it 'returns 201 success' do
-    expect(last_response).to be_ok
+    expect(last_response).to be_created
   end
 end
 
@@ -18,6 +18,6 @@ shared_examples 'for up message' do
   end
 
   it 'returns 201 success' do
-    expect(last_response).to be_ok
+    expect(last_response).to be_created
   end
 end
