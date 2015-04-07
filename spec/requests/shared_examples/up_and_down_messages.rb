@@ -7,7 +7,7 @@ shared_examples 'for down message' do
     expect(Alert.fetch(new_alert_key).message).to eql("#{service_id}: DESCRIPTION")
   end
 
-  it 'returns 200 success' do
+  it 'returns 201 success' do
     expect(last_response).to be_ok
   end
 end
@@ -17,7 +17,7 @@ shared_examples 'for up message' do
     expect(Alert.exists?(existing_alert_key)).to be false
   end
 
-  it 'returns 200 success' do
+  it 'returns 201 success' do
     expect(last_response).to be_ok
   end
 end
