@@ -25,7 +25,7 @@ describe WhosOnDuty do
 
     context 'successful response' do
       before do
-        stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=1997221201&key=1j28ELnPgKi0fO6io6aQd-ROUlbXBaiEo63ct4WQVtUQ&output=csv&single=true").
+        stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: body, headers: {})
       end

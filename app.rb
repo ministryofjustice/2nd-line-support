@@ -21,12 +21,21 @@ require_relative 'services/hipchat_webhook'
 
 class SupportApp < Sinatra::Application
   register Sinatra::Partial
-  DUTY_ROSTER_REFRESH_INTERVAL = JSON.parse(File.read("config/duty_roster_google_doc.json"))["refresh_interval"].to_i || 60
-  SESSION_SECRET = ENV['SESSION_SECRET'] || '3eb6db5a9026c547c72708438d496d942e976b252138db7e4e0ee5edd7539457d3ed0fa02ee5e7179420ce5290462018591adaf5f42adcf955db04877827def6'
 
-  set :partial_template_engine, :erb
-  set :sessions, true
-  set :session_secret, SESSION_SECRET
+  configure do
+    set :partial_template_engine, :erb
+    set :sessions, true
+    set :session_secret, ENV['SESSION_SECRET'] || '3eb6db5a9026c547c72708438d496d942e976b252138db7e4e0ee5edd7539457d3ed0fa02ee5e7179420ce5290462018591adaf5f42adcf955db04877827def6'
+
+    set :duty_roster_google_doc_key, ENV['DUTY_ROSTER_GOOGLE_DOC_KEY']
+    set :duty_roster_google_doc_gid, ENV['DUTY_ROSTER_GOOGLE_DOC_GID']
+    set :duty_roster_google_doc_refresh_interval, 60
+  end
+
+  configure :test do
+    set :duty_roster_google_doc_key, 'testing_key'
+    set :duty_roster_google_doc_gid, 'testing_gid'
+  end
 
   get '/pingdom_webhook' do
     if params.has_key?('message')
@@ -79,7 +88,7 @@ class SupportApp < Sinatra::Application
   end
 
   def duty_roster_needs_update?
-    session[:duty_roster].nil? || Time.now > session[:last_duty_roster_fetch] + DUTY_ROSTER_REFRESH_INTERVAL
+    session[:duty_roster].nil? || Time.now > session[:last_duty_roster_fetch] + settings.duty_roster_google_doc_refresh_interval
   end
 
   def read_duty_roster_now
