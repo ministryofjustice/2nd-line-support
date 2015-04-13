@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe "populating the roster", :type => :feature do
 
-  let(:successful_request_stub) { stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=1997221201&key=1j28ELnPgKi0fO6io6aQd-ROUlbXBaiEo63ct4WQVtUQ&output=csv&single=true").
+  let(:successful_request_stub) { stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
       with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
       to_return(status: 200, body: body, headers: {}) }
-  let(:failed_request_stub) { stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=1997221201&key=1j28ELnPgKi0fO6io6aQd-ROUlbXBaiEo63ct4WQVtUQ&output=csv&single=true").
+  let(:failed_request_stub) { stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
       with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
       to_return(status: 200, body: nil, headers: {}) }
-  let(:new_request_stub) { stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=1997221201&key=1j28ELnPgKi0fO6io6aQd-ROUlbXBaiEo63ct4WQVtUQ&output=csv&single=true").
+  let(:new_request_stub) { stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
       with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
       to_return(status: 200, body: new_body, headers: {}) }
   let(:body) do

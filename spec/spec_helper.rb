@@ -1,7 +1,8 @@
+ENV['RACK_ENV'] = 'test'
+
 require_relative '../app'
 require_relative 'support/helpers'
 
-ENV['RACK_ENV'] = 'test'
 require 'rack/test'
 require 'webmock/rspec'
 require 'capybara/rspec'
