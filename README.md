@@ -10,8 +10,7 @@ Geckoboard or Dashing as they don't work very well for a vastly changing number
 of items to display
 
 The display part works by simply reading all keys out of redis and displaying
-them. Redis is populated by various sources that either push or poll (sensu
-pushes some alerts to us, we poll pingdom for status). The duty roster, "On duty", is populated from the [Support Rota spreadsheet sheet "dashboard widgets"](https://docs.google.com/a/digital.justice.gov.uk/spreadsheets/d/<spreadsheet-key>/pub?single=true&gid=<spreadsheet-gid>). The refresh interval for this can be configured in SupportApp in app.rb.
+them. Redis is populated by various sources that either push or poll. The duty roster, "On duty", is populated from the [Support Rota spreadsheet sheet "dashboard widgets"](https://docs.google.com/a/digital.justice.gov.uk/spreadsheets/d/<spreadsheet-key>/pub?single=true&gid=<spreadsheet-gid>). The refresh interval for this can be configured in SupportApp in app.rb.
 
 
 ## Instalation
@@ -54,10 +53,13 @@ push to sensu.
 See [the PR adding it](https://github.com/ministryofjustice/sensu-formula/pull/60)
 for a bit more info on that yet. This isn't live anywhere yet.
 
-## Pingdom
 
-Any Alerting Endpoint can call the prepared webhook: `:HOST/pingdom_webhook/:service_name`. Preferebly with `New message format`, but
-`Old message format` is also supported.
+## PagerDuty Checks
+
+Every 10 seconds, the app asks pagerduty if there any alerts.
+
+Services and settings can be configured in app.rb
+
 
 ## Endpoints:
 

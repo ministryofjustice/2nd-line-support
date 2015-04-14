@@ -11,6 +11,7 @@ gem 'unicorn'
 gem 'excon'
 gem 'sinatra-partial'
 gem 'rack-contrib'
+gem 'pagerduty-full'
 
 group :development do
   gem 'foreman'
