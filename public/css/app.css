@@ -10,11 +10,11 @@ body {
 }
 
 .alert {
-    background-color: #D12C4A;
+    background-color: #F5A536;
 }
 
 .incident-mode {
-    background-color: #F5A536;
+    background-color: #D12C4A;
 }
 
 .incident-mode .heading {
@@ -46,7 +46,7 @@ li {
 }
 
 .bad {
-    background-color:red;
+    background-color:coral;
 }
 .container {
     overflow: hidden;
@@ -65,4 +65,13 @@ li {
 
 .column:last-child {
     float:right;
+}
+
+#alerts li h4 {
+    font-size: 1.8rem;
+}
+
+#alerts li p {
+    font-size: 1.3rem;
+    margin-top: 1rem;
 }

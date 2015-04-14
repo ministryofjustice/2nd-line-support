@@ -14,10 +14,10 @@ require_relative 'models/alert.rb'
 require_relative 'models/traffic_spike.rb'
 require_relative 'models/flag.rb'
 require_relative 'lib/real_time_analytics.rb'
-require_relative 'services/pingdom_webhook'
 require_relative 'services/sensu_webhook'
 require_relative 'services/whos_on_duty'
 require_relative 'services/hipchat_webhook'
+require_relative 'services/pagerduty_alerts'
 
 class SupportApp < Sinatra::Application
   register Sinatra::Partial
@@ -30,20 +30,21 @@ class SupportApp < Sinatra::Application
     set :duty_roster_google_doc_key, ENV['DUTY_ROSTER_GOOGLE_DOC_KEY']
     set :duty_roster_google_doc_gid, ENV['DUTY_ROSTER_GOOGLE_DOC_GID']
     set :duty_roster_google_doc_refresh_interval, 60
+
+    set :pager_duty_subdomain, ENV['PAGER_DUTY_SUBDOMAIN']
+    set :pager_duty_token, ENV['PAGER_DUTY_TOKEN']
+    set :pager_duty_services, "P4WJ9UH,P1R19SP,PA3IQAV,P28KGOJ"
+    set :pager_duty_refresh_interval, 10
   end
 
   configure :test do
     set :duty_roster_google_doc_key, 'testing_key'
     set :duty_roster_google_doc_gid, 'testing_gid'
-  end
 
-  get '/pingdom_webhook' do
-    if params.has_key?('message')
-      webhook_processor = PingdomWebhook.new(params['message'])
-      webhook_processor.process ? 200 : 422
-    else
-      400
-    end
+    set :pager_duty_subdomain, 'moj'
+    set :pager_duty_token, 'testing_token'
+    set :pager_duty_services, "service1,service2"
+    set :pager_duty_refresh_interval, 1
   end
 
   post '/sensu_webhook' do
@@ -66,7 +67,7 @@ class SupportApp < Sinatra::Application
   end
 
   before '/' do
-    fetch_duty_roster
+    check_updates
   end
 
   get '/' do
@@ -83,8 +84,12 @@ class SupportApp < Sinatra::Application
 
   private
 
-  def fetch_duty_roster
-    read_duty_roster_now if duty_roster_needs_update?
+  def check_updates
+    if duty_roster_needs_update?
+      read_duty_roster_now
+    end
+
+    PagerDutyAlerts.new().check_alerts
   end
 
   def duty_roster_needs_update?

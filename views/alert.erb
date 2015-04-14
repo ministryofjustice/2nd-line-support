@@ -1,1 +1,7 @@
-<li class="bad"> <%= alert.message %> </li>
+<li class="bad">
+	<h4><%= alert.message['service'] %></h4>
+	<p>
+		<%= alert.message['description']['subject'] %>
+		<%= alert.message['description']['description'] %>
+	</p>
+</li>
