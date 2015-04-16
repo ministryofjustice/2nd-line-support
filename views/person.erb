@@ -1,1 +1,3 @@
-<li><%= person %></li>
+<% if !person.nil? %>
+<li class="<%= rule %>"><%= person %></li>
+<% end %>
