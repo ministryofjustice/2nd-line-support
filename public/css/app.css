@@ -75,3 +75,19 @@ li {
     font-size: 1.3rem;
     margin-top: 1rem;
 }
+
+.webop:before {
+    content: "☎ ";
+}
+
+.dev_with_phone:before {
+    content: "☏ ";
+}
+
+.duty_manager:before {
+    content: "★ ";
+}
+
+.duty_manager {
+    background-color: #0070f0;
+}
