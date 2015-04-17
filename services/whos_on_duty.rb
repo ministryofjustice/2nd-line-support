@@ -11,31 +11,52 @@ module WhosOnDuty
 
       # if not array or empty => return {}
       if !members.is_a?(Array) || members.length <= 0
-        return {}
+        return []
       end
 
-      # split devs into dev1 (with phone) and other devs
-      # dev1 is the first dev started this week who is on duty
-      # next week as well
-      dev1 = nil
-      other_devs = []
-      for dev in members[1..3].compact.sort.map(&:strip)
-        if next_week_members.include?(dev) && dev1.nil?
-          dev1 = dev
-        else
-          other_devs.push(dev)
-        end
-      end
-
-      members = {
-        'webop': members[0],
-        'dev1': dev1,
-        'other_devs': other_devs,
-        'duty_manager': members[4]
-      }
+      webops = self.parse_webops([members[0]])
+      devs = self.parse_devs(
+        members[1..3].compact.sort.map(&:strip),
+        next_week_members[1..3].compact.sort.map(&:strip)
+      )
+      duty_managers = self.parse_duty_managers([members[4]])
+      return webops + devs + duty_managers
     rescue
-      {}
+      []
     end
+  end
+
+  def self.build_row(person, rule, has_phone)
+    {
+      person: person,
+      rule: rule,
+      has_phone: has_phone
+    }
+  end
+
+  def self.parse_webops(webops)
+    webops.map {|webop| self.build_row(webop, 'webop', true)}.compact
+  end
+
+  def self.parse_devs(this_week_devs, next_week_devs)
+    # dev with phone if:
+    #   - is the only dev today
+    #     OR
+    #   - is the one who has just joined (not on duty next week)
+    l = []
+    for dev in this_week_devs
+      has_phone = false
+      if next_week_devs.include?(dev) || this_week_devs.length == 1
+        has_phone = true
+      end
+
+      l.push(self.build_row(dev, 'dev', has_phone))
+    end
+    return l
+  end
+
+  def self.parse_duty_managers(managers)
+    managers.map {|manager| self.build_row(manager, 'duty_manager', false)}.compact
   end
 
   def self.data_url

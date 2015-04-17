@@ -48,12 +48,12 @@ describe WhosOnDuty do
       end
 
       it 'returns hash of names' do
-        expect(WhosOnDuty.list).to eql({
-          'webop': 'webop1',
-          'dev1': 'dev2',
-          'other_devs': ['dev1'],
-          'duty_manager': 'duty_man1'
-        })
+        expect(WhosOnDuty.list).to eql([
+          {'person': 'webop1', 'rule': 'webop', 'has_phone': true},
+          {'person': 'dev1', 'rule': 'dev', 'has_phone': false},
+          {'person': 'dev2', 'rule': 'dev', 'has_phone': true},
+          {'person': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false},
+        ])
       end
     end
 
@@ -65,12 +65,10 @@ describe WhosOnDuty do
       end
 
       it 'returns hash with nil values' do
-        expect(WhosOnDuty.list).to eql({
-          'webop': nil,
-          'dev1': nil,
-          'other_devs': [],
-          'duty_manager': nil
-        })
+        expect(WhosOnDuty.list).to eql([
+          {'person': nil, 'rule': 'webop', 'has_phone': true},
+          {'person': nil, 'rule': 'duty_manager', 'has_phone': false},
+        ])
       end
     end
 
@@ -82,7 +80,7 @@ describe WhosOnDuty do
       end
 
       it 'returns empty hash' do
-        expect(WhosOnDuty.list).to eql({})
+        expect(WhosOnDuty.list).to eql([])
       end
     end
   end
