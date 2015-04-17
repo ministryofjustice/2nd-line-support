@@ -76,11 +76,11 @@ li {
     margin-top: 1rem;
 }
 
-.webop:before {
+.webop.phone:before {
     content: "☎ ";
 }
 
-.dev_with_phone:before {
+.dev.phone:before {
     content: "☏ ";
 }
 
@@ -90,4 +90,5 @@ li {
 
 .duty_manager {
     background-color: #0070f0;
+    color: #fff;
 }

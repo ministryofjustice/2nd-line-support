@@ -93,7 +93,7 @@ class SupportApp < Sinatra::Application
   end
 
   def duty_roster_needs_update?
-    session[:duty_roster].nil? || Time.now > session[:last_duty_roster_fetch] + settings.duty_roster_google_doc_refresh_interval || session[:duty_roster].is_a?(Array)
+    session[:duty_roster].nil? || Time.now > session[:last_duty_roster_fetch] + settings.duty_roster_google_doc_refresh_interval || session[:duty_roster].is_a?(Hash)
   end
 
   def read_duty_roster_now

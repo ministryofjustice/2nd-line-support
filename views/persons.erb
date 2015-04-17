@@ -2,10 +2,7 @@
 	<h2>On duty</h2>
 	<%if @whos_on_duty.any? %>
 		<ul>
-			<%= partial(:person, :locals => { person: @whos_on_duty[:webop], rule: 'webop'}) %>
-			<%= partial(:person, :locals => { person: @whos_on_duty[:dev1], rule: 'dev_with_phone'}) %>
-			<%= partial(:person, collection:@whos_on_duty[:other_devs], :locals => { rule: 'other_devs'}) %>
-			<%= partial(:person, :locals => { person: @whos_on_duty[:duty_manager], rule: 'duty_manager'}) %>
+			<%= partial(:person, collection:@whos_on_duty) %>
 		</ul>
 	<% end %>
 </div>
