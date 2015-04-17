@@ -76,17 +76,32 @@ li {
     margin-top: 1rem;
 }
 
-.webop.phone:before {
-    content: "☎ ";
+.phone-icon {
+    position: relative;
 }
 
-.dev.phone:before {
-    content: "☏ ";
+.phone .phone-icon:after {
+    font-size: 1rem;
+    position: absolute;
+    top: -0.1rem;
+    right: -0.1rem;
+    height: 1.3rem;
+    line-height: 1.4rem;
+    margin-top: -1rem;
+    padding: 0 0.4rem;
+    text-align: center;
+    border: 0.1rem solid #000;
+    border-radius: 2rem;
+    content: "1";
 }
 
-.duty_manager:before {
-    content: "★ ";
-}
+.webop.phone .phone-icon:before { content: "☎ ";}
+.webop.phone .phone-icon:after { content: "1"; }
+
+.dev.phone .phone-icon:before { content: "☏ "; }
+.dev.phone .phone-icon:after { content: "2"; }
+
+.duty_manager:before { content: "★ "; }
 
 .duty_manager {
     background-color: #0070f0;

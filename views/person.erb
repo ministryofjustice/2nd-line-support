@@ -1,3 +1,6 @@
 <% if !person.nil? && !person[:person].nil? %>
-<li class="<%= person[:rule] %> <%= person[:has_phone]? "phone" : "" %>"><%= person[:person] %></li>
+<li class="<%= person[:rule] %> <%= person[:has_phone]? "phone" : "" %>">
+	<span class="phone-icon"></span>
+	<%= person[:person] %>
+</li>
 <% end %>
