@@ -1,81 +1,82 @@
 require 'spec_helper'
-
 require 'services/whos_out_of_hours'
 
 describe WhosOutOfHours do
 
-  let(:successful_request_schedule_stub) {
+  describe '.build_row' do
+
+    it "returns a person hash" do
+     expect(described_class.build_row('tom',34,true)
+      ).to eq( { person: 'tom', rule: 34, has_phone: true } )
+    end
+
+    it 'raises errors if all arguments are missing' do
+     expect{ described_class.build_row() }.to raise_error(ArgumentError)
+    end
+
+  end
+
+  let(:out_of_hours_sid) { SupportApp.pager_duty_schedule_ids.split(',').first }
+
+  let(:stub_pagerduty_primary_schedule_api_call) do
     stub_request(
       :get,
-       /moj.pagerduty.com/
-       ).with(:headers => {
-          'Accept'=>'*/*', 
-          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 
-          'Authorization'=>'Token token=testing_token', 
-          'Content-Type'=>'application/json', 
-          'User-Agent'=>'Ruby'
-        }
-      ).to_return(:status => 200, :body => body, :headers => {})
-  }
-
-  describe 'get_name' do
-
-    context 'there is a pagerduty id' do
-      let(:body) do
-        {
-            "users":[
-              {
-                "id":"PVF48XN",
-                "name":"Mateusz Lapsa-Malawski",
-                "email":"mateusz@digital.justice.gov.uk",
-                "time_zone":"London",
-                "color":"brown",
-                "role":"admin",
-                "avatar_url":"https://secure.gravatar.com/avatar/aa9794dd4ffd13ba148e028f6d9a6e2b.png?d=mm&r=PG",
-                "description":"",
-                "user_url":"/users/PVF48XN",
-                "invitation_sent":false,
-                "marketing_opt_out":true,
-                "job_title":""
-                }]
-                }.to_json
-      end
-      it 'returns name' do
-        successful_request_schedule_stub
-        expect(WhosOutOfHours.get_name("testing_id")).to eql("Mateusz Lapsa-Malawski")
-      end
-    end
+       moj_pagerduty_schedule_regex
+      ).to_return(:status => 200, :body => { "users": [{ "name": "Stuart Munro" }] }.to_json )
   end
 
-  describe 'list' do
-    context 'successful list response' do
+  describe '.pagerduty_names' do
 
-        let(:body) do
-          {
-              "users":[
-                {
-                  "id":"PVF48XN",
-                  "name":"Mateusz Lapsa-Malawski",
-                  "email":"mateusz@digital.justice.gov.uk",
-                  "time_zone":"London",
-                  "color":"brown",
-                  "role":"admin",
-                  "avatar_url":"https://secure.gravatar.com/avatar/aa9794dd4ffd13ba148e028f6d9a6e2b.png?d=mm&r=PG",
-                  "description":"",
-                  "user_url":"/users/PVF48XN",
-                  "invitation_sent":false,
-                  "marketing_opt_out":true,
-                  "job_title":""
-                  }]
-                  }.to_json
+      context "when no one on duty" do
+
+        let(:stub_pagerduty_schedule_api_call_empty) do
+          stub_request(
+            :get,
+             moj_pagerduty_schedule_regex
+            ).to_return(:status => 200, :body => nil)
         end
 
-      it 'returns hash of names' do
-        successful_request_schedule_stub
-        expect(WhosOutOfHours.list).to eql( [{:person=>"Mateusz Lapsa-Malawski", :rule=>"webop", :has_phone=>true},
-         {:person=>"Mateusz Lapsa-Malawski", :rule=>"webop", :has_phone=>true}])
+        it "returns empty array" do
+            stub_pagerduty_schedule_api_call_empty
+            expect(WhosOutOfHours.pagerduty_names(out_of_hours_sid)).to eql([])
+        end
+
       end
+
+      context "when person(s) on duty" do
+
+        it 'returns array of names' do
+          stub_pagerduty_primary_schedule_api_call
+          expect(WhosOutOfHours.pagerduty_names(out_of_hours_sid)).to eql(["Stuart Munro"])
+        end
+
+      end
+  end
+
+  describe '.list' do
+
+    let(:stub_pagerduty_secondary_schedule_api_call) do
+      stub_request(
+        :get,
+         moj_pagerduty_schedule_regex
+        ).to_return(:status => 200, :body => { "users": [{ "name": "Mateusz Lapsa-Malawski" }] }.to_json) 
+    end
+
+    before { stub_pagerduty_primary_schedule_api_call }
+
+    it 'returns "persons" hash' do
+      expect(WhosOutOfHours.list.first.keys).to eql([:person,:rule,:has_phone])
+    end
+
+    it 'returns first schedule person as primary (webop)' do
+      expect(WhosOutOfHours.list[0].values).to eql(["Stuart Munro","webop",true])
+    end
+
+    it 'returns second schedule person as secondary (dev)' do
+      stub_pagerduty_secondary_schedule_api_call
+      expect(WhosOutOfHours.list[1].values).to eql(["Mateusz Lapsa-Malawski","dev",true])
     end
 
   end
+
 end

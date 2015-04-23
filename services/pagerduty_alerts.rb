@@ -1,9 +1,8 @@
 require 'pagerduty/full'
 
-
 class PagerDutyCheck < RedisStruct
   def self.key_prefix
-    "pagerduty_refresh"  
+    "pagerduty_refresh"
   end
 
   def self.create_with_expire(key, data, expire)

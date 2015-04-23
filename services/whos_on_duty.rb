@@ -9,17 +9,19 @@ module WhosOnDuty
       members = csv_body[1][1..-1]
       next_week_members = csv_body[2][1..-1]
 
-      # if not array or empty => return {}
       if !members.is_a?(Array) || members.length <= 0
         return []
       end
 
       webops = self.parse_webops([members[0]])
+
       devs = self.parse_devs(
         members[1..3].compact.sort.map(&:strip),
         next_week_members[1..3].compact.sort.map(&:strip)
       )
+
       duty_managers = self.parse_duty_managers([members[4]])
+
       return webops + devs + duty_managers
     rescue
       []
@@ -56,7 +58,7 @@ module WhosOnDuty
   end
 
   def self.parse_duty_managers(managers)
-    managers.map {|manager| self.build_row(manager, 'duty_manager', false)}.compact
+    managers.map { |manager| self.build_row(manager, 'duty_manager', false) }.compact
   end
 
   def self.data_url
