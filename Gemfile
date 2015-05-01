@@ -12,6 +12,7 @@ gem 'excon'
 gem 'sinatra-partial'
 gem 'rack-contrib'
 gem 'pagerduty-full'
+gem 'httparty'
 
 group :development do
   gem 'foreman'
@@ -24,8 +25,9 @@ group :test do
   gem 'rack-test', require: false
   gem 'rspec'
   gem 'guard-rspec'
-  gem 'simplecov', require: false
+  gem 'simplecov', '>= 0.9', require: false
   gem 'timecop'
   gem 'webmock'
   gem 'capybara'
+  gem 'byebug'
 end

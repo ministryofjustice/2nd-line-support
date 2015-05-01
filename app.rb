@@ -6,6 +6,7 @@ require 'excon'
 require 'sinatra/partial'
 require 'rack'
 require 'rack/contrib'
+require 'httparty'
 
 use Rack::PostBodyContentTypeParser
 
@@ -16,6 +17,7 @@ require_relative 'models/flag.rb'
 require_relative 'lib/real_time_analytics.rb'
 require_relative 'services/sensu_webhook'
 require_relative 'services/whos_on_duty'
+require_relative 'services/whos_out_of_hours'
 require_relative 'services/hipchat_webhook'
 require_relative 'services/pagerduty_alerts'
 
@@ -35,6 +37,7 @@ class SupportApp < Sinatra::Application
     set :pager_duty_token, ENV['PAGER_DUTY_TOKEN']
     set :pager_duty_services, "P4WJ9UH,P1R19SP,PA3IQAV,P28KGOJ"
     set :pager_duty_refresh_interval, 10
+    set :pager_duty_schedule_ids, "PFX6FHX,PIUMAUI" # for out of hours schedules
   end
 
   configure :test do
@@ -45,6 +48,7 @@ class SupportApp < Sinatra::Application
     set :pager_duty_token, 'testing_token'
     set :pager_duty_services, "service1,service2"
     set :pager_duty_refresh_interval, 1
+    set :pager_duty_schedule_ids, "testing_id,testing_id2"
   end
 
   post '/sensu_webhook' do
@@ -57,7 +61,6 @@ class SupportApp < Sinatra::Application
   end
 
   post '/hipchat_webhook' do
-    puts(params)
     if params.has_key?('room')
       webhook_processor = HipchatWebhook.new(params)
       webhook_processor.process ? 200 : 204
@@ -74,6 +77,7 @@ class SupportApp < Sinatra::Application
     @alerts = Alert.fetch_all
     @incident_mode = Flag.exists?('hipchat:incident_mode')
     @whos_on_duty = session[:duty_roster]
+    @whos_out_of_hours = WhosOutOfHours.list
     erb :index
   end
 
@@ -88,7 +92,6 @@ class SupportApp < Sinatra::Application
     if duty_roster_needs_update?
       read_duty_roster_now
     end
-
     PagerDutyAlerts.new().check_alerts
   end
 
@@ -98,7 +101,7 @@ class SupportApp < Sinatra::Application
 
   def read_duty_roster_now
     members = WhosOnDuty.list
-    session[:duty_roster] = members if members.any? || session[:duty_roster].empty?
+    session[:duty_roster] = members if members.any? || session[:duty_roster].nil?
     session[:last_duty_roster_fetch] = Time.now
   end
 end
