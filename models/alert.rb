@@ -1,9 +1,9 @@
 require_relative 'redis_struct'
 
 class Alert < RedisStruct
-  
+
   def self.key_prefix
-    "alert"  
+    "alert"
   end
 
   def self.create(key, data)
@@ -13,6 +13,11 @@ class Alert < RedisStruct
 
   def value_hash
     JSON.parse(value)
+  end
+
+  def acknowledged?
+    ack_status = value_hash['acknowledged']
+    return ack_status=="acknowledged"?true:false
   end
 
   def message
@@ -28,4 +33,5 @@ class Alert < RedisStruct
       data
     end
   end
+
 end

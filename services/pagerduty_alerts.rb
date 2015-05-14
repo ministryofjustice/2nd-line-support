@@ -55,14 +55,16 @@ class PagerDutyAlerts
 
     for inc in incs
       redis_key = "#{REDIS_KEY_PREFIX}:#{inc['id']}"
-      Alert.create(redis_key, { 
+      Alert.create(redis_key, {
         message: {
           service: inc['service']['name'],
-          description: inc['trigger_summary_data']
-        }
+          description: inc['trigger_summary_data'],
+        },
+        acknowledged: inc['status']
       })
     end
 
     return incs.length
   end
+
 end

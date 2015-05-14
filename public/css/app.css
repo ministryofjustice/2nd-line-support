@@ -23,6 +23,17 @@ body {
     text-transform: uppercase;
 }
 
+.unacknowledged {
+    border: 5px solid red;
+}
+.unacknowledged .status {
+    background-color: white;
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 2px;
+}
+
 h2 {
     font-size:6rem;
 }
