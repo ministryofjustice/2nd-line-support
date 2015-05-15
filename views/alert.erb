@@ -1,7 +1,12 @@
-<li class="bad">
-	<h4><%= alert.message['service'] %></h4>
-	<p>
-		<%= alert.message['description']['subject'] %>
-		<%= alert.message['description']['description'] %>
+<li class="bad<% unless alert.acknowledged? %> unacknowledged<% end %>">
+  <h4>
+    <%= alert.message['service'] %>
+    <% unless alert.acknowledged? %>
+      <span class="status">NEW</span>
+    <% end %>
+  </h4>
+  <p>
+    <%= alert.message['description']['subject'] %>
+    <%= alert.message['description']['description'] %>
 	</p>
 </li>
