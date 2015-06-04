@@ -35,7 +35,19 @@ class SupportApp < Sinatra::Application
 
     set :pager_duty_subdomain, ENV['PAGER_DUTY_SUBDOMAIN']
     set :pager_duty_token, ENV['PAGER_DUTY_TOKEN']
-    set :pager_duty_services, "P4WJ9UH,P1R19SP,PA3IQAV,P28KGOJ"
+    set :pager_duty_services, [
+      #PVB
+      "P4WJ9UH", # Pingdom Prod
+      "P28KGOJ", # Sensu Prod
+      "PA3IQAV", # Pingdom Staging
+      "P1R19SP", # Sensu Staging
+      
+      # PF
+      "PRE9BKY", # Pingdom Prod
+      "PL1IQHT", # NewRelic Prod
+      "PBCJRXW", # Pingdom Staging
+      "PG2X10M", # NewRelic Staging
+    ].join(",")
     set :pager_duty_refresh_interval, 10
     set :pager_duty_schedule_ids, "PFX6FHX,PIUMAUI" # for out of hours schedules
   end
