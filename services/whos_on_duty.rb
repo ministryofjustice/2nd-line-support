@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'people'
 
 module WhosOnDuty
 
@@ -20,7 +21,9 @@ module WhosOnDuty
         next_week_members[1..3].compact.sort.map(&:strip)
       )
 
-      duty_managers = self.parse_duty_managers([members[4]])
+      managers = People.new.fetch_irms
+      managers = managers.any? ? managers : [{"name" => members[4]}]
+      duty_managers = parse_duty_managers(managers)
 
       return webops + devs + duty_managers
     rescue
@@ -58,7 +61,7 @@ module WhosOnDuty
   end
 
   def self.parse_duty_managers(managers)
-    managers.map { |manager| self.build_row(manager, 'duty_manager', false) }.compact
+    managers.map { |manager| self.build_row(manager['name'], 'duty_manager', false) }.compact
   end
 
   def self.data_url

@@ -2,12 +2,9 @@ require 'json'
 require 'date'
 require 'httparty'
 require 'uri'
+require_relative 'people'
 
 module WhosOutOfHours
-
-  def self.endpoint(sid, since_date, until_date)
-    "https://#{SupportApp.pager_duty_subdomain}.pagerduty.com/api/v1/schedules/#{sid}/users/?since=#{since_date}&until=#{until_date}"
-  end
 
   def self.build_row(person, rule, has_phone)
     {
@@ -46,28 +43,14 @@ module WhosOutOfHours
     persons.push(self.build_row("not available - see pager duty","bad", false)) unless !persons.empty?
   end
 
-  def self.json_pagerduty_schedule_users(sid)
-    #
-    # NOTE: return ONLY this evening's on call people i.e. 17 to 23 hours
-    #       since only this info is useful to the in hours people
-    #
-    dateStr = Date.today.to_s
-    since_date = URI.escape(dateStr + "T17:00Z")
-    until_date = URI.escape(dateStr + "T22:59Z")
-    token_string = "Token token=#{SupportApp.pager_duty_token}"
-
-    response = HTTParty.get(endpoint(sid, since_date, until_date),
-                            headers: {'Content-Type' => 'application/json',
-                                      'Authorization' => token_string
-                             })
-
-    return response.body
-  end
-
   def self.pagerduty_names(sid)
-    json = json_pagerduty_schedule_users(sid)
-    parsed = JSON.parse(json)
-    names = parsed['users'].map { |user| user['name'] }
+    dateStr = Date.today.to_s
+    users = People.new.fetch_schedules_users(sid, {
+        :since => URI.escape(dateStr + "T17:00Z"),
+        :until => URI.escape(dateStr + "T22:59Z")
+    })
+
+    users.map { |user| user['name'] }
   rescue
       []
   end

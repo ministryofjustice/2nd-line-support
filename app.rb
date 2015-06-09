@@ -50,6 +50,7 @@ class SupportApp < Sinatra::Application
     ].join(",")
     set :pager_duty_refresh_interval, 10
     set :pager_duty_schedule_ids, "PFX6FHX,PIUMAUI" # for out of hours schedules
+    set :pager_duty_irm_schedule_id, 'PU732K9'
   end
 
   configure :test do
