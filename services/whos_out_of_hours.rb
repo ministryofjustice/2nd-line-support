@@ -44,6 +44,10 @@ module WhosOutOfHours
   end
 
   def self.pagerduty_names(sid)
+    #
+    # NOTE: return ONLY this evening's on call people i.e. 17 to 23 hours
+    #       since only this info is useful to the in hours people
+    #
     dateStr = Date.today.to_s
     users = People.new.fetch_schedules_users(sid, {
         :since => URI.escape(dateStr + "T17:00Z"),
