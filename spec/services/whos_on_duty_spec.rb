@@ -40,11 +40,29 @@ describe WhosOnDuty do
       CSV
     end
 
+    let(:ir_success) do
+      {'users'=> [{'name' => 'duty_man1'}]}.to_json
+    end
+
+    let(:ir_empty) do
+
+    end
+
+    let(:schedule_ids) do
+      ['PU732K9', 'PFX6FHX', 'PIUMAUI']
+    end
+
     context 'successful response' do
       before do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: success_body, headers: {})
+        today = Date.today
+        schedule_ids.each do|sid|
+            stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
+                to_return(status: 200, body: ir_success, headers: {})
+          end
+
       end
 
       it 'returns hash of names' do
@@ -62,6 +80,11 @@ describe WhosOnDuty do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: empty_values_body, headers: {})
+        today = Date.today
+        schedule_ids.each do|sid|
+          stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
+              to_return(status: 200, body: ir_empty, headers: {})
+          end
       end
 
       it 'returns hash with nil values' do
@@ -77,6 +100,11 @@ describe WhosOnDuty do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: empty_body, headers: {})
+        today = Date.today
+        schedule_ids.each do|sid|
+          stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
+              to_return(status: 200, body: ir_success, headers: {})
+          end
       end
 
       it 'returns empty hash' do
