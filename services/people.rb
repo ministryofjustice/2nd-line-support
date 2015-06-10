@@ -1,7 +1,7 @@
 require 'lib/ir_pagerduty'
 
 class People
-  def fetch(path, params)
+  def fetch(path, params={})
     pd = IRPagerduty.new
     pd.fetch_json(path, params)
   end
@@ -18,12 +18,23 @@ class People
     fetch("schedules/#{schedule_id}/users", params)['users']
   end
 
+  def fetch_users_contact_methods(user_id)
+    fetch("users/#{user_id}/contact_methods")['contact_methods']
+  end
+
   def fetch_irms
     today = Date.today
-    self.fetch_schedules_users(SupportApp.pager_duty_irm_schedule_id, {
+    users = fetch_schedules_users(SupportApp.pager_duty_irm_schedule_id, {
       :since => today.strftime('%FT%TZ'),
       :until => (today + 1).strftime('%FT%TZ')
     })
+
+    users.each do |user|
+      contact_methods = fetch_users_contact_methods(user['id'])
+      user['contact_methods'] = contact_methods.select { |cm| SupportApp.pager_duty_contact_method_types.include? cm['type']  }
+    end
+
+    users
   rescue
     []
   end

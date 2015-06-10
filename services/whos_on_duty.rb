@@ -22,7 +22,7 @@ module WhosOnDuty
       )
 
       managers = People.new.fetch_irms
-      managers = managers.any? ? managers : [{"name" => members[4]}]
+      managers = managers.any? ? managers : [{"name" => members[4], "contact_methods" => []}]
       duty_managers = parse_duty_managers(managers)
 
       return webops + devs + duty_managers
@@ -31,11 +31,12 @@ module WhosOnDuty
     end
   end
 
-  def self.build_row(person, rule, has_phone)
+  def self.build_row(person, rule, has_phone, contact_methods=[])
     {
       person: person,
       rule: rule,
-      has_phone: has_phone
+      has_phone: has_phone,
+      contact_methods: contact_methods
     }
   end
 
@@ -61,7 +62,24 @@ module WhosOnDuty
   end
 
   def self.parse_duty_managers(managers)
-    managers.map { |manager| self.build_row(manager['name'], 'duty_manager', false) }.compact
+    managers.map { |manager|
+      self.build_row(manager['name'], 'duty_manager', false, manager['contact_methods'].map { |cm| self.build_contact_method_row(cm) } )
+    }.compact
+  end
+
+  def self.build_contact_method_row(contact_method)
+    {
+      type: contact_method['type'],
+      address: self.format_contact_method_address(contact_method['type'], contact_method['address']),
+      label: contact_method['label'],
+    }
+  end
+
+  def self.format_contact_method_address(type, address)
+    if (Float(address) rescue false) and !address.start_with?('0')
+      address = address.rjust(11, '0').unpack('A3A4A4').join(' ')
+    end
+    address
   end
 
   def self.data_url

@@ -51,6 +51,7 @@ class SupportApp < Sinatra::Application
     set :pager_duty_refresh_interval, 10
     set :pager_duty_schedule_ids, "PFX6FHX,PIUMAUI" # for out of hours schedules
     set :pager_duty_irm_schedule_id, 'PU732K9'
+    set :pager_duty_contact_method_types, ['phone', 'email']
   end
 
   configure :test do
