@@ -21,7 +21,7 @@ module WhosOnDuty
         next_week_members[1..3].compact.sort.map(&:strip)
       )
 
-      managers = People.new.fetch_todays_shedules_users(SupportApp.pager_duty_irm_schedule_id)
+      managers = People.new.fetch_todays_schedules_users(SupportApp.pager_duty_irm_schedule_id)
       managers = managers.any? ? managers : [{"name" => members[4], "contact_methods" => []}]
       duty_managers = parse_duty_managers(managers)
 

@@ -2,8 +2,7 @@ require 'pagerduty/full'
 
 class IRPagerduty < PagerDuty::Full
   def initialize
-    @apikey = SupportApp.pager_duty_token
-    @subdomain = SupportApp.pager_duty_subdomain
+    super(SupportApp.pager_duty_token, SupportApp.pager_duty_subdomain)
   end
 
   def fetch_json(path, params)

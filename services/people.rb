@@ -22,8 +22,11 @@ class People
     fetch("users/#{user_id}/contact_methods")['contact_methods']
   end
 
-  def fetch_todays_shedules_users(sid)
+  def fetch_todays_schedules_users(sid)
     today = Date.today
+
+
+
     users = fetch_schedules_users(sid, {
       :since => today.strftime('%FT%TZ'),
       :until => (today + 1).strftime('%FT%TZ')
