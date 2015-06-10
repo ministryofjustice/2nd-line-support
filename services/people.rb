@@ -22,9 +22,9 @@ class People
     fetch("users/#{user_id}/contact_methods")['contact_methods']
   end
 
-  def fetch_irms
+  def fetch_todays_shedules_users(sid)
     today = Date.today
-    users = fetch_schedules_users(SupportApp.pager_duty_irm_schedule_id, {
+    users = fetch_schedules_users(sid, {
       :since => today.strftime('%FT%TZ'),
       :until => (today + 1).strftime('%FT%TZ')
     })
