@@ -114,6 +114,18 @@ ul.contact-methods li.contact-method {
     font-size: 1.2rem;
 }
 
+.contact-method.email .contact-method-label:before {
+    font-size: 2rem;
+    content: "✉ ";
+}
+.contact-method.phone .contact-method-label:before {
+    content: "☎ ";
+}
+.contact-method.SMS .contact-method-label:before {
+    font-size: 2rem;
+    content: "✉ ";
+}
+
 .webop.phone .phone-icon:before { content: "☎ ";}
 .webop.phone .phone-icon:after { content: "1"; }
 

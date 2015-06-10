@@ -53,7 +53,17 @@ describe WhosOnDuty do
     end
 
     let(:cm_success) do
-      {'contact_methods' => [{'type' => 'phone', 'address' => '1234567891', 'label' => 'Work Phone'}]}.to_json
+      {
+          'contact_methods' => [
+              {
+                  'type' => 'phone',
+                  'country_code' => '44',
+                  'phone_number' => '1234567891',
+                  'address' => '1234567891',
+                  'label' => 'Work Phone'
+              }
+          ]
+      }.to_json
     end
 
     let(:stub_pagerduty_api_requests) do
@@ -79,7 +89,7 @@ describe WhosOnDuty do
           {'person': 'webop1', 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
           {'person': 'dev1', 'rule': 'dev', 'has_phone': false, 'contact_methods': []},
           {'person': 'dev2', 'rule': 'dev', 'has_phone': true, 'contact_methods': []},
-          {'person': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"012 3456 7891", :label=>"Work Phone"}]},
+          {'person': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"(00) 44 12 3456 7891", :label=>"Work Phone"}]},
         ])
       end
     end

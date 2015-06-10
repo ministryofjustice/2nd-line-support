@@ -37,7 +37,17 @@ describe "populating the roster", :type => :feature do
   end
 
   let(:cm_success) do
-    {'contact_methods' => [{'type' => 'phone', 'address' => '1234567891', 'label' => 'Work Phone'}]}.to_json
+    {
+        'contact_methods' => [
+            {
+                'type' => 'phone',
+                'country_code' => '44',
+                'phone_number' => '1234567891',
+                'address' => '1234567891',
+                'label' => 'Work Phone'
+            }
+        ]
+    }.to_json
   end
 
   let(:stub_pagerduty_api_requests) do

@@ -69,15 +69,16 @@ module WhosOnDuty
 
   def self.build_contact_method_row(contact_method)
     {
-      type: contact_method['type'],
-      address: self.format_contact_method_address(contact_method['type'], contact_method['address']),
-      label: contact_method['label'],
+        type: contact_method['type'],
+        address: self.format_contact_method_address(contact_method),
+        label: contact_method['label'],
     }
   end
 
-  def self.format_contact_method_address(type, address)
-    if (Float(address) rescue false) and !address.start_with?('0')
-      address = address.rjust(11, '0').unpack('A3A4A4').join(' ')
+  def self.format_contact_method_address(contact_method)
+    address = contact_method['address']
+    if ['phone', 'SMS'].include? contact_method['type']
+      address = "(00) #{contact_method['country_code']} #{contact_method['phone_number'].reverse.gsub(/.{4}(?=.)/, '\0 ').reverse}"
     end
     address
   end
