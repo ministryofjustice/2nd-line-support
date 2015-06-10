@@ -1,4 +1,4 @@
-require 'pagerduty/full'
+require 'lib/ir_pagerduty'
 
 class PagerDutyCheck < RedisStruct
   def self.key_prefix
@@ -35,10 +35,7 @@ class PagerDutyAlerts
       return
     end
 
-    pd = PagerDuty::Full.new(
-      apikey=SupportApp.pager_duty_token,
-      subdomain=SupportApp.pager_duty_subdomain
-    )
+    pd = IRPagerduty.new
 
     incs = pd.Incident.search(
       assigned_to_user = nil,
