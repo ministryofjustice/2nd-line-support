@@ -41,7 +41,7 @@ describe WhosOnDuty do
     end
 
     let(:ir_success) do
-      {'users'=> [{'name' => 'duty_man1'}]}.to_json
+      {'users'=> [{'name' => 'duty_man1', 'id' => 'XXXXXX'}]}.to_json
     end
 
     let(:ir_empty) do
@@ -52,25 +52,34 @@ describe WhosOnDuty do
       ['PU732K9', 'PFX6FHX', 'PIUMAUI']
     end
 
+    let(:cm_success) do
+      {'contact_methods' => [{'type' => 'phone', 'address' => '1234567891', 'label' => 'Work Phone'}]}.to_json
+    end
+
+    let(:stub_pagerduty_api_requests) do
+      today = Date.today
+      schedule_ids.each do|sid|
+        stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
+            to_return(status: 200, body: ir_success, headers: {})
+      end
+      stub_request(:get, "https://moj.pagerduty.com/api/v1/users/XXXXXX/contact_methods").
+          to_return(status: 200, body: cm_success, headers: {})
+    end
+
     context 'successful response' do
       before do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: success_body, headers: {})
-        today = Date.today
-        schedule_ids.each do|sid|
-            stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
-                to_return(status: 200, body: ir_success, headers: {})
-          end
-
+        stub_pagerduty_api_requests
       end
 
       it 'returns hash of names' do
         expect(WhosOnDuty.list).to eql([
-          {'person': 'webop1', 'rule': 'webop', 'has_phone': true},
-          {'person': 'dev1', 'rule': 'dev', 'has_phone': false},
-          {'person': 'dev2', 'rule': 'dev', 'has_phone': true},
-          {'person': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false},
+          {'person': 'webop1', 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
+          {'person': 'dev1', 'rule': 'dev', 'has_phone': false, 'contact_methods': []},
+          {'person': 'dev2', 'rule': 'dev', 'has_phone': true, 'contact_methods': []},
+          {'person': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"012 3456 7891", :label=>"Work Phone"}]},
         ])
       end
     end
@@ -84,13 +93,15 @@ describe WhosOnDuty do
         schedule_ids.each do|sid|
           stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
               to_return(status: 200, body: ir_empty, headers: {})
-          end
+        end
+        stub_request(:get, "https://moj.pagerduty.com/api/v1/users/XXXXXX/contact_methods").
+            to_return(status: 200, body: cm_success, headers: {})
       end
 
       it 'returns hash with nil values' do
         expect(WhosOnDuty.list).to eql([
-          {'person': nil, 'rule': 'webop', 'has_phone': true},
-          {'person': nil, 'rule': 'duty_manager', 'has_phone': false},
+          {'person': nil, 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
+          {'person': nil, 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': []},
         ])
       end
     end
@@ -100,11 +111,7 @@ describe WhosOnDuty do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: empty_body, headers: {})
-        today = Date.today
-        schedule_ids.each do|sid|
-          stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
-              to_return(status: 200, body: ir_success, headers: {})
-          end
+        stub_pagerduty_api_requests
       end
 
       it 'returns empty hash' do

@@ -24,6 +24,32 @@ describe "populating the roster", :type => :feature do
                 ).to_return(:status => 200, :body => { "users": [{ "name": "Stuart Munro" }] }.to_json)
   end
 
+  let(:schedule_ids) do
+    ['PU732K9', 'PFX6FHX', 'PIUMAUI']
+  end
+
+  let(:ir_success) do
+    {'users'=> [{'name' => 'duty_man1', 'id' => 'XXXXXX'}]}.to_json
+  end
+
+  let(:ir_empty) do
+
+  end
+
+  let(:cm_success) do
+    {'contact_methods' => [{'type' => 'phone', 'address' => '1234567891', 'label' => 'Work Phone'}]}.to_json
+  end
+
+  let(:stub_pagerduty_api_requests) do
+    today = Date.today
+    schedule_ids.each do|sid|
+      stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
+          to_return(status: 200, body: ir_success, headers: {})
+    end
+    stub_request(:get, "https://moj.pagerduty.com/api/v1/users/XXXXXX/contact_methods").
+        to_return(status: 200, body: cm_success, headers: {})
+  end
+
   #
   # need to stub here to prevent netconnect failures during test run
   #
@@ -31,6 +57,7 @@ describe "populating the roster", :type => :feature do
     stub_googledocs_schedule_request_returns_data
     stub_pagerduty_incidents_api_call_returns_data
     stub_pagerduty_schedule_api_call_returns_data
+    stub_pagerduty_api_requests
   end
 
   # GoogleDocs Rota tests
