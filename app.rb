@@ -20,6 +20,7 @@ require_relative 'services/whos_on_duty'
 require_relative 'services/whos_out_of_hours'
 require_relative 'services/hipchat_webhook'
 require_relative 'services/pagerduty_alerts'
+require_relative 'services/zendesk'
 
 class SupportApp < Sinatra::Application
   register Sinatra::Partial
@@ -52,6 +53,10 @@ class SupportApp < Sinatra::Application
     set :pager_duty_schedule_ids, "PFX6FHX,PIUMAUI" # for out of hours schedules
     set :pager_duty_irm_schedule_id, 'PU732K9'
     set :pager_duty_contact_method_types, ['phone', 'email']
+
+    set :zendesk_url, ENV['ZENDESK_URL']
+    set :zendesk_username, ENV['ZENDESK_USERNAME']
+    set :zendesk_token, ENV['ZENDESK_TOKEN']
   end
 
   configure :test do
@@ -63,6 +68,10 @@ class SupportApp < Sinatra::Application
     set :pager_duty_services, "service1,service2"
     set :pager_duty_refresh_interval, 1
     set :pager_duty_schedule_ids, "testing_id,testing_id2"
+
+    set :zendesk_url, 'https://ministryofjustice.zendesk.com'
+    set :zendesk_username, 'test-user@digital.justice.gov.uk'
+    set :zendesk_token, 'DUMMY-TOKEN'
   end
 
   post '/sensu_webhook' do
@@ -92,6 +101,8 @@ class SupportApp < Sinatra::Application
     @incident_mode = Flag.exists?('hipchat:incident_mode')
     @whos_on_duty = session[:duty_roster]
     @whos_out_of_hours = WhosOutOfHours.list
+    @zendesk ||= Zendesk.new()
+    @incidents_in_past_week = @zendesk.incidents_for_the_past_week
     erb :index
   end
 

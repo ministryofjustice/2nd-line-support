@@ -13,6 +13,7 @@ gem 'sinatra-partial'
 gem 'rack-contrib'
 gem 'pagerduty-full'
 gem 'httparty'
+gem 'zendesk2'
 
 group :development do
   gem 'foreman'

@@ -22,6 +22,7 @@ GEM
       xpath (~> 2.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    cistern (2.0.2)
     coderay (1.1.0)
     columnize (0.9.0)
     crack (0.4.2)
@@ -32,6 +33,8 @@ GEM
     extlib (0.9.16)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
     ffi (1.9.8)
     foreman (0.78.0)
       thor (~> 0.19.1)
@@ -176,6 +179,11 @@ GEM
       crack (>= 0.3.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
+    zendesk2 (1.5.17)
+      cistern (~> 2.0)
+      faraday (~> 0.9)
+      faraday_middleware (~> 0.9)
+      jwt (~> 1.0)
 
 PLATFORMS
   ruby
@@ -204,6 +212,7 @@ DEPENDENCIES
   timecop
   unicorn
   webmock
+  zendesk2
 
 BUNDLED WITH
-   1.10.2
+   1.10.3
