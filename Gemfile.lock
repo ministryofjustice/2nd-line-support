@@ -204,3 +204,6 @@ DEPENDENCIES
   timecop
   unicorn
   webmock
+
+BUNDLED WITH
+   1.10.2

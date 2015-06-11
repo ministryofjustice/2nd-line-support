@@ -2,5 +2,11 @@
 <li class="<%= person[:rule] %> <%= person[:has_phone]? "phone" : "" %>">
 	<span class="phone-icon"></span>
 	<%= person[:person] %>
+	<%if person[:contact_methods] && person[:contact_methods].any? %>
+	  <ul class="contact-methods">
+		<%= partial(:contact_method, collection:person[:contact_methods]) %>
+	  </ul>
+	<% end %>
 </li>
 <% end %>
+

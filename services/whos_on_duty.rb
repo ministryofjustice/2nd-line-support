@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'ir_pagerduty'
 
 module WhosOnDuty
 
@@ -20,7 +21,10 @@ module WhosOnDuty
         next_week_members[1..3].compact.sort.map(&:strip)
       )
 
-      duty_managers = self.parse_duty_managers([members[4]])
+      managers = IRPagerduty.new.fetch_todays_schedules_users(SupportApp.pager_duty_irm_schedule_id)
+      # Fall back to google doc if no IRM in PagerDuty
+      managers = managers.any? ? managers : [{"name" => members[4], "contact_methods" => []}]
+      duty_managers = parse_duty_managers(managers)
 
       return webops + devs + duty_managers
     rescue
@@ -28,11 +32,12 @@ module WhosOnDuty
     end
   end
 
-  def self.build_row(person, rule, has_phone)
+  def self.build_row(person, rule, has_phone, contact_methods=[])
     {
       person: person,
       rule: rule,
-      has_phone: has_phone
+      has_phone: has_phone,
+      contact_methods: contact_methods
     }
   end
 
@@ -58,7 +63,25 @@ module WhosOnDuty
   end
 
   def self.parse_duty_managers(managers)
-    managers.map { |manager| self.build_row(manager, 'duty_manager', false) }.compact
+    managers.map { |manager|
+      self.build_row(manager['name'], 'duty_manager', false, manager['contact_methods'].map { |cm| self.build_contact_method_row(cm) } )
+    }.compact
+  end
+
+  def self.build_contact_method_row(contact_method)
+    {
+        type: contact_method['type'],
+        address: self.format_contact_method_address(contact_method),
+        label: contact_method['label'],
+    }
+  end
+
+  def self.format_contact_method_address(contact_method)
+    address = contact_method['address']
+    if ['phone', 'SMS'].include? contact_method['type']
+      address = "(00) #{contact_method['country_code']} #{contact_method['phone_number'].reverse.gsub(/.{4}(?=.)/, '\0 ').reverse}"
+    end
+    address
   end
 
   def self.data_url
