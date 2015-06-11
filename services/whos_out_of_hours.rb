@@ -2,7 +2,7 @@ require 'json'
 require 'date'
 require 'httparty'
 require 'uri'
-require_relative 'people'
+require_relative 'ir_pagerduty'
 
 module WhosOutOfHours
 
@@ -49,10 +49,11 @@ module WhosOutOfHours
     #       since only this info is useful to the in hours people
     #
     dateStr = Date.today.to_s
-    users = People.new.fetch_schedules_users(sid, {
-        :since => URI.escape(dateStr + "T17:00Z"),
-        :until => URI.escape(dateStr + "T22:59Z")
-    })
+    users = IRPagerduty.new.Schedule.users(
+        sid,
+        since_date=URI.escape(dateStr + "T17:00Z"),
+        until_date=URI.escape(dateStr + "T22:59Z")
+    )['users']
 
     users.map { |user| user['name'] }
   rescue

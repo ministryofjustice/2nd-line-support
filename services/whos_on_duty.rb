@@ -1,5 +1,5 @@
 require 'csv'
-require_relative 'people'
+require_relative 'ir_pagerduty'
 
 module WhosOnDuty
 
@@ -21,7 +21,8 @@ module WhosOnDuty
         next_week_members[1..3].compact.sort.map(&:strip)
       )
 
-      managers = People.new.fetch_todays_schedules_users(SupportApp.pager_duty_irm_schedule_id)
+      managers = IRPagerduty.new.fetch_todays_schedules_users(SupportApp.pager_duty_irm_schedule_id)
+      # Fall back to google doc if no IRM in PagerDuty
       managers = managers.any? ? managers : [{"name" => members[4], "contact_methods" => []}]
       duty_managers = parse_duty_managers(managers)
 
