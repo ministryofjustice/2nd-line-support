@@ -25,6 +25,7 @@ class IRPagerduty < PagerDuty::Full
     user['contact_methods'] = contact_methods.select { |cm|
       SupportApp.pager_duty_contact_method_types.include? cm['type']
     }
+    user
   end
 
   def fetch_todays_schedules_users(sid)
@@ -37,8 +38,6 @@ class IRPagerduty < PagerDuty::Full
 
     # PagerDuty class has no method to get contact_methods so we must do it manually
     users.map { |user| attach_contact_methods_to_user(user) }
-
-    users
   rescue
     []
   end

@@ -48,10 +48,6 @@ describe WhosOnDuty do
 
     end
 
-    let(:schedule_ids) do
-      ['PU732K9', 'PFX6FHX', 'PIUMAUI']
-    end
-
     let(:cm_success) do
       {
           'contact_methods' => [
@@ -66,13 +62,18 @@ describe WhosOnDuty do
       }.to_json
     end
 
-    let(:stub_pagerduty_api_requests) do
-      today = Date.today
-      schedule_ids.each do|sid|
-        stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
-            to_return(status: 200, body: ir_success, headers: {})
-      end
-      stub_request(:get, "https://moj.pagerduty.com/api/v1/users/XXXXXX/contact_methods").
+    let(:stub_pagerduty_schedule_api_requests) do
+      stub_request(:get, /.*schedules\/.*\/users.*/).
+          to_return(status: 200, body: ir_success, headers: {})
+    end
+
+    let(:stub_pagerduty_schedule_empty_api_requests) do
+      stub_request(:get, /.*schedules\/.*\/user.s*/).
+          to_return(status: 200, body: ir_empty, headers: {})
+    end
+
+    let(:stub_pagerduty_contact_methods_api_requests) do
+      stub_request(:get, /.*users\/.*\/contact_methods.*/).
           to_return(status: 200, body: cm_success, headers: {})
     end
 
@@ -81,7 +82,8 @@ describe WhosOnDuty do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: success_body, headers: {})
-        stub_pagerduty_api_requests
+        stub_pagerduty_schedule_api_requests
+        stub_pagerduty_contact_methods_api_requests
       end
 
       it 'returns hash of names' do
@@ -99,13 +101,8 @@ describe WhosOnDuty do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: empty_values_body, headers: {})
-        today = Date.today
-        schedule_ids.each do|sid|
-          stub_request(:get, "https://moj.pagerduty.com/api/v1/schedules/#{sid}/users?since=#{today.strftime('%FT%TZ')}&until=#{(today + 1).strftime('%FT%TZ')}").
-              to_return(status: 200, body: ir_empty, headers: {})
-        end
-        stub_request(:get, "https://moj.pagerduty.com/api/v1/users/XXXXXX/contact_methods").
-            to_return(status: 200, body: cm_success, headers: {})
+        stub_pagerduty_schedule_empty_api_requests
+        stub_pagerduty_contact_methods_api_requests
       end
 
       it 'returns hash with nil values' do
@@ -121,7 +118,8 @@ describe WhosOnDuty do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: empty_body, headers: {})
-        stub_pagerduty_api_requests
+        stub_pagerduty_schedule_api_requests
+        stub_pagerduty_contact_methods_api_requests
       end
 
       it 'returns empty hash' do
