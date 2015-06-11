@@ -56,6 +56,25 @@ describe "populating the roster", :type => :feature do
         to_return(status: 200, body: cm_success, headers: {})
   end
 
+  let(:stub_zendesk_api_call) do
+    stub_request(
+      :get,
+      /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/.*/
+    ).to_return(
+      :status => 200,
+      :headers => {
+        "Content-Type": "application/json"
+      },
+      :body => {
+        "results" => [],
+        "facets" => nil,
+        "next_page" => nil,
+        "previous_page" => nil,
+        "count" => 0
+      }.to_json
+    )
+  end
+
   #
   # need to stub here to prevent netconnect failures during test run
   #
@@ -65,6 +84,7 @@ describe "populating the roster", :type => :feature do
     stub_pagerduty_schedule_api_call_returns_data
     stub_pagerduty_schedule_api_requests
     stub_pagerduty_contact_methods_api_requests
+    stub_zendesk_api_call
   end
 
   # GoogleDocs Rota tests
