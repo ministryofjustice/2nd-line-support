@@ -2,17 +2,19 @@
 <html lang=en-us>
 
 <head>
-  <meta http-equiv="refresh" content="5">
+  <%#<meta http-equiv="refresh" content="5">%>
   <link rel="stylesheet" href="css/app.css" media="screen">
 </head>
 
 <body class="<%unless @alerts.empty? %>alert<% end %>
  <%if @incident_mode %>incident-mode<% end %>">
   <div class="container">
-    <%= partial(:incident_mode) %>
-    <%= partial(:alerts) %>
+  <%= partial(:incident_mode) %>
+    <div class="column">
+      <%= partial(:alerts) %>
+      <%= partial(:past_week) %>
+    </div>
     <%= partial(:persons) %>
-    <%= partial(:past_week) %>
   </div>
 </body>
 

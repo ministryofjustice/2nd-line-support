@@ -138,3 +138,7 @@ ul.contact-methods li.contact-method {
     background-color: #0070f0;
     color: #fff;
 }
+
+#past_week {
+    font-size: 3rem;
+}
