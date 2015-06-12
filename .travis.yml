@@ -6,7 +6,7 @@ services:
 deploy:
   provider: heroku
   api_key:
-    secure: T9DxjCuJMTzmmMzVp+lNatp5HRdoRnP1G8HFXKzdAGXZgnNDoVsGqM+HI9i9MKMhL1CknbekV13x9vIQZbNIpwVkLSry6QjYHRp4NXMZrnU/pjJyQP4wdXHUasPoHpMNnw9kHX/OaLqEwuDZQww7e1q3mBDdE+E+BNMt6E5rpc8=
+    # secure: T9DxjCuJMTzmmMzVp+lNatp5HRdoRnP1G8HFXKzdAGXZgnNDoVsGqM+HI9i9MKMhL1CknbekV13x9vIQZbNIpwVkLSry6QjYHRp4NXMZrnU/pjJyQP4wdXHUasPoHpMNnw9kHX/OaLqEwuDZQww7e1q3mBDdE+E+BNMt6E5rpc8=
     secure: "G1N9p/c+vWxBrHtgFWde9eX9t95fvJzaBb2wiHer3daxvCbxis56wJ2zI+h0t7m4hPBhX3dPmcbFrhiF6d+cLfba7QzX3dB0Jy9I7aCz2yO6rQtKkCQRLU0wQeOrScLYh8hFCfw0eZHYNbRmlhFs8aTc/hq0e7IajueR1kmN+yk="
   app:
     master: second-level-support
