@@ -29,11 +29,11 @@ class IRPagerduty < PagerDuty::Full
   end
 
   def fetch_todays_schedules_users(sid)
-    today = Date.today
+    dateStr = Date.today.to_s
     users = self.Schedule.users(
         sid,
-        since_date=today.strftime('%FT%TZ'),
-        until_date=(today + 1).strftime('%FT%TZ')
+        since_date=URI.escape(dateStr + "T10:01Z"),
+        until_date=URI.escape(dateStr + "T16:59Z")
     )['users']
 
     # PagerDuty class has no method to get contact_methods so we must do it manually
