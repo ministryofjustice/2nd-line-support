@@ -69,7 +69,7 @@ class SupportApp < Sinatra::Application
     set :pager_duty_refresh_interval, 1
     set :pager_duty_schedule_ids, "testing_id,testing_id2"
 
-    set :zendesk_url, 'https://ministryofjustice.zendesk.com'
+    set :zendesk_url, 'https://ministryofjustice.zendesk.com/api/v2'
     set :zendesk_username, 'test-user@digital.justice.gov.uk'
     set :zendesk_token, 'DUMMY-TOKEN'
   end

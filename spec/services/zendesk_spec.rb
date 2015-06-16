@@ -12,10 +12,14 @@ describe Zendesk do
     def mock_zendesk_response(body)
       stub_request(
         :get,
-        /.*zendesk.com\/api\/v2\/.*/
-      ).with(
-        :body => "{\"query\":\"query:created>7days group:\\\"Incident response and tuning\\\" type:ticket\"}"
-      ).to_return(:status => 200, :body => body, :headers => {"Content-Type" => "application/json"})
+        /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/v2\/.*/
+      ).to_return(
+        :status => 200,
+        :headers => {
+          "Content-Type" => "application/json"
+        },
+        :body => body
+      )
     end
 
     context 'when no incidents have occurred' do
