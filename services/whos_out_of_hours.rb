@@ -51,8 +51,8 @@ module WhosOutOfHours
     dateStr = Date.today.to_s
     users = IRPagerduty.new.Schedule.users(
         sid,
-        since_date=URI.escape(dateStr + "T17:00Z"),
-        until_date=URI.escape(dateStr + "T22:59Z")
+        since_date=URI.escape(dateStr + "T17:00"),
+        until_date=URI.escape(dateStr + "T22:59")
     )['users']
 
     users.map { |user| user['name'] }
