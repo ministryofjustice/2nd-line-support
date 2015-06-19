@@ -7,9 +7,9 @@
 </head>
 
 <body class="<%unless @alerts.empty? %>alert<% end %>
- <%if @incident_mode %>incident-mode<% end %>">
+ <%if @problem_mode %>problem-mode<% end %>">
   <div class="container">
-  <%= partial(:incident_mode) %>
+  <%= partial(:problem_mode) %>
     <div class="column">
       <%= partial(:alerts) %>
       <%= partial(:past_week) %>

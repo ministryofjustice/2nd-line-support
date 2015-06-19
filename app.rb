@@ -98,7 +98,7 @@ class SupportApp < Sinatra::Application
 
   get '/' do
     @alerts = Alert.fetch_all
-    @incident_mode = Flag.exists?('hipchat:incident_mode')
+    @problem_mode = Flag.exists?('hipchat:problem_mode')
     @whos_on_duty = session[:duty_roster]
     @whos_out_of_hours = WhosOutOfHours.list
     @zendesk ||= Zendesk.new()

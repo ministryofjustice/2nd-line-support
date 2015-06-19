@@ -9,9 +9,9 @@ class HipchatWebhook
     case @payload['room']
     when '2nd_line'
       case @payload['message']
-      when 'incident on'
+      when 'problem on'
         Flag.create(redis_key)
-      when 'incident off'
+      when 'problem off'
         Flag.destroy(redis_key)
       end
     end
@@ -20,7 +20,7 @@ class HipchatWebhook
   private
 
   def redis_key
-    "#{REDIS_KEY_PREFIX}:incident_mode"
+    "#{REDIS_KEY_PREFIX}:problem_mode"
   end
 
 end
