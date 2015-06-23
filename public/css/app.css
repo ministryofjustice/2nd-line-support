@@ -13,11 +13,11 @@ body {
     background-color: #F5A536;
 }
 
-.incident-mode {
+.problem-mode {
     background-color: #D12C4A;
 }
 
-.incident-mode .heading {
+.problem-mode .heading {
     text-align: center;
     padding-bottom: 5em;
     text-transform: uppercase;
