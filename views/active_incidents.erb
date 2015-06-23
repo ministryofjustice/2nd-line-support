@@ -1,0 +1,10 @@
+<div id="status">
+  <h2>Active Incidents</h2>
+    <ul>
+    <%if @active_incidents.any? %>
+      <%= partial(:active_incident, collection: @active_incidents) %>
+    <% else %>
+      <li class="good"> No active incidents</li>
+    </ul>
+  <% end %>
+</div>
