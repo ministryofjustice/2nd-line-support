@@ -14,6 +14,7 @@ gem 'rack-contrib'
 gem 'pagerduty-full'
 gem 'httparty'
 gem 'zendesk_api'
+gem 'platform-api'
 
 group :development do
   gem 'foreman'

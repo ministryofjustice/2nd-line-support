@@ -1,4 +1,5 @@
 require_relative 'ir_pagerduty'
+require_relative '../models/redis_struct'
 
 class PagerDutyCheck < RedisStruct
   def self.key_prefix
