@@ -4,22 +4,22 @@ require 'spec_helper'
 require 'services/zendesk'
 
 describe Zendesk do
+  def mock_zendesk_response(body)
+    stub_request(
+      :get,
+      /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/v2\/.*/
+    ).to_return(
+      :status => 200,
+      :headers => {
+        "Content-Type" => "application/json"
+      },
+      :body => body
+    )
+  end
+
   let(:zendesk) { Zendesk.new }
 
   describe '#incidents_for_the_past_week' do
-    def mock_zendesk_response(body)
-      stub_request(
-        :get,
-        /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/v2\/.*/
-      ).to_return(
-        :status => 200,
-        :headers => {
-          "Content-Type" => "application/json"
-        },
-        :body => body
-      )
-    end
-
     context 'when no incidents have occurred' do
       it 'should return 0' do
         mock_zendesk_response({
@@ -64,19 +64,6 @@ describe Zendesk do
   end
 
   describe '#active_incidents' do
-    def mock_zendesk_response(body)
-      stub_request(
-        :get,
-        /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/v2\/.*/
-      ).to_return(
-        :status => 200,
-        :headers => {
-          "Content-Type" => "application/json"
-        },
-        :body => body
-      )
-    end
-
     it 'should return a collection of active incidents' do
       mock_zendesk_response({
         :results => [{
