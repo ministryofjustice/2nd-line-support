@@ -103,6 +103,7 @@ class SupportApp < Sinatra::Application
     @whos_out_of_hours = WhosOutOfHours.list
     @zendesk ||= Zendesk.new()
     @incidents_in_past_week = @zendesk.incidents_for_the_past_week
+    @active_incidents = @zendesk.active_incidents
     erb :index
   end
 
