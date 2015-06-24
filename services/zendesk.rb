@@ -5,7 +5,7 @@ INCIDENTS_IN_PAST_WEEK =
   'group:"Incident Response"'.freeze
 
 ACTIVE_INCIDENTS = 
-  'type:ticket ticket_type:incident status:open ' +
+  'type:ticket ticket_type:incident status<solved ' +
   'group:"Incident Response"'.freeze
 
 class Zendesk
