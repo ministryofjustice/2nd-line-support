@@ -1,6 +1,6 @@
 require 'redis'
-class RedisStruct < Struct.new(:key, :value)
 
+class RedisStruct < Struct.new(:key, :value)
   def self.fetch_all
     keys = redis.keys("#{key_prefix}:*")
     keys.collect { |key| new(key,redis.get(key)) }

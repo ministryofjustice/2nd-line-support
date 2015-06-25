@@ -9,6 +9,8 @@ ACTIVE_INCIDENTS =
   'group:"Incident Response"'.freeze
 
 class Zendesk
+  attr_reader :client
+  
   def initialize
     @client = ZendeskAPI::Client.new do |config|
       config.username = SupportApp.zendesk_username

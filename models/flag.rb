@@ -1,4 +1,5 @@
 require_relative 'redis_struct'
+
 class Flag < RedisStruct
   
   def self.key_prefix
