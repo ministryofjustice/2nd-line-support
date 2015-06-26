@@ -92,6 +92,32 @@ describe "populating the roster", :type => :feature do
     stub_zendesk_api_call
   end
 
+  context 'When no authorisation is provided' do
+    it 'should not display the admin page' do
+      visit '/admin'
+
+      expect(page.status_code).to eq 401
+      expect(page.body).to match /not authorized/i
+    end
+
+    it 'should display the public page (index)' do
+      visit '/'
+      
+      expect(page.status_code).to eq 200
+      expect(page.body).to match /on duty/i
+    end
+  end
+
+  context 'When authorisation is provided' do
+    it 'should display the admin page' do
+      basic_auth
+      visit '/admin'
+
+      expect(page.status_code).to eq 200
+      expect(page.body).to match /on duty/i
+    end
+  end
+
   # GoogleDocs Rota tests
   # --------------------------------------
   context "when Google docs returns data" do
