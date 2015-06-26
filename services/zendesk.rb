@@ -1,11 +1,11 @@
 require 'zendesk_api'
 
 INCIDENTS_IN_PAST_WEEK =
-  'type:ticket ticket_type:incident created>"7 days ago" ' +
+  'type:ticket ticket_type:incident ticket_type:problem created>"7 days ago" ' +
   'group:"Incident Response"'.freeze
 
 ACTIVE_INCIDENTS = 
-  'type:ticket ticket_type:incident status<solved ' +
+  'type:ticket ticket_type:incident ticket_type:problem status<solved ' +
   'group:"Incident Response"'.freeze
 
 class Zendesk
