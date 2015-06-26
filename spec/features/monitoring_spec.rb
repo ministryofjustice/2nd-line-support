@@ -30,6 +30,7 @@ describe 'App monitoring', :type => :feature do
     end
 
     it 'should display the status of the application components' do
+      basic_auth
       visit '/healthcheck.json'
 
       expect(page).to have_content(

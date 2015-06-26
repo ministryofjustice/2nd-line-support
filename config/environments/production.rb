@@ -34,5 +34,11 @@ class SupportApp < Sinatra::Application
     set :heroku_name,                             'second-level-support'
     set :heroku_user,                             ENV['HEROKU_USER']
     set :heroku_pass,                             ENV['HEROKU_PASS']
+
+                                       # test pass
+    set :app_user,                    '$2a$10$C15Baio2a5Kh4/MJkIwxnuS6Riog73YA0HT5.T2j51Q592ZKvoGTi'
+    set :app_pass,                    'X'
+    # set :app_user,                                ENV['APP_USER']
+    # set :app_pass,                                ENV['APP_PASS']
   end
 end

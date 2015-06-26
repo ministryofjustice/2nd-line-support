@@ -105,7 +105,8 @@ describe "populating the roster", :type => :feature do
 
     before do
      Capybara.app::ROSTER.clear!
-     visit '/' 
+     basic_auth
+     visit '/admin' 
     end
 
     it "displays in hours support members" do
@@ -114,13 +115,17 @@ describe "populating the roster", :type => :feature do
 
     it "displays changes to in hours support members" do
       stub_googledocs_schedule_request_returns_updated_data
+      basic_auth
       visit '/refresh-duty-roster'
       expect(page).to have_selector("li", text: "New Junior Dev")
     end
   end
 
   context "when Google docs returns NO data" do
-    let(:prepopulate_members) { visit '/' }
+    def prepopulate_members
+      basic_auth
+      visit '/admin'
+    end
 
     let(:stub_googledocs_schedule_returns_no_data) do
       stub_request(:get,
@@ -136,6 +141,7 @@ describe "populating the roster", :type => :feature do
     it "previously retrieved data is used" do
       prepopulate_members
       stub_googledocs_schedule_returns_no_data
+      basic_auth
       visit '/refresh-duty-roster'
       expect(page).to have_selector(".dev.phone", text: "Himal Mandalia")
     end
@@ -144,7 +150,10 @@ describe "populating the roster", :type => :feature do
   # PagerDuty Rota tests
   # --------------------------------------
   context "when pagerduty API returns data" do
-    before { visit '/' }
+    before do 
+      basic_auth
+      visit '/admin' 
+    end
 
     it "displays primary out of hours support member with filled phone icon" do
       expect(page).to have_selector(".webop.phone", text: "Stuart Munro")
@@ -166,7 +175,8 @@ describe "populating the roster", :type => :feature do
     before do
       Capybara.app::ROSTER.clear!
       stub_pagerduty_schedule_api_call_returns_no_data
-      visit '/'
+      basic_auth
+      visit '/admin'
     end
 
     it "no support members displayed" do

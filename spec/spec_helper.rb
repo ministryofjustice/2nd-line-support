@@ -31,3 +31,7 @@ def moj_pagerduty_schedule_regex
 	#
 	/#{SupportApp.pager_duty_subdomain}.pagerduty.com\/api\/v1\/schedules\/\w+\/users/
 end
+
+def basic_auth
+  page.driver.header('Authorization', 'Basic '+ Base64.encode64('test pass:X')) 
+end
