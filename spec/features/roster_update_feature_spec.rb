@@ -157,7 +157,7 @@ describe "populating the roster", :type => :feature do
       stub_request(:get,
         "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true"
         ).with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}
-        ).to_return(status: 200, body: nil)
+        ).to_return(status: 404, body: nil)
     end
 
     before(:each) do

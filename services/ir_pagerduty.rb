@@ -69,19 +69,19 @@ class IRPagerduty < PagerDuty::Full
   end
 
   def in_hours_start
-    "#{Date.today}#{START_OF_WORKING_DAY}"
+    "#{date_today}#{START_OF_WORKING_DAY}"
   end
 
   def in_hours_end
-    "#{Date.today}#{END_OF_WORKING_DAY}"
+    "#{date_today}#{END_OF_WORKING_DAY}"
   end
 
   def out_hours_start
-    "#{Date.today}#{START_OF_SUPPORT_DAY}"
+    "#{date_today}#{START_OF_SUPPORT_DAY}"
   end
 
   def out_hours_end
-    "#{Date.today}#{END_OF_SUPPORT_DAY}"
+    "#{date_today}#{END_OF_SUPPORT_DAY}"
   end
 
   def date_today
