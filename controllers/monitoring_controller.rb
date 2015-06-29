@@ -10,6 +10,8 @@ class SupportApp < Sinatra::Application
 
 
   get '/healthcheck.json' do
+    protected!
+    
     report = HealthCheck::Service.new.report
 
     json({ status: report.status, messages: report.messages }) 

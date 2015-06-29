@@ -1,8 +1,8 @@
 <div id="alerts">
   <h2>Alerts</h2>
     <ul>
-    <%if @alerts.any? %>
-      <%= partial(:alert, collection:@alerts) %>
+    <%if @data.alerts.any? %>
+      <%= partial(:alert, collection: @data.alerts) %>
     <% else %>
       <li class="good"> No alerts to report </li>
     </ul>

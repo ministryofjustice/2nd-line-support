@@ -16,5 +16,9 @@ class SupportApp < Sinatra::Application
     set :heroku_name,                 'second-level-support'
     set :heroku_user,                 'moj@heroku.com'
     set :heroku_pass,                 'dummy-heroku-pass'
+
+                                      # test pass
+    set :app_user,                    '$2a$10$C15Baio2a5Kh4/MJkIwxnuS6Riog73YA0HT5.T2j51Q592ZKvoGTi'
+    set :app_pass,                    'X'
   end
 end

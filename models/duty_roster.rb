@@ -22,6 +22,10 @@ class DutyRoster
   def clear!
     @members = nil
   end
+
+  def manager
+    @members.find { |p| p[:rule] == 'duty_manager' }
+  end
 end
 
 
