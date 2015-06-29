@@ -1,6 +1,8 @@
 require 'ostruct'
 
 require_relative '../../models/duty_roster.rb'
+require_relative '../../models/flag.rb'
+require_relative '../../models/alert.rb'
 
 require_relative '../../services/whos_on_duty'
 require_relative '../../services/whos_out_of_hours'
