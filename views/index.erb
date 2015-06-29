@@ -6,8 +6,8 @@
   <link rel="stylesheet" href="css/app.css" media="screen">
 </head>
 
-<body class="<%unless @alerts.empty? %>alert<% end %>
- <%if @problem_mode %>problem-mode<% end %>">
+<body class="<%unless @data.alerts.empty? %>alert<% end %>
+ <%if @data.problem_mode %>problem-mode<% end %>">
   <div class="container">
     <%= partial(:problem_mode) %>
      <div class="column">
