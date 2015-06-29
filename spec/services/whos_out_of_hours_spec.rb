@@ -1,10 +1,9 @@
 require 'spec_helper'
 require 'services/whos_out_of_hours'
+require 'services/ir_pagerduty'
 
 describe WhosOutOfHours do
-
   describe '.build_row' do
-
     it "returns a person hash" do
      expect(described_class.build_row('tom',34,true)
       ).to eq( { person: 'tom', rule: 34, has_phone: true } )
@@ -13,7 +12,6 @@ describe WhosOutOfHours do
     it 'raises errors if all arguments are missing' do
      expect{ described_class.build_row() }.to raise_error(ArgumentError)
     end
-
   end
 
   let(:out_of_hours_sid) { SupportApp.pager_duty_schedule_ids.split(',').first }
@@ -26,35 +24,31 @@ describe WhosOutOfHours do
   end
 
   describe '.pagerduty_names' do
+    let(:pagerduty) { IRPagerduty.new }
 
-      context "when no one on duty" do
-
-        let(:stub_pagerduty_schedule_api_call_empty) do
-          stub_request(
-            :get,
-             moj_pagerduty_schedule_regex
-            ).to_return(:status => 200, :body => nil)
-        end
-
-        it "returns empty array" do
-            stub_pagerduty_schedule_api_call_empty
-            expect(WhosOutOfHours.pagerduty_names(out_of_hours_sid)).to eql([])
-        end
-
+    context "when no one on duty" do
+      let(:stub_pagerduty_schedule_api_call_empty) do
+        stub_request(
+          :get,
+           moj_pagerduty_schedule_regex
+          ).to_return(:status => 200, :body => nil)
       end
 
-      context "when person(s) on duty" do
-
-        it 'returns array of names' do
-          stub_pagerduty_primary_schedule_api_call
-          expect(WhosOutOfHours.pagerduty_names(out_of_hours_sid)).to eql(["Stuart Munro"])
-        end
-
+      it "returns empty array" do
+          stub_pagerduty_schedule_api_call_empty
+          expect(pagerduty.fetch_todays_schedules_names(out_of_hours_sid)).to eql([])
       end
+    end
+
+    context "when person(s) on duty" do
+      it 'returns array of names' do
+        stub_pagerduty_primary_schedule_api_call
+        expect(pagerduty.fetch_todays_schedules_names(out_of_hours_sid)).to eql(["Stuart Munro"])
+      end
+    end
   end
 
   describe '.list' do
-
     let(:stub_pagerduty_secondary_schedule_api_call) do
       stub_request(
         :get,
@@ -76,7 +70,5 @@ describe WhosOutOfHours do
       stub_pagerduty_secondary_schedule_api_call
       expect(WhosOutOfHours.list[1].values).to eql(["Mateusz Lapsa-Malawski","dev",true])
     end
-
   end
-
 end
