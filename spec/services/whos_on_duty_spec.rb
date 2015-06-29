@@ -88,10 +88,10 @@ describe WhosOnDuty do
 
       it 'returns hash of names' do
         expect(WhosOnDuty.list).to eql([
-          {'person': 'webop1', 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
-          {'person': 'dev1', 'rule': 'dev', 'has_phone': false, 'contact_methods': []},
-          {'person': 'dev2', 'rule': 'dev', 'has_phone': true, 'contact_methods': []},
-          {'person': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"(00) 44 12 3456 7891", :label=>"Work Phone"}]},
+          {'name': 'webop1', 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
+          {'name': 'dev1', 'rule': 'dev', 'has_phone': false, 'contact_methods': []},
+          {'name': 'dev2', 'rule': 'dev', 'has_phone': true, 'contact_methods': []},
+          {'name': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"(00) 44 12 3456 7891", :label=>"Work Phone"}]},
         ])
       end
     end
@@ -107,8 +107,8 @@ describe WhosOnDuty do
 
       it 'returns hash with nil values' do
         expect(WhosOnDuty.list).to eql([
-          {'person': nil, 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
-          {'person': nil, 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': []},
+          {'name': nil, 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
+          {'name': nil, 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': []},
         ])
       end
     end

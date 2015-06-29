@@ -8,6 +8,7 @@ require 'rack/test'
 require 'webmock/rspec'
 require 'capybara/rspec'
 require 'simplecov'
+require 'pry'
 
 SimpleCov.start
 

@@ -32,11 +32,11 @@ module WhosOnDuty
     end
   end
 
-  def self.build_row(person, rule, has_phone, contact_methods=[])
+  def self.build_row(name, rule, has_phone, contact_methods=[])
     {
-      person: person,
-      rule: rule,
-      has_phone: has_phone,
+      name:            name,
+      rule:            rule,
+      has_phone:       has_phone,
       contact_methods: contact_methods
     }
   end

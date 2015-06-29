@@ -3,17 +3,6 @@ require 'services/whos_out_of_hours'
 require 'services/ir_pagerduty'
 
 describe WhosOutOfHours do
-  describe '.build_row' do
-    it "returns a person hash" do
-     expect(described_class.build_row('tom',34,true)
-      ).to eq( { person: 'tom', rule: 34, has_phone: true } )
-    end
-
-    it 'raises errors if all arguments are missing' do
-     expect{ described_class.build_row() }.to raise_error(ArgumentError)
-    end
-  end
-
   let(:out_of_hours_sid) { SupportApp.pager_duty_schedule_ids.split(',').first }
 
   let(:stub_pagerduty_primary_schedule_api_call) do
@@ -59,7 +48,7 @@ describe WhosOutOfHours do
     before { stub_pagerduty_primary_schedule_api_call }
 
     it 'returns "persons" hash' do
-      expect(WhosOutOfHours.list.first.keys).to eql([:person,:rule,:has_phone])
+      expect(WhosOutOfHours.list.first.keys).to eql([:name, :rule, :has_phone])
     end
 
     it 'returns first schedule person as primary (webop)' do

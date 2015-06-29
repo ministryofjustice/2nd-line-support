@@ -8,6 +8,12 @@ require_relative 'ir_pagerduty'
 module WhosOutOfHours
   extend self 
 
+  def list
+    scheduled_persons.map(&:to_h)
+  end
+
+  private_class_method
+
   def scheduled_persons
     #
     # NOTE: add each person in each schedule to the one list
@@ -16,39 +22,46 @@ module WhosOutOfHours
     # for display purposes only (i.e. the phone-icon) the primary is
     # treated webop and secondary as dev
     #
-    schedule_ids = SupportApp.pager_duty_schedule_ids.split(',')
+    persons = 
+      schedule_ids
+        .map(&method(:persons_from_sid))
+        .flatten
 
-    name_rule_pair = []
-
-    schedule_ids.each do |sid|
-      pagerduty.fetch_todays_schedules_names(sid).each do |n|
-        r = (sid == schedule_ids.first) ? 'webop' : 'dev'
-        name_rule_pair.push({ name: n, rule: r })
-      end
-    end
-
-    return name_rule_pair
+    persons.any? ? persons : [ Person.missing ]
   end
-
-  def list
-    persons = scheduled_persons.map do |hash|
-      self.build_row( hash[:name], hash[:rule], true)
+  
+  def persons_from_sid(sid)
+    pagerduty.fetch_todays_schedules_names(sid).map do |name|
+      Person.new(
+        name, 
+        (sid == schedule_ids.first) ? 'webop' : 'dev'
+      )
     end
-  ensure
-    persons.push(self.build_row("not available - see pager duty","bad", false)) unless !persons.empty?
-  end
-
-  private_class_method
-
-  def build_row(person, rule, has_phone)
-    {
-      person: person,
-      rule: rule,
-      has_phone: has_phone
-    }
   end
 
   def pagerduty
     @pagerduty ||= IRPagerduty.new
+  end
+
+  def schedule_ids
+    @schedule_ids ||= SupportApp.pager_duty_schedule_ids.split(',')
+  end
+
+  Person = Struct.new(:name, :rule) do
+    def self.missing
+      self.new('not available', 'bad')
+    end
+
+    def to_h
+      {
+        name:      name,
+        rule:      rule,
+        has_phone: has_phone?
+      }
+    end
+
+    def has_phone?
+      !!(name && rule) && rule != 'bad'
+    end
   end
 end
