@@ -43,7 +43,9 @@ module Presenters
     end
 
     def zendesk
-      @zendesk ||= Zendesk.new
+      # Don't be tempted to momoize this, for example @zendest ||= Zendesk.new - it will 
+      # cache results and therefore return incorrect values
+      Zendesk.new
     end
   end
 end
