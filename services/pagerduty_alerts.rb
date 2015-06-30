@@ -13,54 +13,49 @@ class PagerDutyCheck < RedisStruct
   end
 end
 
-
 class PagerDutyAlerts
   REDIS_KEY_PREFIX = 'pagerduty'
-  REFRESH_KEY = 'check_refresh'
+  REFRESH_KEY      = 'check_refresh'
+
+  def check_alerts
+    return unless check_needed?
+  
+    incs = IRPagerduty.new.Incident.search(
+      assigned_to_user = nil,
+      incident_key     = nil,
+      status           = "triggered,acknowledged",
+      service          = SupportApp.pager_duty_services
+    )['incidents']
+
+    process_incs(incs)
+  end
 
   def reset_check
     PagerDutyCheck.destroy(REFRESH_KEY)
   end
 
-  def is_check_needed?
-    if PagerDutyCheck.exists?(REFRESH_KEY)
-      return false
-    end
-
+  def check_needed?
+    return false if PagerDutyCheck.exists?(REFRESH_KEY)
+      
     PagerDutyCheck.create_with_expire(REFRESH_KEY, true, SupportApp.pager_duty_refresh_interval)
-    return true
+    true
   end
 
-  def check_alerts
-    if !self.is_check_needed?
-      return
-    end
-
-    incs = IRPagerduty.new.Incident.search(
-      assigned_to_user = nil,
-      incident_key = nil,
-      status = "triggered,acknowledged",
-      service = SupportApp.pager_duty_services
-    )['incidents']
-
-    return self.process_incs(incs)
-  end
+  private
 
   def process_incs(incs)
     Alert.destroy_all("#{REDIS_KEY_PREFIX}:*")
 
-    for inc in incs
+    incs.map { |inc| 
       redis_key = "#{REDIS_KEY_PREFIX}:#{inc['id']}"
+      
       Alert.create(redis_key, {
         message: {
-          service: inc['service']['name'],
+          service:     inc['service']['name'],
           description: inc['trigger_summary_data'],
         },
-        acknowledged: inc['status']
+        acknowledged:  inc['status']
       })
-    end
-
-    return incs.length
+    }.length
   end
-
 end
