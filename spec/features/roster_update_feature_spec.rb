@@ -1,11 +1,15 @@
 require 'spec_helper'
+require 'support/request_handlers'
 
 describe "populating the roster", :type => :feature do
+  include RequestHandlers
+  
   let(:csv_dir)       { File.dirname(__FILE__)                                              }
   let(:csv_body)      { File.read(csv_dir + '/../fixtures/googledocs_schedule_body.csv')    }
   let(:csv_new_body)  { File.read(csv_dir + '/../fixtures/googledocs_schedule_new_body.csv')}
   let(:incidents)     { "{\"incidents\":[]}"                                                }
   let(:users)         { "{\"users\":[{\"name\":\"Stuart Munro\"}]}"                         }
+  let(:tickets)       { "{\"results\":[],\"count\":0}"                                      }
   #
   # RequestHandlers to prevent netconnect failures during test run
   #
@@ -14,7 +18,7 @@ describe "populating the roster", :type => :feature do
     pagerduty_incidents_api_returns(incidents)
     pagerduty_schedule_api_returns(users)
     pagerduty_contact_methods_api_returns(cm_success)
-    zendesk_api_call
+    zendesk_api_returns(tickets)
   end
 
   context 'When no authorisation is provided' do

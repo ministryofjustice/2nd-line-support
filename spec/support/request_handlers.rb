@@ -59,13 +59,10 @@ module RequestHandlers
     }.to_json
   end
 
-  def zendesk_api_call
+  def zendesk_api_returns(body)
     stub_get_success(
       /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/.*/, 
-      {
-        "results" => [],
-        "count"   => 0
-      }.to_json,
+      body,
       { "Content-Type": "application/json" }
     )
   end

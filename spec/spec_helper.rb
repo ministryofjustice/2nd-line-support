@@ -3,7 +3,7 @@ ENV['RACK_ENV'] = 'test'
 require_relative '../app'
 require_relative '../models/alert.rb'
 require_relative 'support/helpers'
-require_relative 'support/request_handlers'
+
 
 require 'rack/test'
 require 'webmock/rspec'
@@ -28,6 +28,5 @@ RSpec.configure do |config|
 
   config.include Rack::Test::Methods
   config.include Helpers
-  config.include RequestHandlers
 end
 

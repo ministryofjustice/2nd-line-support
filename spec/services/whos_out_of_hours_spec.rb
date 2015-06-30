@@ -1,8 +1,11 @@
 require 'spec_helper'
 require 'services/whos_out_of_hours'
 require 'services/ir_pagerduty'
+require 'support/request_handlers'
 
 describe WhosOutOfHours do
+  include RequestHandlers
+  
   let(:out_of_hours_sid) { SupportApp.pager_duty_schedule_ids.split(',').first    }
   let(:schedule)         { "{\"users\":[{\"name\":\"Stuart Munro\"}]}"            }
   let(:schedule2)        { "{\"users\":[{\"name\":\"Mateusz Lapsa-Malawski\"}]}"  }

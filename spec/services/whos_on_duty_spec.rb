@@ -1,9 +1,11 @@
 require 'spec_helper'
 
 require 'services/whos_on_duty'
+require 'support/request_handlers'
 
 describe WhosOnDuty do
-
+  include RequestHandlers
+  
   describe 'list' do
     let(:csv_dir)           { File.dirname(__FILE__)                                       }
     let(:success_body)      { File.read(csv_dir + '/../fixtures/whos_on_duty_success.csv') }
