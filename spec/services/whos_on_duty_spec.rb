@@ -21,7 +21,8 @@ describe WhosOnDuty do
           {'name': 'webop1', 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
           {'name': 'dev1', 'rule': 'dev', 'has_phone': false, 'contact_methods': []},
           {'name': 'dev2', 'rule': 'dev', 'has_phone': true, 'contact_methods': []},
-          {'name': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"(00) 44 12 3456 7891", :label=>"Work Phone"}]},
+          {'name': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': 
+            [{:type=>"phone", :address=>"(00) 44 12 3456 7891", :label=>"Work Phone"}]},
         ])
       end
     end
