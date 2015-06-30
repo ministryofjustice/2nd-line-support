@@ -1,10 +1,10 @@
-require_relative '../../services/whos_on_duty'
+require_relative '../../lib/support_rota_doc'
 require_relative './component'
 
 module HealthCheck
   class GoogleDocs < Component
     def initialize
-      @data_source = WhosOnDuty.data_url
+      @data_source = SupportRotaDoc.default.url
       super
     end
 

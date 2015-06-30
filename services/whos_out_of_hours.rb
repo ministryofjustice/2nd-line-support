@@ -2,19 +2,19 @@ require 'json'
 require 'date'
 require 'httparty'
 require 'uri'
+
 require_relative 'ir_pagerduty'
 
 module WhosOutOfHours
+  extend self 
 
-  def self.build_row(person, rule, has_phone)
-    {
-      person: person,
-      rule: rule,
-      has_phone: has_phone
-    }
+  def list
+    scheduled_persons.map(&:to_h)
   end
 
-  def self.scheduled_persons
+  private
+
+  def scheduled_persons
     #
     # NOTE: add each person in each schedule to the one list
     # The first schedule is used to store the "primary" support member
@@ -22,42 +22,46 @@ module WhosOutOfHours
     # for display purposes only (i.e. the phone-icon) the primary is
     # treated webop and secondary as dev
     #
-    schedule_ids = SupportApp.pager_duty_schedule_ids.split(',')
+    persons = 
+      schedule_ids
+        .map(&method(:persons_from_sid))
+        .flatten
 
-    name_rule_pair = []
-    schedule_ids.each do |sid|
-      pagerduty_names(sid).each do |n|
-        r = (sid == schedule_ids.first) ? 'webop' : 'dev'
-        name_rule_pair.push({ name: n, rule: r })
-      end
+    persons.any? ? persons : [ Person.missing ]
+  end
+  
+  def persons_from_sid(sid)
+    pagerduty.fetch_todays_schedules_names(sid).map do |name|
+      Person.new(
+        name, 
+        (sid == schedule_ids.first) ? 'webop' : 'dev'
+      )
+    end
+  end
+
+  def pagerduty
+    @pagerduty ||= IRPagerduty.new
+  end
+
+  def schedule_ids
+    @schedule_ids ||= SupportApp.pager_duty_schedule_ids.split(',')
+  end
+
+  Person = Struct.new(:name, :rule) do
+    def self.missing
+      self.new('not available', 'bad')
     end
 
-    return name_rule_pair
-  end
-
-  def self.list
-    persons = scheduled_persons.map do |hash|
-      self.build_row( hash[:name], hash[:rule], true)
+    def to_h
+      {
+        name:      name,
+        rule:      rule,
+        has_phone: has_phone?
+      }
     end
-  ensure
-    persons.push(self.build_row("not available - see pager duty","bad", false)) unless !persons.empty?
+
+    def has_phone?
+      !!(name && rule) && rule != 'bad'
+    end
   end
-
-  def self.pagerduty_names(sid)
-    #
-    # NOTE: return ONLY this evening's on call people i.e. 17 to 23 hours
-    #       since only this info is useful to the in hours people
-    #
-    dateStr = Date.today.to_s
-    users = IRPagerduty.new.Schedule.users(
-        sid,
-        since_date=URI.escape(dateStr + "T17:00"),
-        until_date=URI.escape(dateStr + "T22:59")
-    )['users']
-
-    users.map { |user| user['name'] }
-  rescue
-      []
-  end
-
 end

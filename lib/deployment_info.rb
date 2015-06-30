@@ -14,7 +14,7 @@ module DeploymentInfo
     }
   end
 
-  private_class_method
+  private
 
   def heroku
     @heroku ||= 

@@ -1,6 +1,8 @@
 require 'ostruct'
 
 require_relative '../../models/duty_roster.rb'
+require_relative '../../models/flag.rb'
+require_relative '../../models/alert.rb'
 
 require_relative '../../services/whos_on_duty'
 require_relative '../../services/whos_out_of_hours'
@@ -24,7 +26,7 @@ module Presenters
       })
     end
 
-    private_class_method
+    private
 
     def build_from(data_h)
       data = default_data.merge(data_h)

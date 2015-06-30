@@ -7,7 +7,7 @@ describe WhosOnDuty do
   describe 'list' do
     let(:success_body) do
       <<-CSV
-        ,In Hours Web Ops,In Hours Dev 1,In Hours Dev 2,Junior In Hours Dev,Primary Out of Hours On Call,Secondary Out of Hours On Call
+        ,In Hours Web Ops,In Hours Dev 1,In Hours Dev 2,Junior In Hours Dev,Duty Support Manager,Secondary Out of Hours On Call
         Currently,webop1,dev1,dev2,,duty_man1,
         Next week,webop2,dev3,dev2,,duty_man2,
         ,,,,,,
@@ -25,7 +25,7 @@ describe WhosOnDuty do
 
     let(:empty_values_body) do
       <<-CSV
-        ,In Hours Web Ops,In Hours Dev 1,In Hours Dev 2,Junior In Hours Dev,Primary Out of Hours On Call,Secondary Out of Hours On Call
+        ,In Hours Web Ops,In Hours Dev 1,In Hours Dev 2,Junior In Hours Dev,Duty Support Manager,Secondary Out of Hours On Call
         Currently,,,,,,
         Next week,,,,,,
         ,,,,,,
@@ -88,10 +88,10 @@ describe WhosOnDuty do
 
       it 'returns hash of names' do
         expect(WhosOnDuty.list).to eql([
-          {'person': 'webop1', 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
-          {'person': 'dev1', 'rule': 'dev', 'has_phone': false, 'contact_methods': []},
-          {'person': 'dev2', 'rule': 'dev', 'has_phone': true, 'contact_methods': []},
-          {'person': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"(00) 44 12 3456 7891", :label=>"Work Phone"}]},
+          {'name': 'webop1', 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
+          {'name': 'dev1', 'rule': 'dev', 'has_phone': false, 'contact_methods': []},
+          {'name': 'dev2', 'rule': 'dev', 'has_phone': true, 'contact_methods': []},
+          {'name': 'duty_man1', 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': [{:type=>"phone", :address=>"(00) 44 12 3456 7891", :label=>"Work Phone"}]},
         ])
       end
     end
@@ -105,11 +105,8 @@ describe WhosOnDuty do
         stub_pagerduty_contact_methods_api_requests
       end
 
-      it 'returns hash with nil values' do
-        expect(WhosOnDuty.list).to eql([
-          {'person': nil, 'rule': 'webop', 'has_phone': true, 'contact_methods': []},
-          {'person': nil, 'rule': 'duty_manager', 'has_phone': false, 'contact_methods': []},
-        ])
+      it 'returns an empty array' do
+        expect(WhosOnDuty.list).to eql([])
       end
     end
 
@@ -118,11 +115,10 @@ describe WhosOnDuty do
         stub_request(:get, "https://docs.google.com/spreadsheet/pub?gid=testing_gid&key=testing_key&output=csv&single=true").
           with(headers: {'Accept'=>'text/csv', 'Host'=>'docs.google.com:443'}).
           to_return(status: 200, body: empty_body, headers: {})
-        stub_pagerduty_schedule_api_requests
-        stub_pagerduty_contact_methods_api_requests
+        stub_pagerduty_schedule_empty_api_requests
       end
 
-      it 'returns empty hash' do
+      it 'returns only the manager from pager duty ' do
         expect(WhosOnDuty.list).to eql([])
       end
     end
