@@ -4,15 +4,16 @@ describe "populating the roster", :type => :feature do
   let(:csv_dir)       { File.dirname(__FILE__)                                              }
   let(:csv_body)      { File.read(csv_dir + '/../fixtures/googledocs_schedule_body.csv')    }
   let(:csv_new_body)  { File.read(csv_dir + '/../fixtures/googledocs_schedule_new_body.csv')}
+  let(:incidents)     { "{\"incidents\":[]}"                                                }
+  let(:users)         { "{\"users\":[{\"name\":\"Stuart Munro\"}]}"                         }
   #
-  # Prevent netconnect failures during test run
+  # RequestHandlers to prevent netconnect failures during test run
   #
   before do
-    googledocs_schedule_request_returns_data(csv_body)
-    pagerduty_incidents_api_call_returns_data
-    pagerduty_schedule_api_call_returns_data
-    pagerduty_schedule_api_requests
-    pagerduty_contact_methods_api_requests
+    googledocs_schedule_request_returns(csv_body)
+    pagerduty_incidents_api_returns(incidents)
+    pagerduty_schedule_api_returns(users)
+    pagerduty_contact_methods_api_returns(cm_success)
     zendesk_api_call
   end
 
@@ -56,7 +57,7 @@ describe "populating the roster", :type => :feature do
     end
 
     it "displays changes to in hours support members" do
-      googledocs_schedule_request_returns_data(csv_new_body)
+      googledocs_schedule_request_returns(csv_new_body)
       basic_auth
       visit '/refresh-duty-roster'
 
@@ -76,7 +77,7 @@ describe "populating the roster", :type => :feature do
 
     it "previously retrieved data is used" do
       prepopulate_members
-      googledocs_schedule_request_returns_data(nil)
+      googledocs_schedule_request_returns(nil)
       basic_auth
       visit '/refresh-duty-roster'
       
@@ -104,7 +105,7 @@ describe "populating the roster", :type => :feature do
   context "when pagerduty API returns NO data" do
     before do
       reset_roster!
-      pagerduty_schedule_api_call_returns_no_data
+      pagerduty_schedule_api_returns(nil)
       basic_auth
       visit '/admin'
     end

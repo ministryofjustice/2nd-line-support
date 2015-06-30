@@ -2,7 +2,7 @@ module RequestHandlers
   GOOGLE_DOC_URL = "https://docs.google.com/spreadsheet/pub?" 
   PAGERDUTY_URL  = "https://moj.pagerduty.com/api/v1/incidents?" 
 
-  def googledocs_schedule_request_returns_data(csv_body)
+  def googledocs_schedule_request_returns(csv_body)
     stub_get_success(
       GOOGLE_DOC_URL + "gid=testing_gid&key=testing_key&output=csv&single=true",
       csv_body,
@@ -13,24 +13,24 @@ module RequestHandlers
     )
   end
 
-  def pagerduty_incidents_api_call_returns_data
+  def pagerduty_incidents_api_returns(body)
     stub_get_success(
       PAGERDUTY_URL + "service=service1,service2&status=triggered,acknowledged",
-      "{\"incidents\":[]}"
+      body
     )
   end
 
-  def pagerduty_schedule_api_call_returns_data
+  def pagerduty_schedule_api_returns(body)
     stub_get_success(
       moj_pagerduty_schedule_regex,
-      "{\"users\":[{\"name\":\"Stuart Munro\"}]}"
+      body
     )
   end
 
-  def pagerduty_schedule_api_call_returns_no_data
+  def pagerduty_contact_methods_api_returns(body)
     stub_get_success(
-      moj_pagerduty_schedule_regex, 
-      nil
+      /.*users\/.*\/contact_methods.*/,
+      body
     )
   end
 
@@ -57,20 +57,6 @@ module RequestHandlers
         }
       ]
     }.to_json
-  end
-
-  def pagerduty_schedule_api_requests
-    stub_get_success(
-      /.*schedules\/.*\/users?since=.*/,
-      ir_success
-    )
-  end
-
-  def pagerduty_contact_methods_api_requests
-    stub_get_success(
-      /.*users\/.*\/contact_methods.*/,
-      cm_success
-    )
   end
 
   def zendesk_api_call

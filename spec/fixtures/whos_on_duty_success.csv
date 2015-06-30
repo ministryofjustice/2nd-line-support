@@ -1,0 +1,13 @@
+,In Hours Web Ops,In Hours Dev 1,In Hours Dev 2,Junior In Hours Dev,Duty Support Manager,Secondary Out of Hours On Call
+Currently,webop1,dev1,dev2,,duty_man1,
+Next week,webop2,dev3,dev2,,duty_man2,
+,,,,,,
+,,,,,,
+Currently in 1 cell,"webop1
+dev1
+dev2
+",,,,,
+Next week in 1 cell,"webop2
+dev3
+dev2
+",,You can use these cells for you team's geckoboard!,They are autopopulated!,,
