@@ -1,6 +1,6 @@
 <div id="duty-roster" class="column">
   <h2>On duty</h2>
-  <%if @data.whos_on_duty[:name] %>
+  <%if @data.whos_on_duty %>
   <ul>
     <li class="<%= @data.whos_on_duty[:rule] %> <%= @data.whos_on_duty[:has_phone]? "phone" : "" %>">
       <span class="phone-icon"></span>

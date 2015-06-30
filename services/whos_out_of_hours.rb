@@ -12,7 +12,7 @@ module WhosOutOfHours
     scheduled_persons.map(&:to_h)
   end
 
-  private_class_method
+  private
 
   def scheduled_persons
     #

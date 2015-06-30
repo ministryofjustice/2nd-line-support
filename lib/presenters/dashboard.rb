@@ -26,7 +26,7 @@ module Presenters
       })
     end
 
-    private_class_method
+    private
 
     def build_from(data_h)
       data = default_data.merge(data_h)

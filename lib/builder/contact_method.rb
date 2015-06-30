@@ -9,7 +9,7 @@ module Builder
       contact_methods.map(&method(:template))
     end
 
-    private_class_method
+    private
 
     def template(contact_method)
       {
