@@ -17,7 +17,7 @@ module Helpers
   end
 
   def reset_roster!
-    Capybara.app::ROSTER.clear!
+    DutyRosterMembers.destroy_all
   end
 
   def empty_incidents(count)
