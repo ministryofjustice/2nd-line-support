@@ -17,7 +17,6 @@ class SupportApp < Sinatra::Application
 
     with_updated_data do
       @data = Presenters::Dashboard.admin(ROSTER)
-
       erb :admin
     end
   end

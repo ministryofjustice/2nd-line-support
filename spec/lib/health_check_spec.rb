@@ -80,7 +80,7 @@ describe 'Health Check Components' do
   end
 
   context 'Google Docs' do
-    let(:pager)   { HealthCheck::GoogleDocs.new           }
+    let(:doc)     { HealthCheck::GoogleDocs.new           }
     let(:res)     { double Net::HTTPResponse, status: 200 }
     let(:bad_res) { double Net::HTTPResponse, status: 503 }
 
@@ -94,13 +94,13 @@ describe 'Health Check Components' do
       it 'should return true if the service is accessible' do
         stub_google_response(res)
 
-        expect(pager).to be_accessible
+        expect(doc).to be_accessible
       end
 
       it 'should return false if the service is inaccessible' do
         stub_google_response(bad_res)
 
-        expect(pager).not_to be_accessible
+        expect(doc).not_to be_accessible
       end
 
       it 'should return false if the service raises an error' do
@@ -108,7 +108,7 @@ describe 'Health Check Components' do
           .to receive(:get)
           .and_raise(StandardError)
         
-        expect(pager).not_to be_accessible
+        expect(doc).not_to be_accessible
       end
     end
   end

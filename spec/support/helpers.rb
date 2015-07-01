@@ -15,4 +15,8 @@ module Helpers
   def basic_auth
     page.driver.header('Authorization', 'Basic '+ Base64.encode64('test pass:X')) 
   end
+
+  def reset_roster!
+    Capybara.app::ROSTER.clear!
+  end
 end

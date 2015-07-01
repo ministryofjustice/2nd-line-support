@@ -1,25 +1,12 @@
 require 'spec_helper'
 
 require 'services/pagerduty_alerts'
+require 'support/request_handlers'
 
 describe PagerDutyAlerts do
+  include RequestHandlers
+
   let(:alert_key) { "#{described_class::REDIS_KEY_PREFIX}:alert-id"}
-
-  let(:successful_request_stub) { 
-    stub_request(
-          :get, 
-          "https://moj.pagerduty.com/api/v1/incidents?service=service1,service2&status=triggered,acknowledged"
-        ).with(
-          :headers => {
-            'Accept'=>'*/*',
-            'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-            'Authorization'=>'Token token=testing_token',
-            'Content-Type'=>'application/json',
-            'User-Agent'=>'Ruby'
-          }
-        ).to_return(:status => 200, :body => body, :headers => {})
-  }
-
 
   describe '#check_alerts' do
     subject { described_class.new().check_alerts }
@@ -49,7 +36,7 @@ describe PagerDutyAlerts do
 
       it 'processes alerts from pagerduty' do
         described_class.new().reset_check
-        successful_request_stub
+        pagerduty_incidents_api_returns(body)
         subject
 
         expect(Alert.exists?(alert_key)).to be true
@@ -72,7 +59,7 @@ describe PagerDutyAlerts do
 
         expect(Alert.exists?(alert_key)).to be true
 
-        successful_request_stub
+        pagerduty_incidents_api_returns(body)
         subject
 
         expect(Alert.exists?(alert_key)).to be false
