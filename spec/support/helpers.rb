@@ -19,4 +19,11 @@ module Helpers
   def reset_roster!
     Capybara.app::ROSTER.clear!
   end
+
+  def empty_incidents(count)
+    {
+      results: Array.new(count, {}),
+      count:   count
+    }.to_json
+  end
 end

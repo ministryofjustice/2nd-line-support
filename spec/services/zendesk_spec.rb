@@ -7,13 +7,6 @@ require 'support/request_handlers'
 describe Zendesk do
   include RequestHandlers
 
-  def empty_incidents(count)
-    {
-      results: Array.new(count, {}),
-      count:   count
-    }.to_json
-  end
-
   let(:zendesk) { Zendesk.new }
 
   describe '#incidents_for_the_past_week' do
