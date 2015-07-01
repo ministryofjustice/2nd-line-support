@@ -80,7 +80,7 @@ describe 'Health Check Components' do
   end
 
   context 'Google Docs' do
-    let(:doc)   { HealthCheck::GoogleDocs.new           }
+    let(:doc)     { HealthCheck::GoogleDocs.new           }
     let(:res)     { double Net::HTTPResponse, status: 200 }
     let(:bad_res) { double Net::HTTPResponse, status: 503 }
 

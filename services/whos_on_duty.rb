@@ -13,7 +13,7 @@ module WhosOnDuty
     devs          = Builder::Dev.hash(source.devs(:current), source.devs(:next))
     duty_managers = Builder::Manager.hash(fetch_managers)
 
-    unless webops.any? && devs.any? && fetch_managers == pagerduty_managers
+    if webops.empty? && devs.empty? && source.duty_managers(:current).empty?
       []
     else
       webops + devs + duty_managers
