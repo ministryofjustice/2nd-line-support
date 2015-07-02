@@ -1,3 +1,8 @@
+require 'simplecov'
+SimpleCov.start
+
+
+
 ENV['RACK_ENV'] = 'test'
 
 require_relative '../app'
@@ -8,10 +13,8 @@ require_relative 'support/helpers'
 require 'rack/test'
 require 'webmock/rspec'
 require 'capybara/rspec'
-require 'simplecov'
 require 'pry'
 
-SimpleCov.start
 
 ENV['REDISCLOUD_URL'] ||= 'redis://localhost/1'
 
