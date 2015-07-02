@@ -3,11 +3,9 @@ require_relative '../lib/presenters/dashboard'
 require_relative '../services/pagerduty_alerts'
 
 class SupportApp < Sinatra::Application
-  ROSTER = DutyRoster.new(settings.duty_roster_google_doc_refresh_interval)
-
   get '/' do
     with_updated_data do
-      @data = Presenters::Dashboard.default(ROSTER)
+      @data = Presenters::Dashboard.default(@duty_roster)
       erb :index
     end
   end
@@ -16,7 +14,7 @@ class SupportApp < Sinatra::Application
     protected!
 
     with_updated_data do
-      @data = Presenters::Dashboard.admin(ROSTER)
+      @data = Presenters::Dashboard.admin(@duty_roster)
       erb :admin
     end
   end
@@ -24,14 +22,16 @@ class SupportApp < Sinatra::Application
   get '/refresh-duty-roster' do
     protected!
 
-    ROSTER.update
+    DutyRoster.default.refresh!
     redirect '/admin'
   end
 
   private 
 
   def with_updated_data
-    ROSTER.update if (ROSTER.invalid? || ROSTER.stale?)
+    @duty_roster = DutyRoster.default
+    @duty_roster.update
+
     PagerDutyAlerts.new.check_alerts
 
     yield
