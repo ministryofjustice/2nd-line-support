@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-
 describe DutyRoster do
-
   before(:each) do
     allow(SupportApp).to receive(:duty_roster_google_doc_refresh_interval_in_minutes).and_return(55)
   end
@@ -35,10 +33,16 @@ describe DutyRoster do
       roster.clear!
     end
   end
-  
+
+  describe '#clear!' do
+    it 'should call destroy_all on members' do
+      roster = DutyRoster.default
+      members = roster.instance_variable_get(:@members)
+      expect(members).to receive(:destroy_all)
+      roster.clear!
+    end
+  end
 end
-
-
 
 def minutes_ago(n)
   Time.now - (n * 60)

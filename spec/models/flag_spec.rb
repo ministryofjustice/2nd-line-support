@@ -1,17 +1,16 @@
 require 'spec_helper'
 
-describe Flag do 
+describe 'Flag' do
+  let(:redis_double)   { double Redis }
 
-  describe '.create' do
-
-    let(:redis_client)        { RedisClient.instance }
-
-    it 'should set a flag record in the database  to true' do
-      Flag.create('mykey')
-      expect(redis_client.get('flag:mykey')).to be true
-
-    end
+  before(:each) do
+    expect(Flag).to receive(:redis).and_return(redis_double)
   end
 
-  
+  describe 'create' do
+    it 'should set a key in redis' do
+      expect(redis_double).to receive(:set).with('flag:my_key', true)
+      Flag.create('my_key')
+    end
+  end
 end
