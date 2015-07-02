@@ -15,7 +15,6 @@ class DutyRosterMembers < RedisStruct
 
   def self.list
     struct = fetch(DATA_KEY)
-
     struct.value && JSON.parse(struct.value, symbolize_names: true)
   end
 
@@ -38,6 +37,8 @@ class DutyRoster
   def self.default
     new(SupportApp.duty_roster_google_doc_refresh_interval)
   end
+
+  private_class_method :new
 
   def stale?
     Time.now > Time.parse(@members.last_update) + @refresh_interval
@@ -67,8 +68,6 @@ class DutyRoster
   def manager
     members.find { |p| p[:rule] == 'duty_manager' }
   end
-
-  private
 
   def initialize(refresh_interval)
     @refresh_interval = refresh_interval
