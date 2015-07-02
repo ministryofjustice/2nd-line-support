@@ -70,6 +70,9 @@ Emails received on this address will trigger a PagerDuty alert by the following 
 - The Zendesk trigger "PagerDuty Trigger" is fired on receipt of the mail, which will execute the "Notify PagerDuty of Incoming Mail" target
 - The Zendesk target "Notify PagerDuty" of incoming mail sends a mail to PagerDuty
 - The PagerDuty service "Create Incident from Zendesk mail" will create an incident and notify duty personnel in the normal manner
+- The PagerDuty Hipchat webhook will post a message to our Hipchat room.
+
+Resolving the ticket in Zendesk will also resolve the incident in PagerDuty and send an issue resolved message to Hipchat
 
 
 ## Endpoints:
