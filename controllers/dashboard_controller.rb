@@ -1,3 +1,4 @@
+require 'json'
 require_relative '../models/duty_roster.rb'
 require_relative '../lib/presenters/dashboard'
 require_relative '../services/pagerduty_alerts'
@@ -19,6 +20,12 @@ class SupportApp < Sinatra::Application
     end
   end
 
+  get '/v2-admin.json' do
+    content_type :json
+    hash = YAML::load_file(File.join(__dir__, '../config/dummy_data.yml'))
+    hash.to_json
+  end
+
   get '/refresh-duty-roster' do
     protected!
 
@@ -36,4 +43,5 @@ class SupportApp < Sinatra::Application
 
     yield
   end
+
 end
