@@ -42,4 +42,5 @@ It should populate an instance variable @dashboard a JSON hash:
   Collection of Data into redis database:
   =======================================
 
-  * Call PagerDutyAlerts.check alerts - this will write incidents for the services defined in SupportApp.pager_duty_services
+  * Call PagerDutyAlerts.check alerts - this will write incidents for the services defined in SupportApp.pager_duty_services (not sure if this will include
+    those incidents raised by emails to Zendesk, as these don't appear to be connected to a pager duty service)
