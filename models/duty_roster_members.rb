@@ -20,9 +20,27 @@ class DutyRosterMembers < RedisStruct
     super("#{key_prefix}:*")
   end
 
+
+  def self.formatted_hash
+    full_hash = self.list
+    result =
+      {
+        irm: "Dave Rogers",
+        irm_telephone: "01234-567890",
+        dev_1: " David Cameron",
+        dev_2: "George Osborne",
+        web_ops: "Angela Merkel",
+        ooh_1: "Alexis Tsipras",
+        ooh_2: "Yanis Varoufakis"
+      }
+    result
+  end
+
   private
 
   def self.key_prefix
     'duty_roster'
   end
+
+
 end
