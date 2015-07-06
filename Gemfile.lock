@@ -83,7 +83,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     inflection (1.0.0)
-    json (1.8.2)
+    json (1.8.3)
     jwt (1.4.1)
     kgio (2.9.3)
     launchy (2.4.3)
@@ -214,6 +214,7 @@ DEPENDENCIES
   haml
   heroku-api
   httparty
+  multi_json (= 1.11)
   pagerduty-full
   pry
   rack-contrib
