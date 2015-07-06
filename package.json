@@ -1,0 +1,23 @@
+{
+  "name": "2nd-line-support",
+  "version": "1.0.0",
+  "description": "2nd line support UI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ministryofjustice/2nd-line-support.git"
+  },
+  "author": "Fazal Khan <fazal.khan@digital.justice.gov.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/2nd-line-support/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/2nd-line-support",
+  "dependencies": {
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.10.1"
+  }
+}
