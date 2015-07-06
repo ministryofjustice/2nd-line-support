@@ -4,6 +4,7 @@ ruby '2.2.1'
 
 gem 'google-api-client'
 gem 'haml'
+gem 'json'
 gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-contrib'
 gem 'rake'
