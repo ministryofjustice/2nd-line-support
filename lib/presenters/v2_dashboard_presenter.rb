@@ -8,8 +8,10 @@ class V2DashboardPresenter
     # as we implemnt the features.
     # we can get rid of the line below once we've done everything.
     @data = YAML::load_file(File.join(__dir__, '../../config/dummy_data.yml'))
-    @data['duty_roster'] = DutyRosterMembers.formatted_hash
-
+    @data['duty_roster'] = DutyRosterMembers.v2_list
+    puts ">>>>>>>>>>>>>>>> DEBUG PRESENTER    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+    require 'pp'
+    pp @data
 
   end
 

@@ -2,7 +2,7 @@
 # loaded:
 
 # e.g. irb -r console.rb
-
+require 'pp'
 require 'ap'
 
 Dir.chdir(File.dirname(__FILE__))
