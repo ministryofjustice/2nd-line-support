@@ -19,6 +19,7 @@ gem 'heroku-api'
 gem 'bcrypt', '>= 2.1.4'
 
 group :development do
+  gem 'awesome_print'
   gem 'foreman'
   gem 'shotgun'
   gem 'rerun'

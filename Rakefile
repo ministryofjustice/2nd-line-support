@@ -2,6 +2,20 @@ require_relative 'models/alert.rb'
 require_relative 'models/traffic_spike.rb'
 require_relative 'lib/real_time_analytics.rb'
 
+namespace :collector do
+  desc 'collect data from Zendesk, PagerDuty and Googledocs and write into REDIS Database'
+  task :run do
+    require_relative 'services/event_collector.rb'
+    EventCollector.new.run
+  end
+end
+
+
+
+
+
+
+
 task :update_traffic_spikes do
   TrafficSpike.update
 end
