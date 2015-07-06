@@ -6,7 +6,6 @@ require 'pp'
 require 'ap'
 
 Dir.chdir(File.dirname(__FILE__))
-puts Dir.pwd
 
 require './app.rb'
 %w{ lib presenters models services }.each do |subdir|

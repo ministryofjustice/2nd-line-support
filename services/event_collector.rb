@@ -9,14 +9,25 @@ class EventCollector
   def initialize
     Excon.defaults[:ssl_verify_peer] = false
     @zendesk = nil
-    @pagerduty = nil
+    @pagerduty = IRPagerduty.new
     @duty_roster = DutyRoster.default
+    @redis = Redis.new(:url => ENV["REDISCLOUD_URL"])
   end
 
 
 
   def run
-   @duty_roster.update
- end
+    @duty_roster.update         # this will update the redis key duty_roster:v2members if stale
+    store_out_of_hours
+  end
+
+
+
+  private 
+
+
+  def store_out_of_hours
+    @redis.set 'ooh:members', WhosOutOfHours.list.to_json
+  end
 
 end
