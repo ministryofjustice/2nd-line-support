@@ -15,4 +15,15 @@ module Helpers
   def basic_auth
     page.driver.header('Authorization', 'Basic '+ Base64.encode64('test pass:X')) 
   end
+
+  def reset_roster!
+    DutyRosterMembers.destroy_all
+  end
+
+  def empty_incidents(count)
+    {
+      results: Array.new(count, {}),
+      count:   count
+    }.to_json
+  end
 end

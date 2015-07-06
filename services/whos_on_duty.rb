@@ -13,7 +13,11 @@ module WhosOnDuty
     devs          = Builder::Dev.hash(source.devs(:current), source.devs(:next))
     duty_managers = Builder::Manager.hash(fetch_managers)
 
-    webops + devs + duty_managers
+    if webops.empty? && devs.empty? && source.duty_managers(:current).empty?
+      []
+    else
+      webops + devs + duty_managers
+    end
 
   rescue GoogleDoc::ReadAccessError
     []
