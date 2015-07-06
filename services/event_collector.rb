@@ -7,6 +7,7 @@ require_relative '../models/duty_roster.rb'
 class EventCollector
 
   def initialize
+    Excon.defaults[:ssl_verify_peer] = false
     @zendesk = nil
     @pagerduty = nil
     @duty_roster = DutyRoster.default

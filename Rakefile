@@ -11,6 +11,17 @@ namespace :collector do
 end
 
 
+namespace :duty_roster do
+  desc 'refresh the REDIS db with latest duty roster details from google doc'
+  task :refresh do
+    require_relative 'models/duty_roster.rb'
+    Excon.defaults[:ssl_verify_peer] = false
+    DutyRoster.default.refresh!
+  end
+end
+
+
+
 
 
 
