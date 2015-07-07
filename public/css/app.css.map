@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.css"],"names":[],"mappings":"AAAA;EACE,gDAAiB;CAClB;AAFD;EACE,YAAiB;EAAjB,mBAAiB;EAAjB,YAAiB;CAClB;AAFD;EACE,gBAAiB;CAClB;AAFD;EACE,gBAAiB;CAClB;AAFD;EACE,YAAiB;CAClB","file":"app.css","sourcesContent":["div {\n  lost-column: 1/3;\n}\n"],"sourceRoot":"/source/"}
