@@ -36,7 +36,7 @@ It should populate an instance variable @dashboard a JSON hash:
   Put all of this in to a yaml file, and just generate it from that.
 
 
-  REEDIS KEYS AND DATA
+  REDIS KEYS AND DATA
   ====================
 
 
