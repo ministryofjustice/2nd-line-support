@@ -6,6 +6,9 @@ var gulp = require('gulp'),
   browserify = require('browserify'),
   concat = require('gulp-concat'),
   postcss = require('gulp-postcss'),
+  nesting = require('postcss-nesting'),
+  nested = require('postcss-nested'),
+  cssnext = require('cssnext'),
   autoprefixer = require('autoprefixer'),
   lost = require('lost');
 
@@ -31,6 +34,9 @@ gulp.task('css', function() {
   return gulp.src(paths.cssSrc + '**/*.css')
     .pipe(sourcemaps.init())
     .pipe(postcss([
+      nesting(),
+      nested(),
+      cssnext(),
       lost(),
       autoprefixer()
     ]))
