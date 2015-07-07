@@ -3,7 +3,7 @@
 
 <head>
   <%#<meta http-equiv="refresh" content="5">%>
-  <link rel="stylesheet" href="css/app.css" media="screen">
+  <link rel="stylesheet" href="/css/app.css" media="screen">
 </head>
 
 <body class="<%unless @data.alerts.empty? %>alert<% end %>
@@ -17,6 +17,7 @@
     </div>
     <%= partial(:persons) %>
   </div>
+  <script src="/js/app.js"></script>
 </body>
 
 </html>
