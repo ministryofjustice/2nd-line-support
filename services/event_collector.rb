@@ -11,7 +11,7 @@ class EventCollector
     @zendesk = nil
     @pagerduty = IRPagerduty.new
     @duty_roster = DutyRoster.default
-    @redis = Redis.new(:url => ENV["REDISCLOUD_URL"])
+    @redis = RedisClient.instance
   end
 
 
@@ -28,18 +28,19 @@ class EventCollector
 
 
   def store_out_of_hours
-    @redis.set 'ooh:members', WhosOutOfHours.list.to_json
+    @redis.set 'ooh:members', WhosOutOfHours.list
   end
 
   def store_irm
     irm_schedules = @pagerduty.fetch_irm
     layer2 = extract_schedule_layer(irm_schedules, 'Layer 2')
+
     duty_irm = layer2['users'].first
     duty_irm_user = get_duty_irm_details(duty_irm['user']['id'])
 
     users = @pagerduty.fetch_todays_schedules_users(SupportApp.pager_duty_irm_schedule_id)
     duty_irm_user = users.detect{ |u| u['id'] == duty_irm['user']['id'] }
-    @redis.set('duty_roster:v2irm', format_duty_irm_user(duty_irm_user).to_json)
+    @redis.set('duty_roster:v2irm', format_duty_irm_user(duty_irm_user))
   end
 
 

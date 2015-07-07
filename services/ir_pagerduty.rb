@@ -27,9 +27,6 @@ class IRPagerduty < PagerDuty::Full
   def fetch_irm
     schedule_id = SupportApp.pager_duty_irm_schedule_id
     irms = self.Schedule.find(schedule_id)
-    puts ">>>>>>>>>>>>>>>> DEBUG message    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
-    require 'pp'
-    pp irms
   end
 
 
