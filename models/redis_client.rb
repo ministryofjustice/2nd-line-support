@@ -17,5 +17,18 @@ class RedisClient
     @redis.set(key, value.to_json)
   end
 
+  def keys(mask)
+    @redis.keys(mask)
+  end
+
+  def count_keys(mask)
+    keys(mask).size
+  end
+
+
+  def flushdb
+    @redis.flushdb
+  end
+
 
 end
