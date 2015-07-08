@@ -11,7 +11,7 @@ duty_roster:
 services: 
   - "AWS is DOWN"
 services_color: "red"
-tools: "3 alerts"
+number_of_alerts: "3"
 tools_color: "red"
 tickets: 
   - 

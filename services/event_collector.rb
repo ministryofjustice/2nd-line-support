@@ -8,7 +8,6 @@ class EventCollector
 
   def initialize
     Excon.defaults[:ssl_verify_peer] = false
-    @zendesk = nil
     @pagerduty = IRPagerduty.new
     @duty_roster = DutyRoster.default
     @redis = RedisClient.instance
@@ -20,11 +19,32 @@ class EventCollector
     @duty_roster.update         # this will update the redis key duty_roster:v2members if stale
     store_out_of_hours
     store_irm
+    store_pagerduty_alerts
+    store_zendesk_tickets
   end
 
 
 
   private 
+
+  def store_zendesk_tickets
+    ticket_summaries = []
+    zendesk = Zendesk.new     # you must re-instantiate this every time in order not to get stale results
+    tickets = zendesk.active_incidents
+    tickets.each do |t|
+      ticket_summaries << {'ticket_no' => t.id, 'type' => t.type, 'text' => t.subject }
+    end
+    @redis.set('zendesk:tickets', ticket_summaries)
+
+    incidents_in_last_week = zendesk.incidents_for_the_past_week
+    @redis.set('zendesk:incidents_in_last_week', incidents_in_last_week)
+  end
+
+
+  def store_pagerduty_alerts
+    # PagerDutyAlerts class writes to the redis database
+    PagerDutyAlerts.new.check_alerts
+  end
 
 
   def store_out_of_hours

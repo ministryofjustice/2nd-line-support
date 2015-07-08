@@ -1,6 +1,4 @@
 require_relative 'models/alert.rb'
-require_relative 'models/traffic_spike.rb'
-require_relative 'lib/real_time_analytics.rb'
 
 namespace :collector do
   desc 'collect data from Zendesk, PagerDuty and Googledocs and write into REDIS Database'

@@ -21,7 +21,7 @@ It should populate an instance variable @dashboard a JSON hash:
     },
   'services' => an array of sentences like: 'AWS is DOWN'
   'services_color' => 'red' | 'none'
-  'tools' =>  '3 alerts'
+  'number_of_alerts' =>  '3'
   'tools_color' => 'red' | 'none'
   'tickets' [
                 {

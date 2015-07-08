@@ -9,18 +9,27 @@ describe EventCollector do
   let(:collector)               { EventCollector.new }
   let(:pagerduty)               { double IRPagerduty }
 
-  before(:each) do
-    expect(DutyRoster).to receive(:default).and_return(duty_roster_double)
-  end
 
   describe '.run' do
     it 'should call all of the store methods' do
+      expect(DutyRoster).to receive(:default).and_return(duty_roster_double)
       expect(duty_roster_double).to receive(:update)
 
       expect(collector).to receive(:store_out_of_hours)
       expect(collector).to receive(:store_irm)
+      expect(collector).to receive(:store_pagerduty_alerts)
 
       collector.run
+    end
+  end
+
+  describe '.store_pagerduty_alerts' do
+    it 'should call check alerts on PagerDutyAlerts' do
+      pda_double = double PagerDutyAlerts
+      expect(PagerDutyAlerts).to receive(:new).and_return(pda_double)
+      expect(pda_double).to receive(:check_alerts)
+
+      collector.send(:store_pagerduty_alerts)
     end
   end
 
