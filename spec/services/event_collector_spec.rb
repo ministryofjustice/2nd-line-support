@@ -1,5 +1,6 @@
 require 'spec_helper'
 require_relative '../../services/event_collector'
+require_relative '../../services/ir_pagerduty'
 
 describe EventCollector do
 
@@ -35,12 +36,48 @@ describe EventCollector do
 
   describe '. store_irm' do
     it 'should store user details for the layer 2 schedule for incident response manager' do
-      expect(IRPagerDuty).to receive(:new).and_return(pagerduty)
+      expect(IRPagerduty).to receive(:new).and_return(pagerduty)
       expect(pagerduty).to receive(:fetch_irm).and_return(irm_schedules)
-      expect(pagerduty).to receive(:fetch_todays_schedules_users).and_return(pager_duty_users)
+      allow(pagerduty).to receive(:fetch_todays_schedules_users).and_return(pagerduty_users)
+      expect(redis).to receive(:set).with('duty_roster:v2irm', {"name"=>"layer 2 user", "telephone"=>"7590483002"})
+      
       collector.send(:store_irm)
     end
   end
+end
+
+
+def pagerduty_users
+  [
+    {
+      'id' => 'ABC123',
+      'name' => 'Dummy user',
+      'contact_methods' => [
+          {
+            'type' => 'phone',
+            'address' => '7590483002'
+          },
+          { 
+            'type' => 'email',
+            'address' => 'me@example.com'
+          }
+      ]
+    },
+    {
+      'id' => 'LAYER2-USER1',
+      'name' => 'layer 2 user',
+      'contact_methods' => [
+          {
+            'type' => 'phone',
+            'address' => '7590483002'
+          },
+          { 
+            'type' => 'email',
+            'address' => 'me@example.com'
+          }
+      ]
+    }
+  ]
 end
 
 
