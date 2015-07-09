@@ -20,12 +20,17 @@ gem 'heroku-api'
 gem 'bcrypt', '>= 2.1.4'
 gem 'daemons'
 
+
+group :development, :test do
+  gem 'byebug'
+  gem 'pry'
+end
+
 group :development do
   gem 'awesome_print'
   gem 'foreman'
   gem 'shotgun'
   gem 'rerun'
-  gem 'pry'
 end
 
 group :test do
@@ -36,6 +41,4 @@ group :test do
   gem 'timecop'
   gem 'webmock'
   gem 'capybara'
-  gem 'byebug'
-  gem 'pry'
 end

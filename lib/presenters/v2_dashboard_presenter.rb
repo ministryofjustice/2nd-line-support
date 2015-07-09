@@ -9,8 +9,13 @@ class V2DashboardPresenter
     # TODO we load data with the dummy data to start off with, and then replace it with real data
     # as we implemnt the features.
     # we can get rid of the line below once we've done everything.
-    @data = YAML::load_file(File.join(__dir__, '../../config/dummy_data.yml'))
+    @data = {}
     @data['status_bar_color'] = 'black'
+    @data['duty_roster']      = []
+    @data['services']         = []
+    @data['services_color']   = 'black'
+    @data['tools']            = []
+    @data['tools_color']      = 'black'
   end
 
 
@@ -42,20 +47,37 @@ class V2DashboardPresenter
     @data['number_of_alerts'] = @redis.count_keys('alert:pagerduty:*')
   end
 
-
   def read_duty_roster_data
-    @data['duty_roster'] = DutyRosterMembers.v2_list
+    read_members
+    read_irm
+    read_ooh
+  end
+
+  def read_members
+    members = @redis.get('duty_roster:v2members')
+    members.each do |role, member_name|
+      @data['duty_roster'] << make_member(member_name, role)
+    end
+  end
+
+  def read_ooh
     ooh_members = @redis.get('ooh:members')
     ooh_members.each_with_index do |member, i|
-      @data['duty_roster']["ooh_#{i + 1}"] = member['name']
+      @data['duty_roster'] << make_member(member['name'], "ooh_#{i + 1}")
     end
   end
 
 
   def read_irm
     irm = @redis.get('duty_roster:v2irm')
-    @data['duty_roster']['irm'] = irm['name']
-    @data['duty_roster']['irm_telephone'] = irm['telephone']
+    @data['duty_roster'] << make_member(irm['name'], 'irm', irm['telephone'])
+  end
+
+
+  def make_member(name, role, telephone = nil)
+    member = {'name' => name, 'role' => role }
+    member['telephone'] = telephone unless telephone.nil?
+    member
   end
 
 end

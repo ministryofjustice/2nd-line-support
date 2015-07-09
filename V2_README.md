@@ -31,15 +31,14 @@ The data to populate this dashboard is provided as a json structure as follows:
 
     'status_bar_text'  =>   '3 incidents in past week',
     'status_bar_color'  =>  'red' | 'amber' | 'green',
-    'duty_roster' => {
-        'irm' =>
-        'irm_telephone'
-        'dev_1'
-        'dev_2'
-        'web_ops'
-        'ooh_1'
-        'ooh_1'
-      },
+    'duty_roster' => [
+            {'name' => 'Joe Blogs', 'role' => 'dev_1' },
+            {'name' => 'Joe Blogs', 'role' => 'dev_2' },
+            {'name' => 'Joe Blogs', 'role' => 'ooh_1' },
+            {'name' => 'Joe Blogs', 'role' => 'ooh_2' },
+            {'name' => 'Joe Blogs', 'role' => 'web_ops' },
+            {'name' => 'Joe Blogs', 'role' => 'irm', 'telephone' => '123456789' }
+    ],
     'services' => an array of sentences like: 'AWS is DOWN'
     'services_color' => 'red' | 'none'
     'number_of_alerts' =>  '3'

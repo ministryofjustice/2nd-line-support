@@ -78,38 +78,25 @@ describe V2DashboardPresenter do
 
 
   describe 'read_duty_roster_data'  do
-    it 'should format the duty_roster hash with results from DutyRosterMembers' do
-      duty_roster_hash = {:web_ops=>"Peter Idah", :dev_1=>"Max Froumentin", :dev_2=>"Stephen Richards"} 
-      ooh_hash = [
-        {
-          "name"=>"Steve Marshall", 
-          "rule"=>"webop", 
-          "has_phone"=>true}, 
-        {
-          "name"=>"Ash Berlin", 
-          "rule"=>"dev", 
-          "has_phone"=>true}
-      ]
-      expect(DutyRosterMembers).to receive(:v2_list).and_return(duty_roster_hash)
-      expect(redis_client).to receive(:get).with('ooh:members').and_return(ooh_hash)
-
+    it 'should format the duty_roster hash with results from redis' do
+      redis_client.set('duty_roster:v2members', {"web_ops"=>"Peter Idah", "dev_1"=>"Max Froumentin", "dev_2"=>"Stephen Richards"} )
+      redis_client.set('ooh:members', ooh_members)
+      redis_client.set('duty_roster:v2irm', { 'name' => 'Kamala Hamilton-Brown', 'telephone' => '7958512425' } )
+      
       presenter.send(:read_duty_roster_data)
-      expect(duty_roster_data).to eq expected_duty_roster
+      data = presenter.instance_variable_get(:@data)
+      expect(data['duty_roster']).to eq( expected_duty_roster )
     end
   end
-
-
-  describe 'read_irm' do
-    it 'should format the IRM details it gets from redis' do
-      expect(redis_client).to receive(:get).with('duty_roster:v2irm').and_return(redis_irm_hash)
-      presenter.send(:read_irm)
-      expect(duty_roster_data['irm']).to eq 'Kamala Hamilton-Brown'
-      expect(duty_roster_data['irm_telephone']).to eq '8958551905'
-    end
-  end
-
-  
 end
+
+def ooh_members
+  [
+    {"name"=>"Steve Marshall", "rule"=>"webop", "has_phone"=>true},
+    {"name"=>"Ash Berlin", "rule"=>"dev", "has_phone"=>true}
+  ]
+end
+
 
 
 def three_open_zendesk_incidents
@@ -133,13 +120,15 @@ def three_open_zendesk_incidents
 end
 
 def expected_duty_roster
-  {
-    :web_ops=>"Peter Idah", 
-    :dev_1=>"Max Froumentin", 
-    :dev_2=>"Stephen Richards", 
-    "ooh_1"=>"Steve Marshall", 
-    "ooh_2"=>"Ash Berlin"
-  }
+  [
+    { 'name' => 'Peter Idah',             'role' => 'web_ops' },
+    { 'name' => 'Max Froumentin',         'role' => 'dev_1' },
+    { 'name' => 'Stephen Richards',       'role' => 'dev_2' },
+    { 'name' => 'Kamala Hamilton-Brown',  'role' => 'irm',      'telephone' => '7958512425'},
+    { 'name' => 'Steve Marshall',         'role' => 'ooh_1' },
+    { 'name' => 'Ash Berlin',             'role' => 'ooh_2' }
+    
+  ]
 end
 
 
