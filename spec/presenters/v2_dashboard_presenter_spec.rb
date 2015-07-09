@@ -36,7 +36,7 @@ describe V2DashboardPresenter do
         data =  presenter.instance_variable_get(:@data)
         expect(data['tickets']).to be_empty
         expect(data['status_bar_text']).to eq "42 incidents in the past week"
-        expect(data['status_bar_color']).to eq "black"
+        expect(data['status_bar_status']).to eq "ok"
       end
     end
 
@@ -48,7 +48,7 @@ describe V2DashboardPresenter do
         data =  presenter.instance_variable_get(:@data)
         expect(data['tickets']).to eq three_open_zendesk_incidents
         expect(data['status_bar_text']).to eq "42 incidents in the past week"
-        expect(data['status_bar_color']).to eq "amber"
+        expect(data['status_bar_status']).to eq "warn"
       end
     end
   end

@@ -22,7 +22,7 @@ end
 def expected_v2_json
   {
     "status_bar_text" => "3 incidents in the past week",
-    "status_bar_color" =>"black",
+    "status_bar_status" =>"ok",
     "duty_roster" => {
       "web_ops" => "Peter Idah",
       "dev_1" => "Max Froumentin",
@@ -33,9 +33,9 @@ def expected_v2_json
       "irm_telephone" => "7958512425"
     },
     "services" => ["AWS is DOWN"],
-    "services_color" => "red",
+    "services_status" => "fail",
     "number_of_alerts" => 0,
-    "tools_color" => "red",
+    "tools_status" => "warn",
     "tickets"=> []
   }.to_json
 end

@@ -30,7 +30,7 @@ following layout.
 The data to populate this dashboard is provided as a json structure as follows:
 
     'status_bar_text'  =>   '3 incidents in past week',
-    'status_bar_color'  =>  'red' | 'amber' | 'green',
+    'status_bar_status'  =>  'ok' | 'warn' | 'fail',
     'duty_roster' => [
             {'name' => 'Joe Blogs', 'role' => 'dev_1' },
             {'name' => 'Joe Blogs', 'role' => 'dev_2' },
@@ -40,9 +40,9 @@ The data to populate this dashboard is provided as a json structure as follows:
             {'name' => 'Joe Blogs', 'role' => 'irm', 'telephone' => '123456789' }
     ],
     'services' => an array of sentences like: 'AWS is DOWN'
-    'services_color' => 'red' | 'none'
+    'services_status' => 'ok' | 'warn' | 'fail'
     'number_of_alerts' =>  '3'
-    'tools_color' => 'red' | 'none'
+    'tools_status' => 'ok' | 'warn' | 'fail'
     'tickets' [
                   {
                     'type' => 'problem' | 'incident',

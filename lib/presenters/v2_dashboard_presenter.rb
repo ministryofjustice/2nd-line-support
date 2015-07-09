@@ -9,13 +9,13 @@ class V2DashboardPresenter
     # TODO we load data with the dummy data to start off with, and then replace it with real data
     # as we implemnt the features.
     # we can get rid of the line below once we've done everything.
-    @data = {}
-    @data['status_bar_color'] = 'black'
-    @data['duty_roster']      = []
-    @data['services']         = []
-    @data['services_color']   = 'black'
-    @data['tools']            = []
-    @data['tools_color']      = 'black'
+    @data                      = {}
+    @data['status_bar_status'] = 'ok'
+    @data['duty_roster']       = []
+    @data['services']          = []
+    @data['services_status']   = 'ok'
+    @data['tools']             = []
+    @data['tools_status']      = 'ok'
   end
 
 
@@ -37,8 +37,8 @@ class V2DashboardPresenter
     problems = zendesk_tickets.select{ |t| t['type'] == 'problem' }
     num_incidents = @redis.get('zendesk:incidents_in_last_week')
 
-    @data['status_bar_color'] = 'amber' if zendesk_tickets.any?
-    @data['status_bar_color'] = 'red' if problems.any?
+    @data['status_bar_status'] = 'warn' if zendesk_tickets.any?
+    @data['status_bar_status'] = 'fail' if problems.any?
     @data['tickets'] = @redis.get('zendesk:tickets')
     @data['status_bar_text'] = "#{num_incidents} incidents in the past week"
   end
