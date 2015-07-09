@@ -22,7 +22,6 @@ class V2DashboardPresenter
 
   def to_json
     read_duty_roster_data
-    read_irm
     read_pagerduty_alerts
     read_zendesk_tickets
 
