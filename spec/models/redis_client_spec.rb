@@ -49,6 +49,13 @@ describe RedisClient do
   end
 
 
+  context 'non_existent key' do
+    it 'should return an empty string' do
+      expect(redis_client.get("XXXXXX")).to eq ""
+    end
+  end
+
+
   context '.count_keys' do
     it 'should return the number of keys matching the mask' do
       redis_client.set('alert:pagerduty:ABC001', 'Test alert 1')

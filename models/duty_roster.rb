@@ -7,13 +7,13 @@ require_relative 'duty_roster_members'
 
 class DutyRoster
   def self.default
-    new(SupportApp.duty_roster_google_doc_refresh_interval)
+    new(SupportApp.duty_roster_google_doc_refresh_interval_in_minutes)
   end
 
   private_class_method :new
 
   def stale?
-    Time.now > Time.parse(@members.last_update) + @refresh_interval
+    Time.now > Time.parse(@members.last_update) + (@refresh_interval * 60)
   end
 
   def invalid?

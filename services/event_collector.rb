@@ -14,7 +14,6 @@ class EventCollector
   end
 
 
-
   def run
     @duty_roster.update         # this will update the redis key duty_roster:v2members if stale
     store_out_of_hours

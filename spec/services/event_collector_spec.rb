@@ -18,9 +18,39 @@ describe EventCollector do
       expect(collector).to receive(:store_out_of_hours)
       expect(collector).to receive(:store_irm)
       expect(collector).to receive(:store_pagerduty_alerts)
+      expect(collector).to receive(:store_zendesk_tickets)
 
       collector.run
     end
+  end
+
+
+  describe '.store_zendesk_tickets' do
+    let(:zendesk)           { double Zendesk }
+
+
+
+    it 'should retrieve incidents from zendesk and store summary in redis' do
+      ticket_1 = double 'ZendeskAPI::Ticket'
+      allow(ticket_1).to receive(:id).and_return(1111)
+      allow(ticket_1).to receive(:type).and_return('incident')
+      allow(ticket_1).to receive(:subject).and_return('First Zendesk Ticket')
+
+      ticket_2 = double 'ZendeskAPI::Ticket'
+      allow(ticket_2).to receive(:id).and_return(2222)
+      allow(ticket_2).to receive(:type).and_return('problem')
+      allow(ticket_2).to receive(:subject).and_return('Second Zendesk Ticket')
+
+      zendesk_collection = [ ticket_1, ticket_2 ]
+      expect(Zendesk).to receive(:new).and_return(zendesk)
+      expect(zendesk).to receive(:active_incidents).and_return(zendesk_collection)
+      expect(zendesk).to receive(:incidents_for_the_past_week).and_return(3)
+
+      expect(redis).to receive(:set).with('zendesk:tickets', ticket_summaries)
+      expect(redis).to receive(:set).with('zendesk:incidents_in_last_week', 3)
+      collector.send(:store_zendesk_tickets)
+    end
+
   end
 
   describe '.store_pagerduty_alerts' do
@@ -53,6 +83,22 @@ describe EventCollector do
       collector.send(:store_irm)
     end
   end
+end
+
+
+def ticket_summaries
+  [ 
+    {
+      'ticket_no' => 1111, 
+      'type' => 'incident',
+      'text' => 'First Zendesk Ticket'
+    },
+    {
+      'ticket_no' => 2222, 
+      'type' => 'problem',
+      'text' => 'Second Zendesk Ticket'
+    }
+  ]
 end
 
 

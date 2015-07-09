@@ -2,14 +2,28 @@ require 'spec_helper'
 
 
 describe DutyRosterMembers do
+
+
+
+  describe '.v2_list' do
+
+    let(:redis_client)      { RedisClient.instance }
+    let(:members_hash)      { { 'dev_1' => 'Jow Blow', 'web_ops' => 'Mary Smith', 'dev_2' => 'John Smith'} }
+    let(:result_hash)       { { :dev_1 => 'Jow Blow', :web_ops => 'Mary Smith', :dev_2 => 'John Smith'} }
+
+    it 'should return the values in the redis database for key duty-roster:v2members' do
+      RedisClient.instance.set('duty_roster:v2members', members_hash)
+      expect(DutyRosterMembers.v2_list).to eq result_hash
+    end
+  end
   
   describe '.format_data_for_v2' do
     it 'should extract devs and webops and format into a hash' do
       expected_data = {
         'web_ops' => 'Alistair Davidson',
-        'dev_1' => 'Max Froumentin',
-        'dev_2' => 'Stephen Richards',
-        'dev_3' => 'Eddie'
+        'dev_1'   => 'Max Froumentin',
+        'dev_2'   => 'Stephen Richards',
+        'dev_3'   => 'Eddie'
       }
       expect(DutyRosterMembers.format_data_for_v2(v1_data)).to eq expected_data
     end

@@ -2,9 +2,15 @@ require_relative 'models/alert.rb'
 
 namespace :collector do
   desc 'collect data from Zendesk, PagerDuty and Googledocs and write into REDIS Database'
-  task :run do
+  task :run_once do
     require_relative 'services/event_collector.rb'
     EventCollector.new.run
+  end
+
+  desc 'run as daemon, collecting Zendesk, PagerDuty data periodically and updating REDIS db'
+  task :daemon do
+    require_relative 'services/event_collector.rb'
+    EventCollector.new.run_as_daemon
   end
 end
 

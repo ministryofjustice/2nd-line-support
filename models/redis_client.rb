@@ -10,7 +10,8 @@ class RedisClient
   end
 
   def get(key)
-    JSON.parse(@redis.get(key), :quirks_mode => true)
+    data = @redis.get(key)
+    data.nil? ? "" : JSON.parse(data, :quirks_mode => true)
   end
 
   def set(key, value)

@@ -29,6 +29,7 @@ GEM
     columnize (0.9.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
+    daemons (1.1.9)
     diff-lcs (1.2.5)
     docile (1.1.5)
     excon (0.45.3)
@@ -207,6 +208,7 @@ DEPENDENCIES
   bcrypt (>= 2.1.4)
   byebug
   capybara
+  daemons
   excon
   foreman
   google-api-client

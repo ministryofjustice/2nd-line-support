@@ -2,6 +2,35 @@ DASHBOARD V2 Admin
 ===================
 
 
+A new dashboard, known as the V2 dashboard has been designed with the 
+following layout.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                                            +                           +  
++                                            +                           +  
++                                            +                           +  
++                                            +        DUTY ROSTER        +  
++                                            +        DETAILS            +  
++      ZENDESK TICKETS                       +                           +  
++                                            +                           +  
++                                            +                           +  
++                                            +                           +  
++                                            +                           +  
++                                            +                           +  
++                                            +                           +  
++                                            +                           +  
+++++++++++++++++++++++++++++++++++++++++++++++                           +
++   SERVICES        +    EXTERNAL TOOLS      +                           +
++   DOWN            +    DOWN                +                           +
++                   +                        +                           +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                            STATUS BAR                                  +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
 Dummy controller to give Faz something to work on:
 
 Action name should be GET '/v2-admin'.
