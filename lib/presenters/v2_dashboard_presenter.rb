@@ -10,6 +10,35 @@ class V2DashboardPresenter
     # as we implemnt the features.
     # we can get rid of the line below once we've done everything.
     @data                      = {}
+    
+  end
+
+
+
+  def to_json
+    initialize_data_for_internal_view
+    read_duty_roster_data
+    read_pagerduty_alerts
+    read_zendesk_tickets
+    @data.to_json
+  end
+
+  def external
+    initialize_data_for_external_view
+    read_irm
+    @data['tickets'] = get_zendesk_tickets
+    @data
+  end
+
+
+
+  private
+
+  def get_zendesk_tickets
+    @redis.get('zendesk:tickets')
+  end
+
+  def initialize_data_for_internal_view
     @data['status_bar_status'] = 'ok'
     @data['duty_roster']       = []
     @data['services']          = []
@@ -18,27 +47,19 @@ class V2DashboardPresenter
     @data['tools_status']      = 'ok'
   end
 
-
-
-  def to_json
-    read_duty_roster_data
-    read_pagerduty_alerts
-    read_zendesk_tickets
-
-    @data.to_json
+  def initialize_data_for_external_view
+    @data['duty_roster']       = []
   end
-
-  private
 
 
   def read_zendesk_tickets
-    zendesk_tickets = @redis.get('zendesk:tickets')
+    zendesk_tickets = get_zendesk_tickets
     problems = zendesk_tickets.select{ |t| t['type'] == 'problem' }
     num_incidents = @redis.get('zendesk:incidents_in_last_week')
 
     @data['status_bar_status'] = 'warn' if zendesk_tickets.any?
     @data['status_bar_status'] = 'fail' if problems.any?
-    @data['tickets'] = @redis.get('zendesk:tickets')
+    @data['tickets'] = zendesk_tickets
     @data['status_bar_text'] = "#{num_incidents} incidents in the past week"
   end
 

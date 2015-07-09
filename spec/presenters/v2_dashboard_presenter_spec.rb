@@ -12,12 +12,22 @@ describe V2DashboardPresenter do
 
   describe '#to_json' do
     it 'should call the read methods and then return @ data as json' do
+      expect(presenter).to receive(:initialize_data_for_internal_view)
       expect(presenter).to receive(:read_duty_roster_data)
-      expect(presenter).to receive(:read_irm)
       expect(presenter).to receive(:read_pagerduty_alerts)
       expect(presenter).to receive(:read_zendesk_tickets)
       presenter.instance_variable_set(:@data, expected_duty_roster)
       expect(presenter.to_json).to eq expected_duty_roster.to_json
+    end
+  end
+
+
+  describe '#external' do
+    it 'should return an hash of IRM and tickets only' do
+      expect(redis_client).to receive(:get).with('duty_roster:v2irm').and_return( { 'name' => 'Kamala Hamilton-Brown', 'telephone' => '7958512425' } )
+      expect(redis_client).to receive(:get).with('zendesk:tickets').and_return( [] )
+
+      expect(presenter.external).to eq ( {"duty_roster"=>[{"name"=>"Kamala Hamilton-Brown", "role"=>"irm", "telephone"=>"7958512425"}], "tickets"=>[]} )
     end
   end
 
@@ -31,6 +41,7 @@ describe V2DashboardPresenter do
     context 'no open incidents and three in last week' do
       it 'should create an empty array of tickets and black status bar' do
         redis_client.set('zendesk:tickets', [] )
+        presenter.send(:initialize_data_for_internal_view)
         presenter.send(:read_zendesk_tickets)
         
         data =  presenter.instance_variable_get(:@data)
@@ -83,6 +94,7 @@ describe V2DashboardPresenter do
       redis_client.set('ooh:members', ooh_members)
       redis_client.set('duty_roster:v2irm', { 'name' => 'Kamala Hamilton-Brown', 'telephone' => '7958512425' } )
       
+      presenter.send(:initialize_data_for_internal_view)
       presenter.send(:read_duty_roster_data)
       data = presenter.instance_variable_get(:@data)
       expect(data['duty_roster']).to eq( expected_duty_roster )

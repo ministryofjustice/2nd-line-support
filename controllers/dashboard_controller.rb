@@ -26,6 +26,13 @@ class SupportApp < Sinatra::Application
     V2DashboardPresenter.new.to_json
   end
 
+
+  get '/v2-external.json' do
+    content_type :json
+    V2DashboardPresenter.new.external.to_json
+  end
+
+
   get '/refresh-duty-roster' do
     protected!
 
