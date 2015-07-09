@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color:black;
+    color:white;
+    font-family: 'Franklin Gothic Medium', 'Franklin Gothic', 'ITC Franklin Gothic', 'sans-serif';
+}
+
+.alert {
+    background-color: #F5A536;
+}
+
+.problem-mode {
+    background-color: #d12c2f;
+}
+
+.problem-mode .heading {
+    text-align: center;
+    padding-bottom: 5em;
+    text-transform: uppercase;
+}
+
+.unacknowledged {
+    border: 5px solid red;
+}
+.unacknowledged .status {
+    background-color: white;
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 2px;
+}
+
+h2 {
+    font-size:6rem;
+}
+
+ul {
+    margin:0;
+    list-style:none;
+    padding: 0;
+}
+
+li {
+    background-color:#8ECFED;
+    color:#153645;
+    margin:1em 0;
+    padding: 0.5em;
+    font-size:3rem;
+}
+
+.good {
+    background-color:#9DEB9E;
+}
+
+.bad {
+    background-color:coral;
+}
+.container {
+    overflow: hidden;
+    padding:1em;
+}
+
+.heading {
+    float:center;
+    width:100%;
+}
+
+.column {
+    float:left;
+    width:33.333%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 30px;
+}
+
+.column:last-child {
+    float:right;
+}
+
+#alerts li h4 {
+    font-size: 1.8rem;
+}
+
+#alerts li p {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+}
+
+.phone-icon {
+    position: relative;
+}
+
+.phone .phone-icon:after {
+    font-size: 1rem;
+    position: absolute;
+    top: -0.1rem;
+    right: -0.1rem;
+    height: 1.3rem;
+    line-height: 1.4rem;
+    margin-top: -1rem;
+    padding: 0 0.4rem;
+    text-align: center;
+    border: 0.1rem solid #000;
+    border-radius: 2rem;
+    content: "1";
+}
+
+ul.contact-methods li.contact-method {
+    font-size: 1.2rem;
+}
+
+.contact-method.email .contact-method-label:before {
+    font-size: 2rem;
+    content: "✉ ";
+}
+.contact-method.phone .contact-method-label:before {
+    content: "☎ ";
+}
+.contact-method.SMS .contact-method-label:before {
+    font-size: 2rem;
+    content: "✉ ";
+}
+
+.webop.phone .phone-icon:before { content: "☎ ";}
+.webop.phone .phone-icon:after { content: "1"; }
+
+.dev.phone .phone-icon:before { content: "☏ "; }
+.dev.phone .phone-icon:after { content: "2"; }
+
+.duty_manager:before { content: "★ "; }
+
+.duty_manager {
+    background-color: #0070f0;
+    color: #fff;
+}
+
+#past_week {
+    font-size: 3rem;
+}

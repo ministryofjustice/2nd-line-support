@@ -15,13 +15,13 @@ var gulp = require('gulp'),
 var paths = {
   cssSrc: 'src/css/',
   cssDest: 'public/css/',
-  jsSrc: 'src/js/',
+  jsSrc: 'src',
   jsDest: 'public/js/'
 };
 
 gulp.task('es6', function() {
   browserify({
-    entries: './src/js/app.js',
+    entries: './src/app.js',
     debug: true
   })
   .transform(babelify)
