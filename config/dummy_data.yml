@@ -1,0 +1,20 @@
+status_bar_text: "3 incidents in past week"
+status_bar_color: "red"
+duty_roster: 
+  irm: ""
+  irm_telephone: "01234-567890"
+  dev_1: " Evangelos Giataganas"
+  dev_2: "Stephen Richards"
+  web_ops: "Lukasz Raczylo"
+  ooh_1: "Ash Berlin"
+  ooh_2: "Stuart Munro"
+services: 
+  - "AWS is DOWN"
+services_color: "red"
+number_of_alerts: "3"
+tools_color: "red"
+tickets: 
+  - 
+    type: "problem"
+    ticket_no: 1023
+    text: "some text"
