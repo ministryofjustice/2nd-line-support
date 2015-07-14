@@ -23,6 +23,14 @@ class IRPagerduty < PagerDuty::Full
     end
   end
 
+
+  def fetch_irm
+    schedule_id = SupportApp.pager_duty_irm_schedule_id
+    irms = self.Schedule.find(schedule_id)
+  end
+
+
+
   def fetch_todays_schedules_users(schedule_id)
     map_schedule_users(
       :update_contact_methods,
@@ -52,6 +60,8 @@ class IRPagerduty < PagerDuty::Full
     []
   end
 
+
+  # This method returns all the users in an indeterminate order
   def update_contact_methods(user)
     contact_methods         = fetch_users_contact_methods(user['id'])
     user['contact_methods'] = contact_methods.select { |cm|

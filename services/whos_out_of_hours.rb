@@ -22,6 +22,7 @@ module WhosOutOfHours
     # for display purposes only (i.e. the phone-icon) the primary is
     # treated webop and secondary as dev
     #
+
     persons = 
       schedule_ids
         .map(&method(:persons_from_sid))
