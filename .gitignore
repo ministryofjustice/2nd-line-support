@@ -3,3 +3,5 @@ coverage/*
 *.p12
 .DS_Store
 .rspec-local
+config/env
+node_modules
