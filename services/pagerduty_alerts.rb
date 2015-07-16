@@ -19,12 +19,15 @@ class PagerDutyAlerts
 
   def check_alerts
     return unless check_needed?
-  
+
+    services_to_check = SupportApp.pager_duty_services
+    # services_to_check = nil
+
     incs = IRPagerduty.new.Incident.search(
       assigned_to_user = nil,
       incident_key     = nil,
       status           = "triggered,acknowledged",
-      service          = SupportApp.pager_duty_services
+      service          = services_to_check
     )['incidents']
 
     process_incs(incs)
@@ -36,7 +39,7 @@ class PagerDutyAlerts
 
   def check_needed?
     return false if PagerDutyCheck.exists?(REFRESH_KEY)
-      
+
     PagerDutyCheck.create_with_expire(REFRESH_KEY, true, SupportApp.pager_duty_refresh_interval)
     true
   end
@@ -46,9 +49,9 @@ class PagerDutyAlerts
   def process_incs(incs)
     Alert.destroy_all("#{REDIS_KEY_PREFIX}:*")
 
-    incs.map { |inc| 
+    incs.map { |inc|
       redis_key = "#{REDIS_KEY_PREFIX}:#{inc['id']}"
-      
+
       Alert.create(redis_key, {
         message: {
           service:     inc['service']['name'],
