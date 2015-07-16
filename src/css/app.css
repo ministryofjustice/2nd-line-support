@@ -1,19 +1,49 @@
+/* variables */
 :root {
-    --bgColour: #ffbbaaff;
+  --bgColour: #212121;
+  --alertColour:#F5A536;
+  --problemColour:#d12c2f;
+  --headingColour:#8ECFED;
 }
-@custom-media    --mobile (width <= 640px);
-@custom-media    --tablet (width <= 768px);
+/* media tags */
+@custom-media --mobile (width <= 640px);
+@custom-media --tablet (width <= 768px);
 
-@custom-selector :--heading h1, h2, h3, h4, h5, h6;
+/* tags */
+body {
+  lost-utility: edit;
+  background-color: var(--bgColour);
+  color:#fff;
+}
+/* layout */
+.container{
+  height: 100%;
+}
+.container,
+.row {
+  lost-utility: clearfix;
+}
+/* rows */
+.main {
+  lost-utility: clearfix;
+  lost-row: 7/8;
+}
+/**/
+.tickets {
+  lost-column: 2/3;
+  @media (--mobile) {}
+  .zendesk-tickets {
 
-.post-article :--heading {
-    color: color( var(--bgColour) blackness(+20%) );
+  }
+  .services-down,
+  .external-tools-down {
+    lost-column: 1/2;
+  }
 }
-@media (--mobile) {
-    .post-article :--heading {
-        margin-top: 0;
-    }
-}
-div {
+.roster {
   lost-column: 1/3;
+  @media (--mobile) {}
+}
+.status-bar {
+  lost-row: 1/8;
 }
