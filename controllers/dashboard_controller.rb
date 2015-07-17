@@ -21,6 +21,11 @@ class SupportApp < Sinatra::Application
     end
   end
 
+  get '/v2-admin' do
+    protected!
+    erb :"v2-admin"
+  end
+
   get '/v2-admin.json' do
     content_type :json
     V2DashboardPresenter.new.to_json
