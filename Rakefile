@@ -7,20 +7,21 @@ namespace :collector do
     EventCollector.new.run
   end
 
+  # 'exec' used to run daemon script as daemon needs to start in new ruby interpreter
   namespace :daemon do
     desc 'run as daemon, collecting Zendesk, PagerDuty data periodically and updating REDIS db'
     task :start do
-      system('ruby event_collector_control.rb start')
+      exec('ruby event_collector_control.rb start')
     end
 
     desc 'stop daemon'
     task :stop do
-      system('ruby event_collector_control.rb stop')
+      exec('ruby event_collector_control.rb stop')
     end
 
     desc 'daemon status'
     task :status do
-      system('ruby event_collector_control.rb status')
+      exec('ruby event_collector_control.rb status')
     end
   end
 end
