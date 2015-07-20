@@ -1,6 +1,6 @@
 class SupportApp < Sinatra::Application
   configure do
-    set :partial_template_engine, :erb
+    set :partial_template_engine, :slim
     set :sessions, true
     set :session_secret,                                      ENV['SESSION_SECRET'] || SecureRandom.hex(64)
     set :duty_roster_google_doc_key,                          ENV['DUTY_ROSTER_GOOGLE_DOC_KEY']
@@ -15,7 +15,7 @@ class SupportApp < Sinatra::Application
                                                                 "P28KGOJ", # Sensu Prod
                                                                 "PA3IQAV", # Pingdom Staging
                                                                 "P1R19SP", # Sensu Staging
-                                                                
+
                                                                 # PF
                                                                 "PRE9BKY", # Pingdom Prod
                                                                 "PL1IQHT", # NewRelic Prod

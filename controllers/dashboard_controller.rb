@@ -8,7 +8,7 @@ class SupportApp < Sinatra::Application
   get '/' do
     with_updated_data do
       @data = Presenters::Dashboard.default(@duty_roster)
-      erb :index
+      slim :index
     end
   end
 
@@ -17,7 +17,7 @@ class SupportApp < Sinatra::Application
 
     with_updated_data do
       @data = Presenters::Dashboard.admin(@duty_roster)
-      erb :admin
+      slim :admin
     end
   end
 

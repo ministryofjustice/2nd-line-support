@@ -1,0 +1,17 @@
+| <!doctype html>
+html[lang="en-us"]
+  head
+    - #<meta http-equiv="refresh" content="5">
+    link[rel="stylesheet" href="/css/old.css" media="screen"]
+  |  <body class="
+  - unless @data.alerts.empty?
+    | alert
+  - if @data.problem_mode
+    | problem-mode
+  | ">
+  .container
+    == partial(:problem_mode)
+    .column
+      == partial(:active_incidents)
+    == partial(:manager)
+  script[src="/js/app.js"]

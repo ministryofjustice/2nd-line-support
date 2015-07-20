@@ -19,6 +19,7 @@ gem 'zendesk_api'
 gem 'heroku-api'
 gem 'bcrypt', '>= 2.1.4'
 gem 'daemons'
+gem 'slim'
 
 
 group :development, :test do

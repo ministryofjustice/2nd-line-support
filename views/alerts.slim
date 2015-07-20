@@ -1,0 +1,9 @@
+#alerts
+  h2
+    | Alerts
+  ul
+    - if @data.alerts.any?
+      == partial(:alert, collection: @data.alerts)
+    - else
+      li.good
+        |  No alerts to report
