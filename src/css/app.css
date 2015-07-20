@@ -14,6 +14,7 @@ body {
   lost-utility: edit;
   background-color: var(--bgColour);
   color:#fff;
+  font-family: "Andale Mono",AndaleMono,monospace;
 }
 /* layout */
 .container{

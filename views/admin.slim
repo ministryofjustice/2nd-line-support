@@ -1,14 +1,21 @@
 doctype html
-html[lang="en-us"]
+html
   head
-    - #<meta http-equiv="refresh" content="5">
-    link[rel="stylesheet" href="/css/old.css" media="screen"]
+    title Support Dashboard
+    link(rel="stylesheet" href="/css/app.css" media="screen")
   body
     .container
-      == partial(:problem_mode)
-      .column
-        == partial(:alerts)
-        == partial(:active_incidents)
-        == partial(:past_week)
-      == partial(:persons)
-    script[src="/js/app.js"]
+      .main
+        .tickets
+          .zendesk-tickets
+            == partial(:active_incidents)
+          .row
+            .services-down
+              == partial(:alerts)
+            .external-tools-down
+              == partial(:past_week)
+        .roster
+          == partial(:persons)
+      .status-bar
+        == partial(:problem_mode)
+    script(src="/js/app.js")
