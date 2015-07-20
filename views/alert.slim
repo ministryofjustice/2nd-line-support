@@ -1,0 +1,12 @@
+| <li class="bad
+- unless alert.acknowledged?
+  |  unacknowledged
+| "> 
+h4
+  = alert.message['service']
+  - unless alert.acknowledged?
+    span.status
+      | NEW
+p
+  = alert.message['description']['subject']
+  = alert.message['description']['description']

@@ -1,0 +1,14 @@
+#duty-roster.column
+  h2
+    | On duty
+  - if @data.whos_on_duty
+    ul
+      |  <li class="
+      = @data.whos_on_duty[:rule]
+      = @data.whos_on_duty[:has_phone]? "phone" : ""
+      | ">
+    span.phone-icon
+    = @data.whos_on_duty[:name]
+    - if @data.whos_on_duty[:contact_methods] && @data.whos_on_duty[:contact_methods].any?
+      ul.contact-methods
+        == partial(:contact_method, collection: @data.whos_on_duty[:contact_methods])

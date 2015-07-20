@@ -1,0 +1,11 @@
+#duty-roster.column
+  h2
+    | On duty
+  - if @data.whos_on_duty.any?
+    ul
+      == partial(:person, collection:@data.whos_on_duty)
+#out-of-hours.column
+  h2
+    | Out of Hours
+  ul
+    == partial(:person, collection: @data.whos_out_of_hours)
