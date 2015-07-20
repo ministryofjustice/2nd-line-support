@@ -7,13 +7,24 @@ namespace :collector do
     EventCollector.new.run
   end
 
-  desc 'run as daemon, collecting Zendesk, PagerDuty data periodically and updating REDIS db'
-  task :daemon do
-    require_relative 'services/event_collector.rb'
-    EventCollector.new.run_as_daemon
+  # 'exec' used to run daemon script as daemon needs to start in new ruby interpreter
+  namespace :daemon do
+    desc 'run as daemon, collecting Zendesk, PagerDuty data periodically and updating REDIS db'
+    task :start do
+      exec('ruby event_collector_control.rb start')
+    end
+
+    desc 'stop daemon'
+    task :stop do
+      exec('ruby event_collector_control.rb stop')
+    end
+
+    desc 'daemon status'
+    task :status do
+      exec('ruby event_collector_control.rb status')
+    end
   end
 end
-
 
 namespace :duty_roster do
   desc 'refresh the REDIS db with latest duty roster details from google doc'
@@ -23,13 +34,6 @@ namespace :duty_roster do
     DutyRoster.default.refresh!
   end
 end
-
-
-
-
-
-
-
 
 task :update_traffic_spikes do
   TrafficSpike.update
