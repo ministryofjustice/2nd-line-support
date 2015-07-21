@@ -239,6 +239,3 @@ DEPENDENCIES
   unicorn
   webmock
   zendesk_api
-
-BUNDLED WITH
-   1.10.5
