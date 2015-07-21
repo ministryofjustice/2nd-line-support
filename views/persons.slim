@@ -2,10 +2,10 @@
   h2
     | On duty
   - if @data.whos_on_duty.any?
-    ul
+    ul.roster-list
       == partial(:person, collection:@data.whos_on_duty)
 #out-of-hours.column
   h2
     | Out of Hours
-  ul
+  ul.roster-list
     == partial(:person, collection: @data.whos_out_of_hours)
