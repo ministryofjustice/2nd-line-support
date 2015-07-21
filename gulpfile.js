@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
   sourcemaps = require('gulp-sourcemaps'),
+  livereload = require('gulp-livereload'),
   source = require('vinyl-source-stream'),
   babel = require('gulp-babel'),
   babelify = require('babelify'),
@@ -15,7 +16,7 @@ var gulp = require('gulp'),
 var paths = {
   cssSrc: 'src/css/',
   cssDest: 'public/css/',
-  jsSrc: 'src',
+  jsSrc: 'src/',
   jsDest: 'public/js/'
 };
 
@@ -27,7 +28,8 @@ gulp.task('es6', function() {
   .transform(babelify)
   .bundle()
   .pipe(source('app.js'))
-  .pipe(gulp.dest(paths.jsDest));
+  .pipe(gulp.dest(paths.jsDest))
+  .pipe(livereload());
 });
 
 gulp.task('css', function() {
@@ -41,13 +43,15 @@ gulp.task('css', function() {
       autoprefixer()
     ]))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.cssDest));
+    .pipe(gulp.dest(paths.cssDest))
+    .pipe(livereload());
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.jsSrc, ['es6']);
-  gulp.watch(paths.cssSrc, ['css']);
+  livereload.listen();
+  gulp.watch(paths.jsSrc + '*.js', ['es6']);
+  gulp.watch(paths.cssSrc + '**/*.css', ['css']);
 });
 
-gulp.task('default', ['watch','css', 'es6']);
+gulp.task('default', ['css', 'es6','watch']);
 gulp.task('build', ['css', 'es6']);
