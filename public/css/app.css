@@ -1,42 +1,56 @@
 /* variables */
+
 /* media tags */
 
 /* tags */
 body {
-  background-color:#212121;
+  background-color:#262525;
   color:#fff;
+  font-family: "Andale Mono",AndaleMono,monospace;
 }
-body *:not(input):not(textarea):not(select) {
-  background-color:rgba(0, 0, 255, 0.1);
+
+h2{
+  font-size: 2em;
+  font-weight: bold;
+  margin-top: 0; 
+  color:#c5eff7;
 }
+
+ul{
+  margin:0;
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
 /* layout */
 .container{
   height: 100%;
 }
+
 .container,
 .row {
   *zoom:1;
 }
+
 .container:before,
 .row:before {
   content:'';
   display:table;
 }
+
 .container:after,
 .row:after {
   content:'';
   display:table;
   clear:both;
 }
+
 /* rows */
 .main {
-  *zoom:1;
-  width:100%;
-  height:calc(99.99% * 7/8 - (30px - 30px * 7/8));
-  margin-bottom:30px;
-}
-.main:last-child {
-  margin-bottom:0;
+  *zoom:1;;
 }
 .main:before {
   content:'';
@@ -47,26 +61,42 @@ body *:not(input):not(textarea):not(select) {
   display:table;
   clear:both;
 }
-/**/
-.tickets {
-  width:calc(99.99% * 2/3 - (30px - 30px * 2/3));
+@media (min-width: 1023px){
+  .main {
+    width:100%;
+    height:calc(99.99% * 7/8 - (30px - 30px * 7/8));
+    margin-bottom:30px;
+  }
+  .main:last-child {
+    margin-bottom:0;
+  }
 }
-.tickets:nth-child(n) {
-  float:left;
-  margin-right:30px;
-  clear:none;
+
+/* Main Tickets/Alerts */
+@media (min-width: 1023px){
+  .tickets {
+    width:calc(99.99% * 2/3 - (30px - 30px * 2/3));
+  }
+  .tickets:nth-child(n) {
+    float:left;
+    margin-right:30px;
+    clear:none;
+  }
+  .tickets:last-child {
+    margin-right:0;
+  }
+  .tickets:nth-child(3n) {
+    margin-right:0;
+  }
+  .tickets:nth-child(3n + 1) {
+    clear:left;
+  }
 }
-.tickets:last-child {
-  margin-right:0;
+.tickets > div{
+  background-color:#605d5d;
+  padding:0.5em;
+  margin-bottom: 1em;
 }
-.tickets:nth-child(3n) {
-  margin-right:0;
-}
-.tickets:nth-child(3n + 1) {
-  clear:left;
-}
-@media (max-width: 640px) {}
-.tickets .zendesk-tickets {}
 .tickets .services-down, .tickets .external-tools-down {
   width:calc(99.99% * 1/2 - (30px - 30px * 1/2));
 }
@@ -84,31 +114,86 @@ body *:not(input):not(textarea):not(select) {
 .tickets .services-down:nth-child(2n + 1), .tickets .external-tools-down:nth-child(2n + 1) {
   clear:left;
 }
+
+/* Roster Panel */ 
 .roster {
-  width:calc(99.99% * 1/3 - (30px - 30px * 1/3));
+  background-color:#605d5d;
+} 
+@media (min-width: 1023px) {
+  .roster {
+    width:calc(99.99% * 1/3 - (30px - 30px * 1/3));
+  }
+  .roster:nth-child(n) {
+    float:left;
+    margin-right:30px;
+    clear:none;
+  }
+  .roster:last-child {
+    margin-right:0;
+  }
+  .roster:nth-child(3n) {
+    margin-right:0;
+  }
+  .roster:nth-child(3n + 1) {
+    clear:left;
+  }
+} 
+.roster > div{
+  padding:0.5em;
+  font-size: 1.3em;
+  line-height: 1.2em;
+} 
+.roster .roster-list li{
+  padding-top: 0.3em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid #fff;
+} 
+.roster .contact-methods{
+  padding-left: 0.8em;
+  padding-top: 0;
+  font-size: 0.7em;
+} 
+.roster .contact-methods li{
+  border-bottom: 0;
 }
-.roster:nth-child(n) {
-  float:left;
-  margin-right:30px;
-  clear:none;
-}
-.roster:last-child {
-  margin-right:0;
-}
-.roster:nth-child(3n) {
-  margin-right:0;
-}
-.roster:nth-child(3n + 1) {
-  clear:left;
-}
-@media (max-width: 640px) {}
+
+/* Status Bar Panel */
 .status-bar {
-  width:100%;
-  height:calc(99.99% * 1/8 - (30px - 30px * 1/8));
-  margin-bottom:30px;
+  *zoom:1;
+  background-color:#605d5d;
+  padding:0.5em;
+  margin-top: 1em;
 }
-.status-bar:last-child {
-  margin-bottom:0;
+.status-bar:before {
+  content:'';
+  display:table;
+}
+.status-bar:after {
+  content:'';
+  display:table;
+  clear:both;
+}
+@media (min-width: 1023px){
+  .status-bar {
+    width:100%;
+    height:calc(99.99% * 1/8 - (30px - 30px * 1/8));
+    margin-bottom:30px;
+    *zoom:1;
+    position:fixed;
+    bottom:0;
+  }
+  .status-bar:last-child {
+    margin-bottom:0;
+  }
+  .status-bar:before {
+    content:'';
+    display:table;
+  }
+  .status-bar:after {
+    content:'';
+    display:table;
+    clear:both;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */
