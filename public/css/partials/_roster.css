@@ -379,6 +379,12 @@ th {
 .roster-list {
   margin:0;
 }
+.roster-list > :first-child:before{
+  content:"⓵  ";
+}
+.roster-list > :nth-child(2):before{
+  content:"⓶  ";
+}
 .roster-list li {
   border-bottom:1px dashed #657b83;
 }
