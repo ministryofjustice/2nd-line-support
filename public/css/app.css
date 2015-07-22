@@ -385,6 +385,9 @@ h2 {
 .bad h4 {
   color: #dc322f;
 }
+.problem{
+  color: #dc322f;
+}
 .container {
   height: 100%;
   max-height: 100%;
