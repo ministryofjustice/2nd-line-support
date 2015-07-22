@@ -2,6 +2,7 @@ doctype html
 html
   head
     title Support Dashboard
+    script(src="http://localhost:35729/livereload.js")
     link(rel="stylesheet" href="/css/app.css" media="screen")
   body
     .container
@@ -11,11 +12,11 @@ html
             == partial(:active_incidents)
           .row
             .services-down
-              / == partial(:alerts)
+              // == partial(:alerts)
             .external-tools-down
-              / == partial(:past_week)
+              // == partial(:past_week)
         .roster
           == partial(:manager)
       .status-bar
-        == partial(:problem_mode)
+          == partial(:problem_mode)
     script(src="/js/app.js")

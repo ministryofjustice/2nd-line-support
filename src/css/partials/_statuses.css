@@ -1,0 +1,10 @@
+@import "_vars.css";
+
+.good {
+  color:var(--yellow);
+}
+.bad {
+  h4 {
+    color: var(--red);
+  }
+}

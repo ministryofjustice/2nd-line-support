@@ -4,7 +4,9 @@
   "description": "2nd line support UI",
   "main": "index.js",
   "scripts": {
-    "build": "NODE_ENV=production gulp build",
+    "dev": "shotgun && gulp",
+    "watch": "gulp",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -36,6 +38,8 @@
     "postcss": "^4.1.15",
     "postcss-nested": "^0.3.2",
     "postcss-nesting": "^0.1.0",
+    "postcss-normalize": "^0.1.0",
+    "precss": "^0.2.2",
     "vinyl-source-stream": "^1.1.0",
     "xhr": "^2.0.2"
   }

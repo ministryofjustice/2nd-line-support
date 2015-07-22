@@ -10,6 +10,8 @@ var gulp = require('gulp'),
   nesting = require('postcss-nesting'),
   nested = require('postcss-nested'),
   cssnext = require('cssnext'),
+  precss = require('precss'),
+  normalize = require('postcss-normalize'),
   autoprefixer = require('autoprefixer'),
   lost = require('lost');
 
@@ -36,6 +38,8 @@ gulp.task('css', function() {
   return gulp.src(paths.cssSrc + '**/*.css')
     .pipe(sourcemaps.init())
     .pipe(postcss([
+      normalize(),
+      precss(),
       nesting(),
       nested(),
       cssnext(),
@@ -49,7 +53,7 @@ gulp.task('css', function() {
 
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch(paths.jsSrc + '*.js', ['es6']);
+  gulp.watch(paths.jsSrc + '**/*.js', ['es6']);
   gulp.watch(paths.cssSrc + '**/*.css', ['css']);
 });
 

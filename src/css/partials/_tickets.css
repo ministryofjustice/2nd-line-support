@@ -1,0 +1,12 @@
+@import "_vars.css";
+@import "_media_rules.css";
+
+.tickets {
+  @media (--desktop){lost-column: 2/3;}
+}
+.services-down,
+.external-tools-down {
+  @media (--desktop){
+    lost-column: 1/2;
+  }
+}

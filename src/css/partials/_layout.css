@@ -1,0 +1,24 @@
+@import "_media_rules.css";
+@import "_vars.css";
+
+.container {
+  height: 100%;
+  max-height: 100%;
+}
+
+.container,
+.row {
+  lost-utility: clearfix;
+}
+.row {
+  border-top:1px dashed var(--base00);
+  border-bottom:1px dashed var(--base00);
+}
+.main {
+  lost-utility: clearfix;
+  @media (--desktop){lost-row: 7/8;};
+}
+
+.panel{
+  padding:.5em;
+}

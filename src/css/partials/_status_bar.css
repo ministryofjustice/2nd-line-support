@@ -1,0 +1,11 @@
+@import "_vars.css";
+@import "_media_rules.css";
+
+.status-bar {
+  lost-utility: clearfix;
+  @media (--desktop){
+    lost-row: 1/8;
+    lost-utility: clearfix;
+  };
+  border-top:1px dashed var(--base00);
+}

@@ -1,0 +1,23 @@
+@import "_vars.css";
+@import "_media_rules.css";
+
+.roster {
+  @media (--desktop) {lost-column: 1/3;}
+}
+.roster-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px dashed var(--base00);
+  text-indent: 1rem;
+  &:last-child{
+    border-bottom:0;
+  }
+}
+.contact-methods {
+  padding-top: 0;
+  color: var(--base00);
+  li {
+    padding-left: 1rem;
+    text-indent: 0;
+    border-bottom: 0;
+  }
+}

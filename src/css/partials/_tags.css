@@ -1,0 +1,17 @@
+@import "_vars.css";
+
+body {
+  background-color: var(--base03);
+  color:var(--base2);
+  min-height: 100%;
+  font-family: "Lucida Sans Typewriter","Lucida Console",monaco,"Bitstream Vera Sans Mono",monospace;
+  font-size: 1.5rem;
+  padding:.5rem;
+}
+
+ul{
+  padding-left:0;
+}
+li {
+  list-style: none;
+}
