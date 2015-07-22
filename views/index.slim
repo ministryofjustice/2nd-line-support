@@ -11,7 +11,7 @@ html
             == partial(:active_incidents)
         .roster
           == partial(:manager)
-      |  <div class="status-bar
+      | <div class="status-bar
       - unless @data.alerts.empty?
         | alert
       - if @data.problem_mode
