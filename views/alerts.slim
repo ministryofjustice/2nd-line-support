@@ -1,6 +1,10 @@
 #alerts.panel
   h2
-    | Alerts
+    | Alerts 
+    - if @data.alerts.count > -1
+      | (4 of 
+      == @data.alerts.count
+      | )
   ul
     - if @data.alerts.any?
       == partial(:alert, collection: @data.alerts)
