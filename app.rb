@@ -8,7 +8,6 @@ require 'excon'
 require 'rack'
 require 'rack/contrib'
 require 'httparty'
-require 'slim'
 
 require_relative 'lib/auth'
 

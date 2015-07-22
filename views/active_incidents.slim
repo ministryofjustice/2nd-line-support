@@ -1,9 +1,0 @@
-#status.panel
-  h2
-    | Active Incidents
-  ul
-    - if @data.active_incidents.any?
-      == partial(:active_incident, collection: @data.active_incidents)
-    - else
-      li.good
-        |  No active incidents

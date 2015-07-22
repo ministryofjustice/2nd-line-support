@@ -1,0 +1,43 @@
+
+<!doctype html>
+<html lang=en-us>
+
+<head>
+  <title>Support Dashboard</title>
+  <%#<meta http-equiv="refresh" content="5">%>
+  <link rel="stylesheet" href="css/app.css" media="screen">
+</head>
+
+<body class="admin <%unless @data.alerts.empty? %>alert<% end %>
+ <%if @data.problem_mode %>problem-mode<% end %>">
+  <div class="container">
+    <div class="main">
+      <div class="tickets">
+        <div class="zendesk-tickets">
+          <%= partial(:active_incidents) %>
+        </div>
+        <div class="row">
+          <div class="services-down">
+            <%= partial(:alerts) %>      
+          </div>
+        </div>
+      </div>
+      <div class="roster">
+        <%= partial(:persons) %>
+      </div>
+    </div>
+    <div class="status-bar <%unless @data.alerts.empty? %>alert<% end %>
+      <% if @data.problem_mode %>
+         problem
+      <% end %>
+    ">
+      <%= partial(:problem_mode) %>
+    </div>
+    <div class="external-tools-down">
+      <%= partial(:past_week) %>
+    </div>
+  </div>
+  <script scr="/js/app.js"></script>
+</body> 
+
+</html>
