@@ -6,3 +6,4 @@ config/env
 node_modules
 .rspec-local
 dump.rdb
+public/css/partials
