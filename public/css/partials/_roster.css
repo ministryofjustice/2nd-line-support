@@ -380,23 +380,17 @@ th {
   margin:0;
 }
 .roster-list li {
-  padding:12px 0;
-  padding: 0.8rem 0;
   border-bottom:1px dashed #657b83;
-  text-indent:16px;
-  text-indent: 1rem;
 }
 .roster-list li:last-child{
   border-bottom:0;
 }
 .contact-methods {
-  padding-top: 0;
   color:#657b83;
 }
-.contact-methods li {
-  padding-left:16px;
-  padding-left: 1rem;
-  text-indent: 0;
+.contact-methods li.contact_method {
+  padding:16px 0 0;
+  padding: 1rem 0 0;
   border-bottom: 0;
 }
 

@@ -1,6 +1,9 @@
-li.bad>
+| <li class="bad
+- unless alert.acknowledged?
+  |  unacknowledged
+| "> 
   h4
-    |  Zendesk id: 
+    |  Zendesk id:
     = active_incident.id
   i
     = active_incident.subject

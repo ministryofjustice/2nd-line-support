@@ -5,18 +5,5 @@
   @media (--desktop){lost-column: 2/3;}
 }
 .services-down {
-  @media (--desktop){
-    lost-column: 3/4;
-  }
-}
-.external-tools-down {
-  @media (--desktop){
-    lost-column: 1/4;
-  }
-}
-.incident-number{
-  .number{
-    color: var(--green);
-    text-decoration: underline;
-  }
+  
 }

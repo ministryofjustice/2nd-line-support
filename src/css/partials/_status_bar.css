@@ -9,3 +9,16 @@
   };
   border-top:1px dashed var(--base00);
 }
+.problem-mode{
+  @media (--desktop) {lost-column: 2/3;}
+}
+
+.external-tools-down {
+  @media (--desktop) {lost-column: 1/3;}
+  font-size:2rem;
+}
+.incident-number{
+  .number{
+    color: var(--yellow);
+  }
+}

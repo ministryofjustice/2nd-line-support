@@ -3,7 +3,7 @@ html
   head
     title Support Dashboard
     link(rel="stylesheet" href="/css/app.css" media="screen")
-  body
+  body.admin
     .container
       .main
         .tickets
@@ -12,10 +12,16 @@ html
           .row
             .services-down
               == partial(:alerts)
-            .external-tools-down
-              == partial(:past_week)
         .roster
           == partial(:persons)
-      .status-bar
+      |  <div class="status-bar
+      - unless @data.alerts.empty?
+        | alert
+      - if @data.problem_mode
+        | problem
+      | ">
+      .problem-mode
         == partial(:problem_mode)
+      .external-tools-down
+        == partial(:past_week)
     script(src="/js/app.js")
