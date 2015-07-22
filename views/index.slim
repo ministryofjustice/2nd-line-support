@@ -11,6 +11,14 @@ html
             == partial(:active_incidents)
         .roster
           == partial(:manager)
-      .status-bar
-          == partial(:problem_mode)
+      |  <div class="status-bar
+      - unless @data.alerts.empty?
+        | alert
+      - if @data.problem_mode
+        | problem-mode
+      | ">
+      .problem-mode
+        == partial(:problem_mode)
+      .external-tools-down
+        == partial(:past_week)
     script(src="/js/app.js")

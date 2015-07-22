@@ -411,9 +411,15 @@ body {
 
 ul{
   padding-left:0;
+  margin:0;
 }
 li {
   list-style: none;
+  padding: 12px 0;
+  padding: 0.8rem 0;
+}
+i{
+  padding-right: 1em;
 }
 
 /*# sourceMappingURL=../partials/_tags.css.map */

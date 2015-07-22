@@ -1,11 +1,17 @@
 @import "_vars.css";
 
 .good {
-  color:var(--yellow);
+  color:var(--green);
 }
 .bad {
+  border-bottom: 1px dashed var(--base01);
   h4 {
     color: var(--red);
+    margin:0 0 0.8rem;
+  }
+  p {
+    color:var(--yellow);
+    margin:0;
   }
 }
 .problem{
