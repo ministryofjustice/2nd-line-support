@@ -1,6 +1,0 @@
-- if person && person[:name]
-  li
-    = person[:name]
-    - if person[:contact_methods] && person[:contact_methods].any?
-      ul.contact-methods
-        == partial(:contact_method, collection: person[:contact_methods])
