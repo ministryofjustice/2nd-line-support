@@ -1,8 +1,5 @@
-// expose `app` to browser console
-window.app = app
-
-app.extend({
-  init () {
-    console.log('loaded')
-  }
-})
+(function(){
+  setInterval(() => {
+    document.location.reload(true);
+  }, 5000)
+})()

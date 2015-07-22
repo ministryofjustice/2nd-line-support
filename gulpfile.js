@@ -1,6 +1,4 @@
 var gulp = require('gulp'),
-  sourcemaps = require('gulp-sourcemaps'),
-  livereload = require('gulp-livereload'),
   source = require('vinyl-source-stream'),
   babel = require('gulp-babel'),
   babelify = require('babelify'),
@@ -30,13 +28,11 @@ gulp.task('es6', function() {
   .transform(babelify)
   .bundle()
   .pipe(source('app.js'))
-  .pipe(gulp.dest(paths.jsDest))
-  .pipe(livereload());
+  .pipe(gulp.dest(paths.jsDest));
 });
 
 gulp.task('css', function() {
   return gulp.src(paths.cssSrc + '**/*.css')
-    .pipe(sourcemaps.init())
     .pipe(postcss([
       normalize(),
       precss(),
@@ -46,13 +42,10 @@ gulp.task('css', function() {
       lost(),
       autoprefixer()
     ]))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.cssDest))
-    .pipe(livereload());
+    .pipe(gulp.dest(paths.cssDest));
 });
 
 gulp.task('watch', function() {
-  livereload.listen();
   gulp.watch(paths.jsSrc + '**/*.js', ['es6']);
   gulp.watch(paths.cssSrc + '**/*.css', ['css']);
 });
