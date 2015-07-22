@@ -1,6 +1,6 @@
 <div id="alerts" class="panel">
   <h2>Alerts 
-    <% if @data.alerts.any? && @data.alerts.count > 4 %>
+    <% if @data.alerts.any? && @data.alerts.count > 0 %>
       (4 of <%= @data.alerts.count %>)
     <% end %>
   </h2>
