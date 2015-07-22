@@ -1,6 +1,7 @@
 #past_week.panel
   h2
     | Past week
-    span
-    = @data.incidents_in_past_week
+  p.incident-number
+    span.number
+      = @data.incidents_in_past_week
     |  incidents
