@@ -19,10 +19,7 @@
         <%= partial(:manager) %>
       </div>
     </div>
-    <div class="status-bar <%unless @data.alerts.empty? %>alert <% end %>
-      <% if @data.problem_mode %>
-        problem-mode
-      <% end %>">
+    <div class="status-bar panel <%unless @data.alerts.empty? %> alert <% end %> ">
       <%= partial(:problem_mode) %>
       <div class="external-tools-down">
          <%= partial(:past_week) %>

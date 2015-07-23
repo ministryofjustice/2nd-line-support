@@ -25,16 +25,17 @@
         <%= partial(:persons) %>
       </div>
     </div>
-    <div class="status-bar <%unless @data.alerts.empty? %>alert<% end %>
+    <div class="status-bar panel<%unless @data.alerts.empty? %> alert<% end %>
       <% if @data.problem_mode %>
          problem
       <% end %>
     ">
       <%= partial(:problem_mode) %>
+      <div class="external-tools-down">
+        <%= partial(:past_week) %>
+      </div>
     </div>
-    <div class="external-tools-down">
-      <%= partial(:past_week) %>
-    </div>
+    
   </div>
   <script src="js/app.js"></script>
 </body> 
