@@ -1,7 +1,8 @@
 require 'spec_helper'
 
+require_relative '../../lib/presenters/v2_dashboard_presenter'
 
-describe V2DashboardPresenter do
+describe V2DashboardPresenter  do
 
   let(:presenter)         { V2DashboardPresenter.new }
   let(:data)              { presenter.instance_variable_get(:@data) }

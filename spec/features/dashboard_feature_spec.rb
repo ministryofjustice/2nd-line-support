@@ -1,8 +1,11 @@
 require 'spec_helper'
 
-describe 'Doshboard Controller', :type => :feature do
+describe 'Dashboard Controller', :type => :feature do
 
   context 'v2-admin.json' do
+
+    before(:each){ skip "JSON feed not enabled" }
+    
     it 'should render the output from the DashboardPresenter' do
       presenter = double V2DashboardPresenter
       expect(V2DashboardPresenter).to receive(:new).and_return(presenter)
