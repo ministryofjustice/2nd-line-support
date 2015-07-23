@@ -11,23 +11,25 @@
   <div class="container">
     <div class="main">
       <div class="tickets">
-        <%= partial(:active_incidents) %>  
+        <div class="zendesk-tickets">
+          <%= partial(:active_incidents) %>  
+        </div>
       </div>
       <div class="roster">
         <%= partial(:manager) %>
       </div>
-      <div class="status-bar <%unless @data.alerts.empty? %>alert <% end %>
-        <% if @data.problem_mode %>
-          problem-mode
-        <% end %>">
-        <%= partial(:problem_mode) %>
-        <div class="external-tools-down">
-           <%= partial(:past_week) %>
-        </div>
+    </div>
+    <div class="status-bar <%unless @data.alerts.empty? %>alert <% end %>
+      <% if @data.problem_mode %>
+        problem-mode
+      <% end %>">
+      <%= partial(:problem_mode) %>
+      <div class="external-tools-down">
+         <%= partial(:past_week) %>
       </div>
     </div>
   </div>
-  <script scr="/js/app.js"></script>
+  <script src="/js/app.js"></script>
 </body>
 </html>
 

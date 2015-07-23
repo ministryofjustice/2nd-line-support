@@ -26,6 +26,13 @@
     }
   }
 }
+
+.public .roster-list{
+  > :first-child::before, :nth-child(1)::before{
+    content:none;
+  };
+}
+
 .contact-methods {
   color: var(--base00);
   li.contact_method {
