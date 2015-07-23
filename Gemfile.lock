@@ -72,8 +72,6 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (4.0.6)
-      tilt
     hashie (3.4.2)
     heroku-api (0.3.23)
       excon (~> 0.44)
@@ -213,7 +211,6 @@ DEPENDENCIES
   foreman
   google-api-client
   guard-rspec
-  haml
   heroku-api
   httparty
   multi_json (= 1.11)

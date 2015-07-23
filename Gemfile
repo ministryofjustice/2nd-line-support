@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 ruby '2.2.1'
 
 gem 'google-api-client'
-gem 'haml'
 gem 'multi_json', '1.11'
 gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-contrib'
