@@ -12,10 +12,17 @@
   > :nth-child(2)::before{
     content:"⓶  ";
   };
+  > :nth-child(3), >:nth-child(4)::before{
+    padding-left:1.6em;
+  };
+  
   li {
     border-bottom: 1px dashed var(--base00);
     &:last-child{
       border-bottom:0;
+    }
+    .duty_manager-name::before {
+      content: "☆  ";
     }
   }
 }
