@@ -1,0 +1,16 @@
+<div id="duty-roster" class="column">
+  <h2>On duty</h2>
+  <%if @data.whos_on_duty %>
+  <ul class="roster-list">
+    <li class="<%= @data.whos_on_duty[:rule] %> <%= @data.whos_on_duty[:has_phone]? "phone" : "" %>">
+      <span class="phone-icon"></span>
+      <%= @data.whos_on_duty[:name] %>
+      <%if @data.whos_on_duty[:contact_methods] && @data.whos_on_duty[:contact_methods].any? %>
+        <ul class="contact-methods">
+        <%= partial(:contact_method, collection: @data.whos_on_duty[:contact_methods]) %>
+        </ul>
+      <% end %>
+    </li>
+  </ul>
+  <% end %>
+</div>
