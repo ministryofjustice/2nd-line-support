@@ -38,6 +38,5 @@ require_relative 'config/environments/test'
 
 # Controllers
 require_relative 'controllers/dashboard_controller'
-# require_relative 'controllers/monitoring_controller'
-# require_relative 'controllers/dummy_controller'
-# require_relative 'controllers/webhooks_controller'
+require_relative 'controllers/monitoring_controller'
+require_relative 'controllers/webhooks_controller'
