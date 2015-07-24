@@ -39,6 +39,10 @@ Set up your env variables by following the instructions on the 2nd line config r
 
 	e.g. source ../2nd-line-support-config/config/env
 
+Generate the assets
+
+	gulp build
+
 then just run:
 
 	shotgun
@@ -78,7 +82,6 @@ Resolving the ticket in Zendesk will also resolve the incident in PagerDuty and 
 ## Endpoints:
 
 Check `app.rb` for details
-
 
 ## Running application tests locally
 
