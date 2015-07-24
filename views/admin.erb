@@ -25,7 +25,10 @@
         <%= partial(:persons) %>
       </div>
     </div>
-    <div class="status-bar panel<%unless @data.alerts.empty? %> alert<% end %>
+    <div class="status-bar panel
+      <% if @data.active_incidents.any? || @data.alerts.any? %>
+        alert
+      <% end %>
       <% if @data.problem_mode %>
          problem
       <% end %>
