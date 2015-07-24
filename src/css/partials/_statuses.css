@@ -2,16 +2,28 @@
 
 .good {
   color:var(--green);
+  .problem-mode &{
+    color: #550000;
+  }
 }
 .bad {
   border-bottom: 1px dashed var(--base01);
   h4 {
     color: var(--red);
     margin:0 0 0.8rem;
+    .problem-mode &{
+      color: #550000;
+    }
   }
   p {
     color:var(--yellow);
     margin:0;
+    .problem-mode &{
+      color: #550000;
+    }
+  }
+  .problem-mode &{
+    color: #550000;
   }
 }
 

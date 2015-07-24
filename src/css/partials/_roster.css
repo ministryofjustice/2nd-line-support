@@ -3,6 +3,9 @@
 
 .roster {
   @media (--desktop) {lost-column: 1/3;}
+  .problem-mode &{
+    color:#550000;
+  }
 }
 .roster-list {
   margin:0;
@@ -38,5 +41,8 @@
   li.contact_method {
     padding: 1rem 0 0;
     border-bottom: 0;
+  }
+  .problem-mode & {
+    color: #550000;
   }
 }

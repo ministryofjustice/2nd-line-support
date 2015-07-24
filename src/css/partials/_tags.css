@@ -20,3 +20,11 @@ li {
 i{
   padding-right: 1em;
 }
+
+body.problem-mode{
+  background-color: #F5A536;
+  color: #550000;
+  h2{
+    color:#550000;
+  }
+}
