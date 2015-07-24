@@ -26,14 +26,19 @@
   }
 }
 
-  .status-bar.alert .problem-mode{
-    @media (--desktop) {lost-column: 2/3;}
-    background-color: var(--red);
+.status-bar.alert .problem-mode{
+  background-color: var(--red);
+  h2 {
+    color: var(--red);
+  }
+
+  @media (--desktop) {lost-column: 2/3;
     h2 {color: var(--base2);
     font-size: 3em;}
     text-align:center;
     ::before{
       content:"⚠︎  ";
     }
-    visibility: visible;
   }
+  visibility: visible;
+}
