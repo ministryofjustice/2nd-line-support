@@ -10,4 +10,3 @@ deploy:
     secure: "G1N9p/c+vWxBrHtgFWde9eX9t95fvJzaBb2wiHer3daxvCbxis56wJ2zI+h0t7m4hPBhX3dPmcbFrhiF6d+cLfba7QzX3dB0Jy9I7aCz2yO6rQtKkCQRLU0wQeOrScLYh8hFCfw0eZHYNbRmlhFs8aTc/hq0e7IajueR1kmN+yk="
   app:
     master: second-level-support
-    skip_cleanup: true
