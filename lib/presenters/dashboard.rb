@@ -22,7 +22,8 @@ module Presenters
 
     def default(duty_roster)
       build_from({
-        whos_on_duty: duty_roster.manager
+        whos_on_duty: duty_roster.manager,
+        incidents_in_past_week: zendesk.incidents_for_the_past_week
       })
     end
 

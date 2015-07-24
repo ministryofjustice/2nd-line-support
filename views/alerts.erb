@@ -1,10 +1,15 @@
-<div id="alerts">
-  <h2>Alerts</h2>
-    <ul>
+<div id="alerts" class="panel">
+  <h2>Alerts 
+    <% if @data.alerts.any? && @data.alerts.count > 4 %>
+      (4 of <%= @data.alerts.count %>)
+    <% end %>
+  </h2>
+  <ul>
     <%if @data.alerts.any? %>
       <%= partial(:alert, collection: @data.alerts) %>
     <% else %>
       <li class="good"> No alerts to report </li>
-    </ul>
-  <% end %>
+    <% end %>
+  </ul>
 </div>
+ 

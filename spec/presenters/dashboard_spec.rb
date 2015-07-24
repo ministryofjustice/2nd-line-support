@@ -5,7 +5,7 @@ require 'services/zendesk'
 require 'support/request_handlers'
 
 
-describe Presenters::Dashboard do
+describe Presenters::Dashboard  do
   include RequestHandlers
 
   let(:duty_roster) { OpenStruct.new(:members => ['a', 'b', 'c'] ) }

@@ -2,4 +2,8 @@ coverage/*
 .env
 *.p12
 .DS_Store
+config/env
+node_modules
 .rspec-local
+dump.rdb
+public/

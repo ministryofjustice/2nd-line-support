@@ -1,0 +1,44 @@
+{
+  "name": "2nd-line-support",
+  "version": "1.0.0",
+  "description": "2nd line support UI",
+  "main": "index.js",
+  "scripts": {
+    "dev": "shotgun && gulp",
+    "watch": "gulp",
+    "build": "gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ministryofjustice/2nd-line-support.git"
+  },
+  "author": "Fazal Khan <fazal.khan@digital.justice.gov.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/2nd-line-support/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/2nd-line-support",
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^5.2.0",
+    "babel": "^5.6.14",
+    "babel-core": "^5.6.15",
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.4",
+    "cssnext": "^1.8.0",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-postcss": "^5.1.9",
+    "lost": "^6.5.0",
+    "node-uuid": "^1.4.3",
+    "postcss": "^4.1.15",
+    "postcss-nested": "^0.3.2",
+    "postcss-nesting": "^0.1.0",
+    "postcss-normalize": "^0.1.0",
+    "precss": "^0.2.2",
+    "vinyl-source-stream": "^1.1.0",
+    "xhr": "^2.0.2"
+  }
+}

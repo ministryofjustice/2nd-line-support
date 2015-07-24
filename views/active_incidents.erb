@@ -1,10 +1,10 @@
-<div id="status">
+<div id="status" class="panel">
   <h2>Active Incidents</h2>
-    <ul>
-    <%if @data.active_incidents.any? %>
+  <ul>
+    <% if @data.active_incidents.any? %>
       <%= partial(:active_incident, collection: @data.active_incidents) %>
     <% else %>
       <li class="good"> No active incidents</li>
-    </ul>
-  <% end %>
+    <% end %>
+  </ul>
 </div>

@@ -1,7 +1,8 @@
 require 'spec_helper'
 
+require_relative '../../lib/presenters/v2_dashboard_presenter'
 
-describe V2DashboardPresenter do
+describe V2DashboardPresenter  do
 
   let(:presenter)         { V2DashboardPresenter.new }
   let(:data)              { presenter.instance_variable_get(:@data) }
@@ -12,12 +13,22 @@ describe V2DashboardPresenter do
 
   describe '#to_json' do
     it 'should call the read methods and then return @ data as json' do
+      expect(presenter).to receive(:initialize_data_for_internal_view)
       expect(presenter).to receive(:read_duty_roster_data)
-      expect(presenter).to receive(:read_irm)
       expect(presenter).to receive(:read_pagerduty_alerts)
       expect(presenter).to receive(:read_zendesk_tickets)
       presenter.instance_variable_set(:@data, expected_duty_roster)
       expect(presenter.to_json).to eq expected_duty_roster.to_json
+    end
+  end
+
+
+  describe '#external' do
+    it 'should return an hash of IRM and tickets only' do
+      expect(redis_client).to receive(:get).with('duty_roster:v2irm').and_return( { 'name' => 'Kamala Hamilton-Brown', 'telephone' => '7958512425' } )
+      expect(redis_client).to receive(:get).with('zendesk:tickets').and_return( [] )
+
+      expect(presenter.external).to eq ( {"duty_roster"=>[{"name"=>"Kamala Hamilton-Brown", "role"=>"irm", "telephone"=>"7958512425"}], "tickets"=>[]} )
     end
   end
 
@@ -31,12 +42,13 @@ describe V2DashboardPresenter do
     context 'no open incidents and three in last week' do
       it 'should create an empty array of tickets and black status bar' do
         redis_client.set('zendesk:tickets', [] )
+        presenter.send(:initialize_data_for_internal_view)
         presenter.send(:read_zendesk_tickets)
         
         data =  presenter.instance_variable_get(:@data)
         expect(data['tickets']).to be_empty
         expect(data['status_bar_text']).to eq "42 incidents in the past week"
-        expect(data['status_bar_color']).to eq "black"
+        expect(data['status_bar_status']).to eq "ok"
       end
     end
 
@@ -48,7 +60,7 @@ describe V2DashboardPresenter do
         data =  presenter.instance_variable_get(:@data)
         expect(data['tickets']).to eq three_open_zendesk_incidents
         expect(data['status_bar_text']).to eq "42 incidents in the past week"
-        expect(data['status_bar_color']).to eq "amber"
+        expect(data['status_bar_status']).to eq "warn"
       end
     end
   end
@@ -78,38 +90,26 @@ describe V2DashboardPresenter do
 
 
   describe 'read_duty_roster_data'  do
-    it 'should format the duty_roster hash with results from DutyRosterMembers' do
-      duty_roster_hash = {:web_ops=>"Peter Idah", :dev_1=>"Max Froumentin", :dev_2=>"Stephen Richards"} 
-      ooh_hash = [
-        {
-          "name"=>"Steve Marshall", 
-          "rule"=>"webop", 
-          "has_phone"=>true}, 
-        {
-          "name"=>"Ash Berlin", 
-          "rule"=>"dev", 
-          "has_phone"=>true}
-      ]
-      expect(DutyRosterMembers).to receive(:v2_list).and_return(duty_roster_hash)
-      expect(redis_client).to receive(:get).with('ooh:members').and_return(ooh_hash)
-
+    it 'should format the duty_roster hash with results from redis' do
+      redis_client.set('duty_roster:v2members', {"web_ops"=>"Peter Idah", "dev_1"=>"Max Froumentin", "dev_2"=>"Stephen Richards"} )
+      redis_client.set('ooh:members', ooh_members)
+      redis_client.set('duty_roster:v2irm', { 'name' => 'Kamala Hamilton-Brown', 'telephone' => '7958512425' } )
+      
+      presenter.send(:initialize_data_for_internal_view)
       presenter.send(:read_duty_roster_data)
-      expect(duty_roster_data).to eq expected_duty_roster
+      data = presenter.instance_variable_get(:@data)
+      expect(data['duty_roster']).to eq( expected_duty_roster )
     end
   end
-
-
-  describe 'read_irm' do
-    it 'should format the IRM details it gets from redis' do
-      expect(redis_client).to receive(:get).with('duty_roster:v2irm').and_return(redis_irm_hash)
-      presenter.send(:read_irm)
-      expect(duty_roster_data['irm']).to eq 'Kamala Hamilton-Brown'
-      expect(duty_roster_data['irm_telephone']).to eq '8958551905'
-    end
-  end
-
-  
 end
+
+def ooh_members
+  [
+    {"name"=>"Steve Marshall", "rule"=>"webop", "has_phone"=>true},
+    {"name"=>"Ash Berlin", "rule"=>"dev", "has_phone"=>true}
+  ]
+end
+
 
 
 def three_open_zendesk_incidents
@@ -133,13 +133,15 @@ def three_open_zendesk_incidents
 end
 
 def expected_duty_roster
-  {
-    :web_ops=>"Peter Idah", 
-    :dev_1=>"Max Froumentin", 
-    :dev_2=>"Stephen Richards", 
-    "ooh_1"=>"Steve Marshall", 
-    "ooh_2"=>"Ash Berlin"
-  }
+  [
+    { 'name' => 'Peter Idah',             'role' => 'web_ops' },
+    { 'name' => 'Max Froumentin',         'role' => 'dev_1' },
+    { 'name' => 'Stephen Richards',       'role' => 'dev_2' },
+    { 'name' => 'Kamala Hamilton-Brown',  'role' => 'irm',      'telephone' => '7958512425'},
+    { 'name' => 'Steve Marshall',         'role' => 'ooh_1' },
+    { 'name' => 'Ash Berlin',             'role' => 'ooh_2' }
+    
+  ]
 end
 
 

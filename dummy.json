@@ -1,0 +1,44 @@
+{
+    "duty_roster": [
+        {
+            "name": "Joe Blogs",
+            "role": "dev_1"
+        },
+        {
+            "name": "Joe Blogs",
+            "role": "dev_2"
+        },
+        {
+            "name": "Joe Blogs",
+            "role": "ooh_1"
+        },
+        {
+            "name": "Joe Blogs",
+            "role": "ooh_2"
+        },
+        {
+            "name": "Joe Blogs",
+            "role": "web_ops"
+        },
+        {
+            "name": "Joe Blogs",
+            "role": "irm",
+            "telephone": "123456789"
+        }
+    ],
+    "number_of_alerts": "3",
+    "services": [
+        "AWS is DOWN"
+    ],
+    "services_status": "ok",
+    "status_bar_status": "ok",
+    "status_bar_text": "3 incidents in past week",
+    "tickets": [
+        {
+            "text": "some text",
+            "ticket_no": "nnnnn",
+            "type": "incident"
+        }
+    ],
+    "tools_status": "ok"
+}
