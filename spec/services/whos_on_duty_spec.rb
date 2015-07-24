@@ -51,5 +51,12 @@ describe WhosOnDuty do
         expect(WhosOnDuty.list).to eql([])
       end
     end
+
+    context 'GoogleDoc::ReadAccessError' do
+      it 'should return an emtpy array' do
+        allow(WhosOnDuty).to receive(:source).and_raise(GoogleDoc::ReadAccessError.new('key', 'gid'))
+        expect(WhosOnDuty.list).to eq( [] )
+      end
+    end
   end
 end
