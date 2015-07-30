@@ -10,15 +10,15 @@
 .roster-list {
   margin:0;
   > :first-child::before{
-    content:"⓵  ";
+    content:"⑴  ";
   };
   > :nth-child(2)::before{
-    content:"⓶  ";
+    content:"⑵  ";
   };
   > :nth-child(3), >:nth-child(4)::before{
     padding-left:1.6em;
   };
-  
+
   li {
     border-bottom: 1px dashed var(--base00);
     &:last-child{
@@ -41,6 +41,9 @@
   li.contact_method {
     padding: 1rem 0 0;
     border-bottom: 0;
+  }
+  .contact-method-address{
+    word-wrap: break-word;
   }
   .problem-mode & {
     color: #550000;
