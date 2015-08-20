@@ -1,11 +1,13 @@
 <div id="duty-roster">
   <div class="panel">
+  <% if @data.we_are_in_support_hours %>
     <h2>On duty</h2>
-    <%if @data.whos_on_duty.any? %>
+    <% if @data.whos_on_duty.any? %>
       <ul class="roster-list">
         <%= partial(:person, collection:@data.whos_on_duty) %>
       </ul>
     <% end %>
+  <% else %>
     <h2>Out of Hours</h2>
 
     <div id="out-of-hours" class="column">
@@ -13,5 +15,6 @@
         <%= partial(:person, collection: @data.whos_out_of_hours) %>
       </ul>
     </div>
+  <% end %>
   </div>
 </div>

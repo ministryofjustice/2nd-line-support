@@ -38,4 +38,5 @@ group :test do
   gem 'simplecov', '>= 0.9', require: false
   gem 'webmock'
   gem 'capybara'
+  gem 'timecop'
 end
