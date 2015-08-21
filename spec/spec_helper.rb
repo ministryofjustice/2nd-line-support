@@ -16,6 +16,7 @@ require 'webmock/rspec'
 require 'capybara/rspec'
 require 'pry'
 require 'awesome_print'
+require 'timecop'
 
 
 ENV['REDISCLOUD_URL'] ||= 'redis://localhost/1'
@@ -25,7 +26,7 @@ Capybara.app = SupportApp
 RSpec.configure do |config|
   config.before(:each) do
     #
-    # The Redis wrapper should probably be abstracted, 
+    # The Redis wrapper should probably be abstracted,
     # but at the moment it uses the Alert model
     #
     Alert.destroy_all('*')

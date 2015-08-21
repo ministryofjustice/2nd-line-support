@@ -3,7 +3,7 @@ require 'support/request_handlers'
 
 describe "populating the roster", :type => :feature do
   include RequestHandlers
-  
+
   let(:csv_dir)       { File.dirname(__FILE__)                                              }
   let(:csv_body)      { File.read(csv_dir + '/../fixtures/googledocs_schedule_body.csv')    }
   let(:csv_new_body)  { File.read(csv_dir + '/../fixtures/googledocs_schedule_new_body.csv')}
@@ -31,7 +31,7 @@ describe "populating the roster", :type => :feature do
 
     it 'should display the public page (index)' do
       visit '/'
-      
+
       expect(page.status_code).to eq 200
       expect(page.body).to match /on duty/i
     end
@@ -51,9 +51,9 @@ describe "populating the roster", :type => :feature do
   # --------------------------------------
   context "when Google docs returns data" do
     before do
-     reset_roster!
-     basic_auth
-     visit '/admin' 
+      reset_roster!
+      basic_auth
+      visit '/admin'
     end
 
     it "displays in hours support members" do
@@ -84,42 +84,46 @@ describe "populating the roster", :type => :feature do
       googledocs_schedule_request_returns(nil)
       basic_auth
       visit '/refresh-duty-roster'
-      
+
       expect(page).to have_selector(".dev.phone", text: "Himal Mandalia")
     end
   end
 
   # PagerDuty Rota tests
   # --------------------------------------
-  context "when pagerduty API returns data" do
-    before do 
-      basic_auth
-      visit '/admin' 
+  describe 'out of hours' do
+    around(:each) { |e| Timecop.freeze(Time.local(2015,1,1,23,59)) { e.run } }
+
+    context "when pagerduty API returns data" do
+      before do
+        basic_auth
+        visit '/admin'
+      end
+
+      it "displays primary out of hours support member with filled phone icon" do
+        expect(page).to have_selector(".webop.phone", text: "Stuart Munro")
+      end
+
+      it "displays secondary out of hours support member with unfilled phone icon" do
+        expect(page).to have_selector(".dev.phone", text: "Stuart Munro")
+      end
     end
 
-    it "displays primary out of hours support member with filled phone icon" do
-      expect(page).to have_selector(".webop.phone", text: "Stuart Munro")
-    end
+    context "when pagerduty API returns NO data" do
+      before do
+        reset_roster!
+        pagerduty_schedule_api_returns(nil)
+        basic_auth
+        visit '/admin'
+      end
 
-    it "displays secondary out of hours support member with unfilled phone icon" do
-      expect(page).to have_selector(".dev.phone", text: "Stuart Munro")
-    end
-  end
+      it "no support members displayed" do
+        expect(page).to_not have_content "Stuart Munro"
+      end
 
-  context "when pagerduty API returns NO data" do
-    before do
-      reset_roster!
-      pagerduty_schedule_api_returns(nil)
-      basic_auth
-      visit '/admin'
-    end
-
-    it "no support members displayed" do
-      expect(page).to_not have_content "Stuart Munro"
-    end
-
-    it "displays a highlighted warning" do
-      expect(page).to have_selector(".bad", text: "not available")
+      it "displays a highlighted warning" do
+        expect(page).to have_selector(".bad", text: "not available")
+      end
     end
   end
 end
