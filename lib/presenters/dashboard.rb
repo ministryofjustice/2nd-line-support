@@ -14,9 +14,9 @@ module Presenters
     
     def admin(duty_roster)
       build_from({
-        whos_on_duty:           duty_roster.members,
-        whos_out_of_hours:      WhosOutOfHours.list,
-        incidents_in_past_week: zendesk.incidents_for_the_past_week
+        whos_on_duty:            duty_roster.manager,
+        whos_out_of_hours:       WhosOutOfHours.list,
+        incidents_in_past_week:  zendesk.incidents_for_the_past_week,
       })
     end
 

@@ -17,12 +17,13 @@
         </div>
         <div class="row">
           <div class="services-down">
-            <%= partial(:alerts) %>      
+            <%= partial(:alerts) %>
           </div>
         </div>
       </div>
       <div class="roster">
-        <%= partial(:persons) %>
+        <%= partial(:manager) %>
+        <%= partial(:out_of_hours) %>
       </div>
     </div>
     <div class="status-bar panel
@@ -38,9 +39,9 @@
         <%= partial(:past_week) %>
       </div>
     </div>
-    
+
   </div>
   <script src="js/app.js"></script>
-</body> 
+</body>
 
 </html>
