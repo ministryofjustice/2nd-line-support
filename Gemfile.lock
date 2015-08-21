@@ -213,6 +213,7 @@ DEPENDENCIES
   guard-rspec
   heroku-api
   httparty
+  launchy
   multi_json (= 1.11)
   pagerduty-full
   pry

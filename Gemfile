@@ -22,6 +22,7 @@ gem 'daemons'
 group :development, :test do
   gem 'awesome_print'
   gem 'byebug'
+  gem 'launchy'
   gem 'pry'
 end
 
