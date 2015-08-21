@@ -7,16 +7,18 @@ require_relative '../../models/alert.rb'
 require_relative '../../services/whos_on_duty'
 require_relative '../../services/whos_out_of_hours'
 require_relative '../../services/zendesk'
+require_relative '../../services/support_hours'
 
 module Presenters
   module Dashboard
     extend self
-    
+
     def admin(duty_roster)
       build_from({
-        whos_on_duty:           duty_roster.members,
-        whos_out_of_hours:      WhosOutOfHours.list,
-        incidents_in_past_week: zendesk.incidents_for_the_past_week
+        whos_on_duty:            duty_roster.members,
+        whos_out_of_hours:       WhosOutOfHours.list,
+        incidents_in_past_week:  zendesk.incidents_for_the_past_week,
+        we_are_in_support_hours: SupportHours.support_hours?
       })
     end
 
@@ -44,7 +46,7 @@ module Presenters
     end
 
     def zendesk
-      # Don't be tempted to momoize this, for example @zendest ||= Zendesk.new - it will 
+      # Don't be tempted to momoize this, for example @zendest ||= Zendesk.new - it will
       # cache results and therefore return incorrect values
       Zendesk.new
     end
