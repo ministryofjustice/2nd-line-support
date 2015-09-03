@@ -32,10 +32,11 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'fuubar'
+  gem 'guard-rspec'
   gem 'rack-test', require: false
   gem 'rspec'
-  gem 'guard-rspec'
   gem 'simplecov', '>= 0.9', require: false
   gem 'webmock'
-  gem 'capybara'
 end
