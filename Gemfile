@@ -27,14 +27,14 @@ end
 
 group :development do
   gem 'foreman'
-  gem 'shotgun'
+  gem 'guard-rspec', require: false
   gem 'rerun'
+  gem 'shotgun'
 end
 
 group :test do
   gem 'capybara'
   gem 'fuubar'
-  gem 'guard-rspec'
   gem 'rack-test', require: false
   gem 'rspec'
   gem 'simplecov', '>= 0.9', require: false
