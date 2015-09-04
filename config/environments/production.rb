@@ -38,6 +38,7 @@ class SupportApp < Sinatra::Application
     set :app_user,                                            ENV['APP_USER']
     set :app_pass,                                            ENV['APP_PASS']
 
+    set :flow_api_key,                                        ENV['FLOW_API_KEY']
     set :event_collector_refresh_time_in_seconds,             30
   end
 end
