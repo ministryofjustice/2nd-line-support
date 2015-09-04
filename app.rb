@@ -1,6 +1,7 @@
 $: << File.expand_path('..', __FILE__)
 
 require 'rubygems'
+require 'active_support/all'
 require 'sinatra'
 require 'sinatra/partial'
 require 'sinatra/json'
@@ -15,6 +16,7 @@ use Rack::PostBodyContentTypeParser
 
 Excon.defaults[:middlewares] << Excon::Middleware::RedirectFollower
 
+Time.zone = 'Europe/London'
 class SupportApp < Sinatra::Application
   register Sinatra::Partial
 
@@ -28,6 +30,10 @@ class SupportApp < Sinatra::Application
     def authorized?
       @auth ||= Rack::Auth::Basic::Request.new(request.env)
       @auth.provided? && @auth.basic? && Auth.valid_credentials?(*@auth.credentials)
+    end
+
+    def clock_time(time)
+      time.strftime("%H:%M")
     end
   end
 end

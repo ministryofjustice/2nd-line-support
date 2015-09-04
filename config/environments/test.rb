@@ -21,6 +21,6 @@ class SupportApp < Sinatra::Application
     set :app_user,                    '$2a$10$C15Baio2a5Kh4/MJkIwxnuS6Riog73YA0HT5.T2j51Q592ZKvoGTi'
     set :app_pass,                    'X'
 
-    set :flow_api_key,                'dummy-flow-api-key'
+    set :float_api_key,                'dummy-float-api-key'
   end
 end

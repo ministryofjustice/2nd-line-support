@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.2.1'
 
+gem 'activesupport'
 gem 'google-api-client'
 gem 'multi_json', '1.11'
 gem 'sinatra', require: 'sinatra/base'
@@ -39,5 +40,6 @@ group :test do
   gem 'rack-test', require: false
   gem 'rspec'
   gem 'simplecov', '>= 0.9', require: false
+  gem 'timecop'
   gem 'webmock'
 end

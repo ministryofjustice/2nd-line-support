@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'shared_examples_of_stubbed_api_requests'
 
 describe "populating the roster", :type => :feature do
+  before { Timecop.freeze(Time.local(2015, 9, 2, 13)) }
+  after  { Timecop.return }
+
   include_examples "stubbed api requests"
 
   context 'When no authorisation is provided' do

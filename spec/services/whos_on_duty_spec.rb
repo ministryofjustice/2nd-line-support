@@ -13,8 +13,15 @@ describe WhosOnDuty do
 
     context 'successful response' do
       before do
-        googledocs_schedule_request_returns(success_body)
-        pagerduty_schedule_api_returns(ir_success)
+      after  { Timecop.return }
+
+      it 'exposes the webops' do
+        expect(subject).to include({ rule: 'primary-webop', name: 'Benedetto Lo Giudice' })
+        expect(subject).to include({ rule: 'webop', name: 'Lukasz Raczylo' })
+      end
+
+      it 'exposes the devs' do
+        expect(subject).to include({ rule: 'primary-dev', name: 'Todd Tyree' })
         pagerduty_contact_methods_api_returns(cm_success)
       end
 

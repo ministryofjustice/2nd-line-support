@@ -2,18 +2,20 @@ require 'csv'
 require_relative 'ir_pagerduty'
 require_relative '../lib/support_rota_doc'
 require_relative '../lib/builder'
+require_relative '../services/floatschedule_rota'
 
 module WhosOnDuty
   extend self
 
   def list
     source.fetch_data
+    @list = []
 
-    webops        = Builder::Webop.hash(source.webops(:current))
-    devs          = Builder::Dev.hash(source.devs(:current), source.devs(:next))
-    duty_managers = Builder::Manager.hash(fetch_managers)
-
-    if webops.empty? && devs.empty? && source.duty_managers(:current).empty?
+    @list = [
+      source.primary_webop, source.secondary_webop,
+      source.primary_dev, source.secondary_dev,
+      fetch_managers
+    ].flatten.reject(&:empty?)
       []
     else
       webops + devs + duty_managers
@@ -25,8 +27,8 @@ module WhosOnDuty
 
   private
 
-  def source 
-    @source ||= SupportRotaDoc.default
+  def source
+    @source ||= FloatscheduleRota.new
   end
 
   def pagerduty

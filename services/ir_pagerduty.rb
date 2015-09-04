@@ -1,12 +1,40 @@
 require 'pagerduty/full'
 
 class IRPagerduty < PagerDuty::Full
-  
+
   START_OF_WORKING_DAY = 'T10:01Z'.freeze
   END_OF_WORKING_DAY   = 'T16:59Z'.freeze
 
   START_OF_SUPPORT_DAY = 'T17:00'.freeze
   END_OF_SUPPORT_DAY   = 'T22:59'.freeze
+
+  def self.start_of_support_day
+    Time.parse(START_OF_SUPPORT_DAY)
+  end
+
+  def self.end_of_support_day
+    Time.parse(END_OF_SUPPORT_DAY)
+  end
+
+  def self.start_of_working_day
+    Time.parse(START_OF_WORKING_DAY)
+  end
+
+  def self.end_of_working_day
+    Time.parse(END_OF_WORKING_DAY)
+  end
+
+  def self.out_of_hours?
+    time_now.between?(start_of_support_day, end_of_support_day) ||
+    time_now.saturday? ||
+    time_now.sunday?
+  end
+
+  def self.in_hours?
+    time_now.between?(start_of_working_day, end_of_working_day) &&
+    !time_now.saturday? &&
+    !time_now.sunday?
+  end
 
   def initialize
     super(SupportApp.pager_duty_token, SupportApp.pager_duty_subdomain)
@@ -23,13 +51,10 @@ class IRPagerduty < PagerDuty::Full
     end
   end
 
-
   def fetch_irm
     schedule_id = SupportApp.pager_duty_irm_schedule_id
-    irms = self.Schedule.find(schedule_id)
+    self.Schedule.find(schedule_id)
   end
-
-
 
   def fetch_todays_schedules_users(schedule_id)
     map_schedule_users(
@@ -50,6 +75,10 @@ class IRPagerduty < PagerDuty::Full
   end
 
   private
+
+  def self.time_now
+    Time.zone.now
+  end
 
   def map_schedule_users(method_name, schedule_id, start_time, end_time)
     self

@@ -25,7 +25,7 @@ class SupportApp < Sinatra::Application
     set :pager_duty_refresh_interval,                         10
     set :pager_duty_schedule_ids,                             "PFX6FHX,PIUMAUI" # for out of hours schedules
     set :pager_duty_irm_schedule_id,                          'PU732K9'
-    set :pager_duty_contact_method_types,                     ['phone', 'email']
+    set :pager_duty_contact_method_types,                     ['phone']
 
     set :zendesk_url,                                         ENV['ZENDESK_URL']
     set :zendesk_username,                                    ENV['ZENDESK_USERNAME']
@@ -38,7 +38,7 @@ class SupportApp < Sinatra::Application
     set :app_user,                                            ENV['APP_USER']
     set :app_pass,                                            ENV['APP_PASS']
 
-    set :flow_api_key,                                        ENV['FLOW_API_KEY']
+    set :float_api_key,                                       ENV['FLOAT_API_KEY']
     set :event_collector_refresh_time_in_seconds,             30
   end
 end
