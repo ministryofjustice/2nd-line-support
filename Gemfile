@@ -29,6 +29,7 @@ group :development do
   gem 'foreman'
   gem 'guard-rspec', require: false
   gem 'rerun'
+  gem 'ruby_gntp'
   gem 'shotgun'
 end
 

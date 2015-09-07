@@ -150,6 +150,7 @@ GEM
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
     ruby-progressbar (1.7.5)
+    ruby_gntp (0.3.4)
     safe_yaml (1.0.4)
     shellany (0.0.1)
     shotgun (0.9.1)
@@ -227,6 +228,7 @@ DEPENDENCIES
   redis
   rerun
   rspec
+  ruby_gntp
   shotgun
   simplecov (>= 0.9)
   sinatra
