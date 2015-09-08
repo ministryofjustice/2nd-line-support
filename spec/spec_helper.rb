@@ -17,6 +17,7 @@ require 'webmock/rspec'
 require 'capybara/rspec'
 require 'pry'
 require 'awesome_print'
+require 'timecop'
 
 
 ENV['REDISCLOUD_URL'] ||= 'redis://localhost/1'

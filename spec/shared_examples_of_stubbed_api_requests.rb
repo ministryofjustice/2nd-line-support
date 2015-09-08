@@ -13,7 +13,6 @@ shared_examples "stubbed api requests" do
 
   before do
     float_tasks_api_request_returns(float_json)
-    googledocs_schedule_request_returns(csv_body)
     pagerduty_incidents_api_returns(incidents)
     pagerduty_schedule_api_returns(users)
     pagerduty_contact_methods_api_returns(cm_success)
