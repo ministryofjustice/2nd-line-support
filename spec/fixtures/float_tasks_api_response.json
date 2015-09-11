@@ -1,0 +1,78 @@
+{
+    "people": [
+        {
+            "people_id": "123456",
+            "tasks": [
+                {
+                    "end_date": "2015-08-31",
+                    "person_name": "Joel Sugarman",
+                    "project_name": "In Hours Incident Response and Tuning",
+                    "start_date": "2015-08-27",
+                    "task_notes": "primary-webop"
+                }
+            ]
+        },
+        {
+            "people_id": "75625",
+            "tasks": [
+                {
+                    "end_date": "2015-09-04",
+                    "person_name": "Benedetto Lo Giudice",
+                    "project_name": "In Hours Incident Response and Tuning",
+                    "start_date": "2015-09-01",
+                    "task_notes": "primary-webop"
+                }
+            ]
+        },
+        {
+            "people_id": "75625",
+            "tasks": [
+                {
+                    "end_date": "2015-09-04",
+                    "person_name": "Lukasz Raczylo",
+                    "project_name": "In Hours Incident Response and Tuning",
+                    "start_date": "2015-09-01",
+                    "task_notes": "webop"
+                }
+            ]
+        },
+        {
+            "people_id": "75625",
+            "tasks": [
+                {
+                    "end_date": "2015-09-04",
+                    "person_name": "Todd Tyree",
+                    "project_name": "In Hours Incident Response and Tuning",
+                    "start_date": "2015-09-01",
+                    "task_notes": "primary-dev"
+                }
+            ]
+        },
+        {
+            "people_id": "75625",
+            "tasks": [
+                {
+                    "end_date": "2015-09-04",
+                    "person_name": "Edward Andress",
+                    "project_name": "In Hours Incident Response and Tuning",
+                    "start_date": "2015-09-01",
+                    "task_notes": "dev"
+                }
+            ]
+        },
+        {
+            "people_id": "77101",
+            "tasks": [
+                {
+                    "end_date": "2015-09-04",
+                    "person_name": "Mel Pierre",
+                    "project_name": "Some Other Project",
+                    "start_date": "2015-09-01",
+                    "task_notes": null
+                }
+            ]
+        }
+    ],
+    "start_doy": "242",
+    "start_yr": "2015"
+}

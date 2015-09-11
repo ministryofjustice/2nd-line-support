@@ -1,13 +1,18 @@
 module RequestHandlers
-  GOOGLE_DOC_URL = "https://docs.google.com/spreadsheet/pub?" 
-  PAGERDUTY_URL  = "https://moj.pagerduty.com/api/v1/incidents?" 
+  GOOGLE_DOC_URL = "https://docs.google.com/spreadsheet/pub?"
+  PAGERDUTY_URL  = "https://moj.pagerduty.com/api/v1/incidents?"
+  FLOAT_URL      = "https://api.floatschedule.com/api/v1/tasks"
+
+  def float_tasks_api_request_returns(body)
+    stub_get_success(FLOAT_URL, body)
+  end
 
   def googledocs_schedule_request_returns(csv_body)
     stub_get_success(
       GOOGLE_DOC_URL + "gid=testing_gid&key=testing_key&output=csv&single=true",
       csv_body,
       {
-        'Accept' => 'text/csv', 
+        'Accept' => 'text/csv',
         'Host'   => 'docs.google.com:443'
       }
     )
@@ -35,10 +40,10 @@ module RequestHandlers
   end
 
   def ir_success
-    { 
+    {
       'users' => [
         {
-          'name' => 'duty_man1', 
+          'name' => 'duty_man1',
           'id'   => 'XXXXXX'
         }
       ]
@@ -61,7 +66,7 @@ module RequestHandlers
 
   def zendesk_api_returns(body)
     stub_get_success(
-      /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/.*/, 
+      /https:\/\/.*@ministryofjustice\.zendesk\.com\/api\/.*/,
       body,
       { "Content-Type": "application/json" }
     )

@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.2.1'
 
+gem 'activesupport'
 gem 'google-api-client'
 gem 'multi_json', '1.11'
 gem 'sinatra', require: 'sinatra/base'
@@ -27,15 +28,18 @@ end
 
 group :development do
   gem 'foreman'
-  gem 'shotgun'
+  gem 'guard-rspec', require: false
   gem 'rerun'
+  gem 'ruby_gntp'
+  gem 'shotgun'
 end
 
 group :test do
+  gem 'capybara'
+  gem 'fuubar'
   gem 'rack-test', require: false
   gem 'rspec'
-  gem 'guard-rspec'
   gem 'simplecov', '>= 0.9', require: false
+  gem 'timecop'
   gem 'webmock'
-  gem 'capybara'
 end

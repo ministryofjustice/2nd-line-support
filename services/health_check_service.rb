@@ -2,9 +2,8 @@ require_relative '../lib/health_check'
 
 module HealthCheck
   class Service
-    COMPONENT_CLASSES = 
+    COMPONENT_CLASSES =
     [
-      HealthCheck::GoogleDocs,
       HealthCheck::PagerdutyApi,
       HealthCheck::ZendeskApi,
     ]
@@ -23,8 +22,8 @@ module HealthCheck
 
     private
 
-    HealthCheckReport = 
-      Struct.new(:status, :messages) do 
+    HealthCheckReport =
+      Struct.new(:status, :messages) do
         def self.ok
           new('200', 'All Components OK')
         end
@@ -32,6 +31,6 @@ module HealthCheck
         def self.fail(errors)
           new('500', errors)
         end
-      end   
+      end
   end
 end

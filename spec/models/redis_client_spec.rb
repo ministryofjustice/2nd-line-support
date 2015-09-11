@@ -64,7 +64,6 @@ describe RedisClient do
       redis_client.set('alert:pagerduty:7883066', 'Test alert 1')
 
       expect(redis_client.count_keys('alert:pagerduty:*')).to eq 3
-      expect(redis_client.count_keys('duty_roster:v2irm')).to eq 0
     end
   end
 end

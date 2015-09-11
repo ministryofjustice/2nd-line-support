@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../../lib/health_check/google_docs'
 require_relative '../../lib/health_check/pagerduty_api'
 require_relative '../../lib/health_check/zendesk_api'
 
@@ -75,40 +74,6 @@ describe 'Health Check Components' do
           .and_raise(StandardError)
 
         expect(pager).not_to be_accessible
-      end
-    end
-  end
-
-  context 'Google Docs' do
-    let(:doc)     { HealthCheck::GoogleDocs.new           }
-    let(:res)     { double Net::HTTPResponse, status: 200 }
-    let(:bad_res) { double Net::HTTPResponse, status: 503 }
-
-    context '#accessible?' do
-      def stub_google_response(res)
-        allow(Excon)
-          .to receive(:get)
-          .and_return(res)
-      end
-
-      it 'should return true if the service is accessible' do
-        stub_google_response(res)
-
-        expect(doc).to be_accessible
-      end
-
-      it 'should return false if the service is inaccessible' do
-        stub_google_response(bad_res)
-
-        expect(doc).not_to be_accessible
-      end
-
-      it 'should return false if the service raises an error' do
-        allow(Excon)
-          .to receive(:get)
-          .and_raise(StandardError)
-        
-        expect(doc).not_to be_accessible
       end
     end
   end
