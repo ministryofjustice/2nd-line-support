@@ -1,7 +1,6 @@
 <div id="duty-roster">
   <div class="panel">
-    <h2>Time at last refresh: <%= clock_time(Time.zone.now) %></h2>
-    <h2>Refresh interval: <%= SupportApp.event_collector_refresh_time_in_seconds %> seconds</h2>
+    <h2>Last refresh: <%= clock_time(Time.zone.now) %></h2>
     <% if IRPagerduty.in_hours? %>
       <h2>On Duty Now</h2>
       <%if @data.whos_on_duty.any? %>
@@ -9,7 +8,7 @@
           <%= partial(:person, collection:@data.whos_on_duty) %>
         </ul>
       <% end %>
-      <h2>On Duty Tonight (Starts at <%= clock_time(IRPagerduty.start_of_support_day) %>)</h2>
+      <h2>On Duty Tonight (from <%= clock_time(IRPagerduty.start_of_support_day) %>)</h2>
       <div id="out-of-hours" class="column">
         <ul class="roster-list">
           <%= partial(:person, collection: @data.whos_out_of_hours) %>
