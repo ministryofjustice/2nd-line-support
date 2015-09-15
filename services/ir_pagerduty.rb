@@ -2,26 +2,26 @@ require 'pagerduty/full'
 
 class IRPagerduty < PagerDuty::Full
 
-  START_OF_WORKING_DAY = 'T10:01Z'.freeze
-  END_OF_WORKING_DAY   = 'T16:59Z'.freeze
+  START_OF_WORKING_DAY = 'T10:01'.freeze
+  END_OF_WORKING_DAY   = 'T16:59'.freeze
 
   START_OF_SUPPORT_DAY = 'T17:00'.freeze
   END_OF_SUPPORT_DAY   = 'T22:59'.freeze
 
   def self.start_of_support_day
-    Time.parse(START_OF_SUPPORT_DAY)
+    Time.zone.parse(START_OF_SUPPORT_DAY)
   end
 
   def self.end_of_support_day
-    Time.parse(END_OF_SUPPORT_DAY)
+    Time.zone.parse(END_OF_SUPPORT_DAY)
   end
 
   def self.start_of_working_day
-    Time.parse(START_OF_WORKING_DAY)
+    Time.zone.parse(START_OF_WORKING_DAY)
   end
 
   def self.end_of_working_day
-    Time.parse(END_OF_WORKING_DAY)
+    Time.zone.parse(END_OF_WORKING_DAY)
   end
 
   def self.out_of_hours?

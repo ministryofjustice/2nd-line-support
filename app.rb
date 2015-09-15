@@ -33,7 +33,7 @@ class SupportApp < Sinatra::Application
     end
 
     def clock_time(time)
-      time.strftime("%H:%M")
+      time.strftime("%H:%M %Z")
     end
   end
 end
