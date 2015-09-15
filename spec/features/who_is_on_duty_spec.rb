@@ -42,7 +42,7 @@ describe 'Discover who is on duty for IRAT' do
       end
 
       scenario 'I see when the rota changes from working hours to out of hours' do
-        expect(page.body).to have_content('Starts at 17:00')
+        expect(page.body).to have_content('from 17:00')
       end
 
     end
